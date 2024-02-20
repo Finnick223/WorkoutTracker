@@ -1,20 +1,23 @@
-import './index.css'
-import Navbar from './components/Navbar.jsx'
-import UserCard from './components/UserCard.jsx'
-import WorkoutTable from './components/WorkoutTable.jsx'
-
+// import { useState } from 'react'
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import './index.css';
+import Layout from "./pages/layout.tsx";
+import User from './pages/user.tsx'
+import Workout from './pages/workout.tsx'
+import Exercise from './pages/exercise.tsx'
+import Home from './pages/home.tsx'
 function App() {
   return (
-    <>
-      <Navbar />
-      <UserCard 
-        username='filipf'
-        firstname='filip'
-        lastname='ff'
-        email='example@gm.com'
-      />
-      <WorkoutTable />
-    </>
+    <BrowserRouter>
+    <Routes>
+      <Route path="/" element={<Layout />}>
+        <Route index element={<Home />} />
+        <Route path="user" element={<User />} />
+        <Route path="workout" element={<Workout />} />
+        <Route path="exercise" element={<Exercise />} />
+      </Route>
+    </Routes>
+  </BrowserRouter>
   );
 }
 
