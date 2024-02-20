@@ -108,6 +108,7 @@ function App() {
             >
                 <option value="Poland">Poland</option>
             </select>
+            <section>
             <input 
                 type="checkbox" 
                 name="agree"
@@ -115,7 +116,8 @@ function App() {
                 onChange={handleChange}
                 checked={formData.agree}
             />
-            <label htmlFor='{id + "-check"}'>I agree with bla bla</label>
+            <label htmlFor='{id + "-check"}'> I agree with bla bla</label>
+            </section>
             <br />
             <br />
             <button>Submit</button>

@@ -113,3 +113,11 @@ button:focus {
       border-bottom: 2px solid #eceffa; 
     } 
     }
+
+.form--register {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+  margin-top: 10%;
+}
