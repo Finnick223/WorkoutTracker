@@ -7,14 +7,21 @@
   display: flex;
   width: 100%;
   align-items: center;
+  justify-content: space-between;
   padding: 2% 4%;
   background-color: antiquewhite;
   -webkit-box-shadow: inset 0px 0px 5px 1px rgba(66, 68, 90, 1);
   -moz-box-shadow: inset 0px 0px 5px 1px rgba(66, 68, 90, 1);
   box-shadow: inset 0px 0px 5px 1px rgba(66, 68, 90, 1); 
 }
-.navbar--title {
-  margin-right: auto;
+.navbar--route{
+  display: inline-flex;
+  width: 30%;
+  justify-content: space-between;
+}
+.navbar--login{
+  display: flex;
+  flex-direction: column;
 }
 .navbar--button {
   margin: 0 2%;

@@ -6,6 +6,8 @@ import User from './pages/user.tsx'
 import Workout from './pages/workout.tsx'
 import Exercise from './pages/exercise.tsx'
 import Home from './pages/home.tsx'
+import Login from './pages/login.tsx'
+import Register from './pages/register.tsx'
 function App() {
   return (
     <BrowserRouter>
@@ -15,6 +17,8 @@ function App() {
         <Route path="user" element={<User />} />
         <Route path="workout" element={<Workout />} />
         <Route path="exercise" element={<Exercise />} />
+        <Route path="login" element={<Login />} />
+        <Route path="register" element={<Register />} />
       </Route>
     </Routes>
   </BrowserRouter>
