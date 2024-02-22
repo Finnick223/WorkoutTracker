@@ -7,14 +7,21 @@
   display: flex;
   width: 100%;
   align-items: center;
+  justify-content: space-between;
   padding: 2% 4%;
   background-color: antiquewhite;
   -webkit-box-shadow: inset 0px 0px 5px 1px rgba(66, 68, 90, 1);
   -moz-box-shadow: inset 0px 0px 5px 1px rgba(66, 68, 90, 1);
   box-shadow: inset 0px 0px 5px 1px rgba(66, 68, 90, 1); 
 }
-.navbar--title {
-  margin-right: auto;
+.navbar--route{
+  display: inline-flex;
+  width: 30%;
+  justify-content: space-between;
+}
+.navbar--login{
+  display: flex;
+  flex-direction: column;
 }
 .navbar--button {
   margin: 0 2%;
@@ -106,3 +113,19 @@ button:focus {
       border-bottom: 2px solid #eceffa; 
     } 
     }
+
+.form--register {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+  margin-top: 10%;
+}
+
+input[type="text"], input[type="email"], input[type="password"] {
+  margin-bottom: 10px;
+  height: 30px;
+  text-indent: 10px;
+  border: 1px solid #444;
+  border-radius: 5px;
+}
