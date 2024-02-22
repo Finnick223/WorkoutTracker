@@ -105,6 +105,7 @@ function App() {
                 name="country"
                 id={id + "-country"}
                 value={formData.country}
+                onChange={handleChange}
             >
                 <option value="Poland">Poland</option>
             </select>
