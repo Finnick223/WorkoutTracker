@@ -1,30 +1,10 @@
 import { useState, useId, useEffect } from 'react'
 import { FormErrors } from './FormErrors';
+import { FormDataInterface } from './Interfaces';
 
-interface FormData {
-    firstName: string;
-    lastName: string;
-    email: string;
-    password: string;
-    repasswd: string;
-    gender: string;
-    country: string;
-    agree: boolean;
-    formErrors: {
-        firstName: string;
-        lastName: string;
-        email: string;
-        password: string;
-        repasswd: string;
-    };
-    emailValid: boolean;
-    passwordValid: boolean;
-    repasswdValid: boolean;
-    formValid: boolean;
-}
 
 export default function Form() {
-    const [formData, setFormData] = useState<FormData>(
+    const [formData, setFormData] = useState<FormDataInterface>(
         {
             firstName: "",
             lastName: "",
@@ -44,7 +24,7 @@ export default function Form() {
     const id = useId()
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-        const { name, value, type, checked } = e.target as any;   //? nie wiem dlaczego checked wyrzuca błąd
+        const { name, value, type, checked } = e.target as any;
         const val = type === 'checkbox' ? checked : value;
         setFormData(prevData => ({
             ...prevData,
