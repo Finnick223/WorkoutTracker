@@ -87,32 +87,57 @@ button:focus {
   box-shadow: 0px 5px 12px -12px rgba(0, 0, 0, 0.29);
   text-align: center; 
 }
-  .table thead {
-    background-color: antiquewhite;
+.table thead {
+  background-color: antiquewhite;
 }
-  .table thead th {
-    border: none;
-    padding: 30px;
-    font-size: 14px;
-    color: black; 
+.table thead th {
+  border: none;
+  padding: 30px;
+  font-size: 14px;
+  color: black; 
+}
+.table tbody tr {
+  margin-bottom: 10px; 
+}
+.table tbody th, .table tbody td {
+  border: none;
+  padding: 30px;
+  font-size: 14px;
+  background: #fff;
+  vertical-align: middle;
+  border-bottom: 2px solid #f8f9fd; 
+}
+@media (min-width: 768px) {
+  .table tbody td:nth-child(odd) {
+    background: #f4f6fc;
+    border-bottom: 2px solid #eceffa; 
+  } 
   }
-  .table tbody tr {
-    margin-bottom: 10px; 
-  }
-  .table tbody th, .table tbody td {
-    border: none;
-    padding: 30px;
-    font-size: 14px;
-    background: #fff;
-    vertical-align: middle;
-    border-bottom: 2px solid #f8f9fd; 
-  }
-  @media (min-width: 768px) {
-    .table tbody td:nth-child(odd) {
-      background: #f4f6fc;
-      border-bottom: 2px solid #eceffa; 
-    } 
-    }
+.trainingView {
+  display: flex;
+  flex-direction: row;
+}
+.trainingItem {
+  margin: 1% 2%;
+  display: flex;
+  width: 25vw;
+  height: 20vh;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  border: 1px solid black;
+  border-radius: 20px;
+  background-color: antiquewhite;
+  /* display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr 1fr;
+  column-gap: 10px;
+  place-items: center; */
+
+}
+.trainingItem--buttons {
+  margin: 1vw;
+}
 
 .form--register {
   display: flex;
