@@ -8,6 +8,9 @@ import Exercise from './pages/exercise.tsx'
 import Home from './pages/home.tsx'
 import Login from './pages/login.tsx'
 import Register from './pages/register.tsx'
+import WorkoutDetail from './pages/Training/workoutDetail.tsx'
+import Error from "./components/Error"
+
 function App() {
   return (
     <BrowserRouter>
@@ -15,7 +18,8 @@ function App() {
       <Route path="/" element={<Layout />}>
         <Route index element={<Home />} />
         <Route path="user" element={<User />} />
-        <Route path="workout" element={<Workout />} />
+        <Route path="workout" element={<Workout />} errorElement={<Error />} />
+        <Route path="workout/:id" element={<WorkoutDetail/>} errorElement={<Error />} />
         <Route path="exercise" element={<Exercise />} />
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />

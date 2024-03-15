@@ -1,9 +1,5 @@
-interface userCardProps {
-  username: String;
-  firstname: String;
-  lastname: String;
-  email: String;
-}
+import { userCardProps } from "./Interfaces";
+
 export default function UserCard(props: userCardProps) {
   return (
     <div className="usercard">
