@@ -1,31 +1,35 @@
 // import { useState } from 'react'
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { 
+  createBrowserRouter,
+  createRoutesFromElements,
+  Route,
+  RouterProvider,
+ } from "react-router-dom";
 import './index.css';
 import Layout from "./pages/layout.tsx";
 import User from './pages/user.tsx'
 import Workout from './pages/workout.tsx'
 import Exercise from './pages/exercise.tsx'
 import Home from './pages/home.tsx'
-import Login from './pages/login.tsx'
+import Login, { action as loginAction } from './pages/login.tsx'
 import Register from './pages/register.tsx'
 import WorkoutDetail from './pages/Training/workoutDetail.tsx'
 import Error from "./components/Error"
 
 function App() {
-  return (
-    <BrowserRouter>
-    <Routes>
-      <Route path="/" element={<Layout />}>
+  const router = createBrowserRouter(createRoutesFromElements(
+    <Route path="/" element={<Layout />}>
         <Route index element={<Home />} />
         <Route path="user" element={<User />} />
         <Route path="workout" element={<Workout />} errorElement={<Error />} />
         <Route path="workout/:id" element={<WorkoutDetail/>} errorElement={<Error />} />
         <Route path="exercise" element={<Exercise />} />
-        <Route path="login" element={<Login />} />
+        <Route path="login" element={<Login />} action={loginAction} />
         <Route path="register" element={<Register />} />
       </Route>
-    </Routes>
-  </BrowserRouter>
+  ))
+  return (
+    <RouterProvider router={router} />
   );
 }
 
