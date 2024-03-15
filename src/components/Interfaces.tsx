@@ -2,16 +2,16 @@ import { To } from "react-router-dom";
 
 export interface trainingItemProps {
     id: To;
-    trainingName: String;
-    category: String;
-    date: String;
+    trainingName: string;
+    category: string;
+    date: string;
 }
 
 export interface userCardProps {
-    username: String;
-    firstname: String;
-    lastname: String;
-    email: String;
+    username: string;
+    firstname: string;
+    lastname: string;
+    email: string;
 }
 export interface FormDataInterface {
     firstName: string;
