@@ -3,14 +3,12 @@ import UserCard from '../components/TrainingItem'
 
 
 function App() {
-  const [training, setTraining] = useState(null)
+  // const [training, setTraining] = useState(null)
   
   const getTraining = async () => {
     // const req = await fetch("http://188.68.247.208:8080/training", {method: "GET"})
     // const data = await req.json()
-    // console.log(data)
     // setTraining(data)
-    console.log(training)
   }
   
    useEffect(() => {
