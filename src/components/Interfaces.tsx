@@ -20,7 +20,6 @@ export interface FormDataInterface {
     password: string;
     repasswd: string;
     gender: string;
-    country: string;
     agree: boolean;
     formErrors: {
         firstName: string;
