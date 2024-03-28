@@ -17,3 +17,4 @@ import { trainingItemProps } from "./Interfaces";
     );
   }
   
+  
