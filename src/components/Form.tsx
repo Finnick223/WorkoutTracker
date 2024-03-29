@@ -96,7 +96,6 @@ export default function Form() {
             <CssBaseline />
             <Box
                 sx={{
-                    marginTop: 8,
                     display: 'flex',
                     flexDirection: 'column',
                     alignItems: 'center',
@@ -108,8 +107,8 @@ export default function Form() {
                 <Typography component="h1" variant='h5'>
                     Sign up
                 </Typography>
-                <Box component="form" onSubmit={handleSubmit} sx={{mt: 3}}>
-                    <Grid container spacing={2}>
+                <Box component="form" onSubmit={handleSubmit} sx={{mt: 2}}>
+                    <Grid container spacing={1.5}>
                         <Grid item xs={12} sm={6}>
                             <TextField
                                 autoComplete='given-name'
@@ -226,7 +225,7 @@ export default function Form() {
                         type='submit'
                         fullWidth
                         variant='contained'
-                        sx={{mt: 3, mb: 2 }}
+                        sx={{mt: 1, mb: 1 }}
                         disabled={!formData.formValid}
                     > Sign Up
                     </Button>
