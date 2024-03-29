@@ -49,12 +49,13 @@ function ResponsiveAppBar() {
           </Typography>
           <Box sx={{ flexGrow: 1, display: { md: 'flex' } }}>
             {pages.map((page) => (
+              <Link key={page} style={{ textDecoration: 'none', color: 'inherit' }} to={`/${page}`}>
               <Button
-                key={page}
                 sx={{ my: 2, color: 'white', display: 'block' }}
               >
-                <Typography textAlign="center" ><Link style={{ textDecoration: 'none', color: 'inherit' }} to={`/${page}`}>{page}</Link></Typography>
+                <Typography textAlign="center" >{page}</Typography>
               </Button>
+              </Link>
             ))}
           </Box>
 
@@ -79,9 +80,11 @@ function ResponsiveAppBar() {
               onClose={handleCloseUserMenu}
             >
               {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                <Typography textAlign="center" ><Link style={{ textDecoration: 'none', color: 'inherit' }} to={`/${setting}`}>{setting}</Link></Typography>
-                </MenuItem>
+                <Link key={setting} style={{ textDecoration: 'none', color: 'inherit' }} to={`/${setting}`}>
+                  <MenuItem onClick={handleCloseUserMenu}>
+                    <Typography textAlign="center" >{setting}</Typography>
+                  </MenuItem>
+                </Link>
               ))}
             </Menu>
           </Box>
@@ -91,15 +94,3 @@ function ResponsiveAppBar() {
   );
 }
 export default ResponsiveAppBar;
-
-
-      {/* <h1 className="navbar--title">workout tracker</h1>
-      <section className="navbar--route">
-      <Link to="/user"><button className="navbar--button">user</button></Link>
-      <Link to="/workout"><button className="navbar--button">workout</button></Link>
-      <Link to="/exercise"><button className="navbar--button">exercise</button></Link>
-      </section>
-      <section className="navbar--login">
-      <Link to="/login"><button className="navbar--button">Login</button></Link>
-      <Link to="/register"><button className="navbar--button">Register</button></Link>        
-      </section> */}
