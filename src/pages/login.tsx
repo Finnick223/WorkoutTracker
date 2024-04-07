@@ -24,18 +24,18 @@ import {
   redirect,
   useActionData
 } from "react-router-dom"
+import axios from 'axios';
+
 
 const loginUser = async (creds: any) => {
-  const headers = new Headers();
-  headers.set('Authorization', 'Basic ' + btoa(creds.username + ":" + creds.password));
-
-  const req = await fetch('http://188.68.247.208:8080/user', {
-    method: 'GET', 
-    headers: headers
-  })
-  try{
-    const response = await req.json(); 
-    console.log(response)
+  const authHeader = {
+    Authorization: `Basic ${btoa(creds.username + ":" + creds.password)}`
+  }
+  try {
+    const response = await axios.get('http://188.68.247.208:8080/user', {
+      headers: authHeader
+    });
+    console.log(response.data); 
   }
   catch(err){
     console.error('Wystąpił błąd:', err);
