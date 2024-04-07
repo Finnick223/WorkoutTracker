@@ -27,7 +27,7 @@ import {
 import axios from 'axios';
 
 
-const loginUser = async (creds: any) => {
+export const loginUser = async (creds: any) => {
   const authHeader = {
     Authorization: `Basic ${btoa(creds.username + ":" + creds.password)}`
   }
