@@ -4,7 +4,7 @@ import { Box, Container, CssBaseline } from '@mui/material';
 
 
 function App() {
-  // const [training, setTraining] = useState(null)
+  const [training, setTraining] = useState(null)
   
   const getTraining = async () => {
     // const req = await fetch("http://188.68.247.208:8080/training", {method: "GET"})
@@ -14,6 +14,7 @@ function App() {
   
    useEffect(() => {
      getTraining()
+    //  console.log(training)
    }, []);
 
    return (
