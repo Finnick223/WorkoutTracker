@@ -1,11 +1,10 @@
 import { useEffect, useState } from 'react'
-import UserCard from '../components/TrainingItem'
-import { Box, Container, CssBaseline } from '@mui/material';
+import TrainingCard from '../components/TrainingItem'
+import { Box, CssBaseline } from '@mui/material';
 import axios from 'axios';
 import { loginUser } from './login';
-import { Password } from '@mui/icons-material';
 function App() {
-  const [training, setTraining] = useState(null)
+  const [training, setTraining] = useState([])
   
   // const getTraining = async () => {
     // const req = await fetch("http://188.68.247.208:8080/training", {method: "GET"})
@@ -23,6 +22,7 @@ function App() {
       const response = await axios.get('http://188.68.247.208:8080/training', {
         headers: authHeader
       });
+      console.log(response.data)
       setTraining(response.data)
       return response.data; // Return the fetched training data
     } catch (error) {
@@ -33,27 +33,38 @@ function App() {
   
    useEffect(() => {
     //  getTraining()
-    fetchTrainingData({username: 'admin', password: 'admin'})
+    // fetchTrainingData({username: 'admin', password: 'admin'})
      console.log(training)
    }, []);
 
+   const trainingList = training && training.map(train => {
+    return (
+      <TrainingCard 
+        id={train.id}
+        trainingName={train.name}
+        category={train.description}
+        date="09.09.2007"
+      />
+    )
+  })
    return (
     <> 
         <CssBaseline />
         <Box sx={{display: "inline-flex", textAlign: "center"}}>
-          <UserCard 
+          {trainingList}
+          <TrainingCard 
             id="1"
             trainingName="trening1"
             category="silowka"
             date="11.11.2011"
             />
-          <UserCard 
+          <TrainingCard 
             id="2"
             trainingName="dupa"
             category="cardio"
             date="13.11.2011"
             />
-          <UserCard 
+          <TrainingCard 
             id="3"
             trainingName="trening3"
             category="hipertrofia"
