@@ -25,6 +25,7 @@ import {
 import Visibility from '@mui/icons-material/Visibility';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import axios from 'axios';
 
 
 export default function Form() {
@@ -85,9 +86,12 @@ export default function Form() {
             }));
         }, [formData.email, formData.password, formData.repasswd])
         
-        const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
             e.preventDefault()
             console.log(formData)
+            // const response = await axios.post('http://188.68.247.208:8080/user', formData)
+            // console.log(response)
+
     }    
 
     return (

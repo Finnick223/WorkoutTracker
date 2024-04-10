@@ -1,9 +1,11 @@
 // import { useState } from 'react'
+import { CssBaseline } from '@mui/material';
 import UserCard from '../components/UserCard.tsx';
 
 function App() {
   return (
     <>
+      <CssBaseline />
       <UserCard
         username="filipf"
         firstname="filip"

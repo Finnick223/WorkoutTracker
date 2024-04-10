@@ -12,8 +12,8 @@ import EditNoteOutlinedIcon from '@mui/icons-material/EditNoteOutlined';
 
   export default function TrainingItem(props: trainingItemProps) {
     return (
-      <Paper elevation={4} sx={{width: "11vw", m: 2}}>
-        <Card sx={{ width: "11vw" }}>
+      <Paper elevation={4} sx={{width: "16vw", m: 2}}>
+        <Card sx={{ width: "16vw" }}>
           <Link to={props.id} style={{textDecoration: "none", color: "inherit"}}>
             <CardContent>
               <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>

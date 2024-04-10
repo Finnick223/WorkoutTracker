@@ -27,7 +27,7 @@ import {
 import axios from 'axios';
 
 
-const loginUser = async (creds: any) => {
+export const loginUser = async (creds: any) => {
   const authHeader = {
     Authorization: `Basic ${btoa(creds.username + ":" + creds.password)}`
   }
@@ -35,7 +35,8 @@ const loginUser = async (creds: any) => {
     const response = await axios.get('http://188.68.247.208:8080/user', {
       headers: authHeader
     });
-    console.log(response.data); 
+    // console.log(response.data); 
+    console.log("logging gut")
   }
   catch(err){
     console.error('Wystąpił błąd:', err);
