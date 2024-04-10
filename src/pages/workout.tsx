@@ -50,7 +50,6 @@ function App() {
 
    return (
     <> 
-      {/* <Container component="main" maxWidth="xs"> */}
         <CssBaseline />
         <Box sx={{display: "inline-flex", textAlign: "center"}}>
           <UserCard 
@@ -72,7 +71,6 @@ function App() {
             date="15.11.2011"
             />
         </Box>
-      {/* </Container> */}
     </>
   );
 }
