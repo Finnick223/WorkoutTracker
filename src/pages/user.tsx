@@ -1,30 +1,42 @@
-// import { useState } from 'react'
-import { CssBaseline } from '@mui/material';
+import { DefaultApi } from '../client/src/apis/DefaultApi.ts';
+import { useEffect, useState } from 'react';
+import { Configuration, User } from '../client/src';
 import UserCard from '../components/UserCard.tsx';
 
 function App() {
+  const [users, setUsers] = useState<Array<User>>([]);
+
+  const config = new Configuration({
+    username: "admin",
+    password: "admin"
+  });
+
+  useEffect(() => {
+      const api = new DefaultApi(config);
+
+    const loadUsers = async () => {
+      try {
+        const fetchedUsers = await api.getUsers();
+        setUsers(fetchedUsers);
+      } catch (error) {
+        console.error("Error fetching users: ", error);
+      }
+    };
+    loadUsers();
+  }, []);
+
   return (
-    <>
-      <CssBaseline />
-      <UserCard
-        username="filipf"
-        firstname="filip"
-        lastname="ff"
-        email="example@gm.com"
-      />
-      <UserCard
-        username="xddd"
-        firstname="asd"
-        lastname="jnveivnei"
-        email="example@gm.com"
-      />
-      <UserCard
-        username="nick"
-        firstname="imie"
-        lastname="nazwisko"
-        email="mail@gm.com"
-      />
-    </>
+    <div className="App">
+      {users.map((user) => (
+        <UserCard
+          key={user.id}
+          username={user.username || ""}
+          firstName={user.firstName || ""}
+          lastName={user.lastName || ""}
+          email={user.email || ""}
+        />
+      ))}
+    </div>
   );
 }
 

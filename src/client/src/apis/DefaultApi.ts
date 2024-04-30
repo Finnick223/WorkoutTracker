@@ -15,9 +15,15 @@
 
 import * as runtime from '../runtime';
 import type {
+  Exercise,
+  Training,
   User,
 } from '../models/index';
 import {
+    ExerciseFromJSON,
+    ExerciseToJSON,
+    TrainingFromJSON,
+    TrainingToJSON,
     UserFromJSON,
     UserToJSON,
 } from '../models/index';
@@ -28,6 +34,64 @@ import {
 export class DefaultApi extends runtime.BaseAPI {
 
     /**
+     * Get all exercises
+     */
+    async getExercisesRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<Exercise>>> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && (this.configuration.username !== undefined || this.configuration.password !== undefined)) {
+            headerParameters["Authorization"] = "Basic " + btoa(this.configuration.username + ":" + this.configuration.password);
+        }
+        const response = await this.request({
+            path: `/exercise`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(ExerciseFromJSON));
+    }
+
+    /**
+     * Get all exercises
+     */
+    async getExercises(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<Exercise>> {
+        const response = await this.getExercisesRaw(initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Get all trainings
+     */
+    async getTrainingsRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<Training>>> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && (this.configuration.username !== undefined || this.configuration.password !== undefined)) {
+            headerParameters["Authorization"] = "Basic " + btoa(this.configuration.username + ":" + this.configuration.password);
+        }
+        const response = await this.request({
+            path: `/training`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(TrainingFromJSON));
+    }
+
+    /**
+     * Get all trainings
+     */
+    async getTrainings(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<Training>> {
+        const response = await this.getTrainingsRaw(initOverrides);
+        return await response.value();
+    }
+
+    /**
      * Get all users
      */
     async getUsersRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<User>>> {
@@ -35,6 +99,9 @@ export class DefaultApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
+        if (this.configuration && (this.configuration.username !== undefined || this.configuration.password !== undefined)) {
+            headerParameters["Authorization"] = "Basic " + btoa(this.configuration.username + ":" + this.configuration.password);
+        }
         const response = await this.request({
             path: `/user`,
             method: 'GET',

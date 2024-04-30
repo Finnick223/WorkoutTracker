@@ -7,12 +7,6 @@ export interface trainingItemProps {
     date: string;
 }
 
-export interface userCardProps {
-    username: string;
-    firstname: string;
-    lastname: string;
-    email: string;
-}
 export interface FormDataInterface {
     firstName: string;
     lastName: string;

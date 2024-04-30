@@ -9,7 +9,8 @@ import { Paper } from "@mui/material";
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import EditNoteOutlinedIcon from '@mui/icons-material/EditNoteOutlined';
 
-
+// TODO: Change the trainingItemProps to Training from models directory and if you done that,
+//  remove trainingItemProps from the Interface.tsx file
   export default function TrainingItem(props: trainingItemProps) {
     return (
       <Paper elevation={4} sx={{width: "16vw", m: 2}}>
