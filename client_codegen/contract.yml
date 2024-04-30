@@ -1,0 +1,98 @@
+openapi: 3.0.0
+info:
+    title: WorkoutTracker
+    version: 1.0.0
+
+
+servers:
+    - url: http://localhost:8080
+      description: Local server
+
+paths:
+    /user:
+        get:
+            summary: Get all users
+            operationId: getUsers
+            responses:
+                '200':
+                    description: A list of users
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: '#/components/schemas/User'
+
+components:
+    schemas:
+        User:
+            type: object
+            properties:
+                id:
+                    type: string
+                username:
+                    type: string
+                email:
+                    type: string
+                firstName:
+                    type: string
+                lastName:
+                    type: string
+                userMeasurements:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/UserMeasurement'
+                trainings:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Training'
+        UserMeasurement:
+            type: object
+            properties:
+                id:
+                    type: string
+                date:
+                    type: string
+                    format: date
+                weight:
+                    type: number
+                height:
+                    type: number
+        Training:
+            type: object
+            properties:
+                id:
+                    type: string
+                name:
+                    type: string
+                description:
+                    type: string
+                exercises:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Exercise'
+                trainingCategories:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/TrainingCategory'
+        Exercise:
+            type: object
+            properties:
+                id:
+                    type: string
+                name:
+                    type: string
+                description:
+                    type: string
+                sets:
+                    type: integer
+                reps:
+                    type: integer
+        TrainingCategory:
+            type: string
+            enum:
+                - powerlifting
+                - olympic weightlifting
+                - cardio
+                - stretching
+                - other

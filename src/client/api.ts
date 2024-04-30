@@ -203,74 +203,6 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
     return {
         /**
          * 
-         * @summary Get all exercises
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getExercises: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/exercise`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication basicAuth required
-            // http basic authentication required
-            setBasicAuthToObject(localVarRequestOptions, configuration)
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @summary Get all trainings
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getTrainings: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/training`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication basicAuth required
-            // http basic authentication required
-            setBasicAuthToObject(localVarRequestOptions, configuration)
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
          * @summary Get all users
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -287,10 +219,6 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
-
-            // authentication basicAuth required
-            // http basic authentication required
-            setBasicAuthToObject(localVarRequestOptions, configuration)
 
 
     
@@ -315,26 +243,6 @@ export const DefaultApiFp = function(configuration?: Configuration) {
     return {
         /**
          * 
-         * @summary Get all exercises
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async getExercises(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Exercise>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getExercises(options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-        /**
-         * 
-         * @summary Get all trainings
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async getTrainings(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Training>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getTrainings(options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-        /**
-         * 
          * @summary Get all users
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -355,24 +263,6 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
     return {
         /**
          * 
-         * @summary Get all exercises
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getExercises(options?: any): AxiosPromise<Array<Exercise>> {
-            return localVarFp.getExercises(options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @summary Get all trainings
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getTrainings(options?: any): AxiosPromise<Array<Training>> {
-            return localVarFp.getTrainings(options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
          * @summary Get all users
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -390,28 +280,6 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
  * @extends {BaseAPI}
  */
 export class DefaultApi extends BaseAPI {
-    /**
-     * 
-     * @summary Get all exercises
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof DefaultApi
-     */
-    public getExercises(options?: AxiosRequestConfig) {
-        return DefaultApiFp(this.configuration).getExercises(options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @summary Get all trainings
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof DefaultApi
-     */
-    public getTrainings(options?: AxiosRequestConfig) {
-        return DefaultApiFp(this.configuration).getTrainings(options).then((request) => request(this.axios, this.basePath));
-    }
-
     /**
      * 
      * @summary Get all users
