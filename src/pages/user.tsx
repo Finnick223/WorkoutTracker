@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { User, Configuration, DefaultApi  } from '../client';
 import BasicList from '../components/SimpleList.tsx';
-import { ListItemText } from '@mui/material';
+import { Box, CssBaseline, ListItemText } from '@mui/material';
 
 function App() {
   const [users, setUsers] = useState<User[]>([]);
@@ -29,12 +29,13 @@ function App() {
   }, []);
 
   return (
-    <div className="App">
+    <Box>
+      <CssBaseline />
       <BasicList
         items={users}
         renderItem={user => <ListItemText primary={`${user.firstName} ${user.lastName}`} secondary={user.email} />}
       />
-    </div>
+    </Box>
   );
 }
 

@@ -16,7 +16,7 @@ export default function BasicList<T>({ items, renderItem }: BasicListProps<T>) {
       <nav aria-label="items list">
         <List>
           {items.map(item => (
-            <ListItem key={JSON.stringify(item)} disablePadding>
+            <ListItem key={JSON.stringify(item)}>
               <ListItemButton sx={{ bgcolor: 'text.secondary', borderRadius: '8px', margin: '4px 0' }}>
                 {renderItem(item)}
               </ListItemButton>
