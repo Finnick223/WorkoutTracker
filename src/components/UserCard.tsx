@@ -1,15 +1,24 @@
-import { userCardProps } from "./Interfaces";
+import { User } from '../client/src/models';
 
-export default function UserCard(props: userCardProps) {
+
+function editUser(userId: string | undefined) {
+ return userId; //TODO implement edit user
+}
+
+function deleteUser(userId: string | undefined) {
+  return userId; //TODO implement delete user
+}
+
+export default function UserCard(props: User) {
   return (
     <div className="usercard">
       <p className="usercard--text">{props.username}</p>
-      <p className="usercard--text">{props.firstname}</p>
-      <p className="usercard--text">{props.lastname}</p>
+      <p className="usercard--text">{props.firstName}</p>
+      <p className="usercard--text">{props.lastName}</p>
       <p className="usercard--text">{props.email}</p>
       <p>
-        <button className="usercard--buttons">edit</button>
-        <button className="usercard--buttons">delete</button>
+        <button className="usercard--buttons" onClick={() => editUser(props.id)}>edit</button>
+        <button className="usercard--buttons" onClick={() => deleteUser(props.id)}>delete</button>
       </p>
     </div>
   );
