@@ -1,10 +1,11 @@
 {
   "compilerOptions": {
     "declaration": true,
-    "target": "es5",
+    "target": "ES5",
     "module": "commonjs",
-    "moduleResolution": "node",
+    "noImplicitAny": true,
     "outDir": "dist",
+    "rootDir": ".",
     "lib": [
       "es6",
       "dom"

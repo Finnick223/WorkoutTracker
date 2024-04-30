@@ -1,10 +1,10 @@
-import { DefaultApi } from '../client/src/apis/DefaultApi.ts';
 import { useEffect, useState } from 'react';
-import { Configuration, User } from '../client/src';
-import UserCard from '../components/UserCard.tsx';
+import { User, Configuration, DefaultApi  } from '../client';
+import BasicList from '../components/SimpleList.tsx';
+import { ListItemText } from '@mui/material';
 
 function App() {
-  const [users, setUsers] = useState<Array<User>>([]);
+  const [users, setUsers] = useState<User[]>([]);
 
   const config = new Configuration({
     username: "admin",
@@ -12,30 +12,28 @@ function App() {
   });
 
   useEffect(() => {
-      const api = new DefaultApi(config);
+    const api = new DefaultApi(config);
+
 
     const loadUsers = async () => {
       try {
-        const fetchedUsers = await api.getUsers();
+        const response = await api.getUsers();
+        const fetchedUsers = response.data;
         setUsers(fetchedUsers);
       } catch (error) {
         console.error("Error fetching users: ", error);
       }
     };
+
     loadUsers();
   }, []);
 
   return (
     <div className="App">
-      {users.map((user) => (
-        <UserCard
-          key={user.id}
-          username={user.username || ""}
-          firstName={user.firstName || ""}
-          lastName={user.lastName || ""}
-          email={user.email || ""}
-        />
-      ))}
+      <BasicList
+        items={users}
+        renderItem={user => <ListItemText primary={`${user.firstName} ${user.lastName}`} secondary={user.email} />}
+      />
     </div>
   );
 }
