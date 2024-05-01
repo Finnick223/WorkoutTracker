@@ -1,24 +1,23 @@
 import { useEffect, useState } from 'react';
-import { User, Configuration, DefaultApi  } from '../client';
-import BasicList from '../components/SimpleList.tsx';
+import { User, Configuration, UserApi } from '../client/src';
 import { Box, CssBaseline, ListItemText } from '@mui/material';
+import BasicList from '../components/SimpleList.tsx';
 
 function App() {
   const [users, setUsers] = useState<User[]>([]);
 
   const config = new Configuration({
     username: "admin",
-    password: "admin"
+    password: "admin",
   });
 
   useEffect(() => {
-    const api = new DefaultApi(config);
-
+    const api = new UserApi(config);
 
     const loadUsers = async () => {
       try {
         const response = await api.getUsers();
-        const fetchedUsers = response.data;
+        const fetchedUsers = response;
         setUsers(fetchedUsers);
       } catch (error) {
         console.error("Error fetching users: ", error);
