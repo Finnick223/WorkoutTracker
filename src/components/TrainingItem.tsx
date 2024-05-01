@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
-import { trainingItemProps } from "./Interfaces";
+// import { trainingItemProps } from "./Interfaces";
+import { Training } from "../client/src";
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
@@ -9,26 +10,26 @@ import { Paper } from "@mui/material";
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import EditNoteOutlinedIcon from '@mui/icons-material/EditNoteOutlined';
 
-// TODO: Change the trainingItemProps to Training from models directory and if you done that,
-//  remove trainingItemProps from the Interface.tsx file
-  export default function TrainingItem(props: trainingItemProps) {
+
+  export default function TrainingItem(props: Training) {
     return (
       <Paper elevation={4} sx={{width: "16vw", m: 2}}>
         <Card sx={{ width: "16vw" }}>
+          {/* @ts-ignore */}
           <Link to={props.id} style={{textDecoration: "none", color: "inherit"}}>
             <CardContent>
-              <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+              {/* <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
                 {props.date}
-              </Typography>
+              </Typography> */}
               <Typography variant="h5" component="div">
-                {props.trainingName}
+                {props.name}
               </Typography>
               <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                {props.category}
+                {props.description}
               </Typography>
             </CardContent>
           </Link>
-          <CardActions>
+          <CardActions sx={{justifyContent: "center"}}>
             <Button size="small" variant="contained"><EditNoteOutlinedIcon/></Button>
             <Button size="small" variant="contained"><DeleteOutlineOutlinedIcon/></Button>
           </CardActions>

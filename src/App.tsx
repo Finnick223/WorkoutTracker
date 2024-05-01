@@ -1,4 +1,3 @@
-// import { useState } from 'react'
 import { 
   createBrowserRouter,
   createRoutesFromElements,
@@ -6,13 +5,13 @@ import {
   RouterProvider,
  } from "react-router-dom";
 import './index.css';
-import Layout from "./pages/layout.tsx";
-import User from './pages/user.tsx'
-import Workout from './pages/workout.tsx'
-import Home from './pages/home.tsx'
-import Login, { action as loginAction } from './pages/login.tsx'
-import Register from './pages/register.tsx'
-import WorkoutDetail from './pages/Training/workoutDetail.tsx'
+import Layout from "./pages/layout.page.tsx";
+import User from './pages/user.page.tsx'
+import Training from './pages/training.page.tsx'
+import Home from './pages/home.page.tsx'
+import Login, { action as loginAction } from './pages/login.page.tsx'
+import Register from './pages/register.page.tsx'
+import TrainingDetail from './pages/Training/trainingDetail.page.tsx'
 import Error from "./components/Error"
 
 function App() {
@@ -20,8 +19,8 @@ function App() {
     <Route path="/" element={<Layout />}>
         <Route index element={<Home />} />
         <Route path="user" element={<User />} />
-        <Route path="workout" element={<Workout />} errorElement={<Error />} />
-        <Route path="workout/:id" element={<WorkoutDetail/>} errorElement={<Error />} />
+        <Route path="training" element={<Training />} errorElement={<Error />} />
+        <Route path="training/:id" element={<TrainingDetail/>} errorElement={<Error />} />
         <Route path="login" element={<Login />} action={loginAction} />
         <Route path="register" element={<Register />} />
       </Route>
@@ -32,12 +31,3 @@ function App() {
 }
 
 export default App;
-
-
-
-// React.useEffect(() => {
-//   const timeoutId = setTimeout(() => {
-//       updateNote(tempNoteText)
-//   }, 500)
-//   return () => clearTimeout(timeoutId)
-// }, [tempNoteText])

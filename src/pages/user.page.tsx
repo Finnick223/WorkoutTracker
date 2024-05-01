@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { User, Configuration, UserApi } from '../client/src';
+import { User, Configuration, UserApi } from '../client/src/index.ts';
 import { Box, CssBaseline, ListItemText } from '@mui/material';
 import BasicList from '../components/SimpleList.tsx';
 
