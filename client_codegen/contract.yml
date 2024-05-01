@@ -5,12 +5,27 @@ info:
 
 
 servers:
-    - url: http://localhost:8080
+    - url: http://188.68.247.208:8080
       description: Local server
+
+security:
+    - basicAuth: []
+
+tags:
+    - name: user
+      description: User operations
+    - name: training
+      description: Training operations
+    - name: exercise
+      description: Exercise operations
+
+
 
 paths:
     /user:
         get:
+            tags:
+                - user
             summary: Get all users
             operationId: getUsers
             responses:
@@ -22,8 +37,244 @@ paths:
                                 type: array
                                 items:
                                     $ref: '#/components/schemas/User'
+        post:
+            tags:
+                - user
+            summary: Create user
+            operationId: createUser
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/User'
+            responses:
+                '200':
+                    description: User created
+
+    /user/{id}:
+        get:
+            tags:
+                - user
+            summary: Get user by id
+            operationId: getUserById
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                '200':
+                    description: A user
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/User'
+        put:
+            tags:
+                - user
+            summary: Update user
+            operationId: updateUser
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/User'
+            responses:
+                '200':
+                    description: User updated
+        delete:
+            tags:
+                - user
+            summary: Delete user
+            operationId: deleteUser
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                '200':
+                    description: User deleted
+    /training:
+        get:
+            tags:
+                - training
+            summary: Get all trainings
+            operationId: getTrainings
+            responses:
+                '200':
+                    description: A list of trainings
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: '#/components/schemas/Training'
+        post:
+            tags:
+                - training
+            summary: Create training
+            operationId: createTraining
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Training'
+            responses:
+                '200':
+                    description: Training created
+    /training/{id}:
+        get:
+            tags:
+                - training
+            summary: Get training by id
+            operationId: getTrainingById
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                '200':
+                    description: A training
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Training'
+        put:
+            tags:
+                - training
+            summary: Update training
+            operationId: updateTraining
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Training'
+            responses:
+                '200':
+                    description: Training updated
+        delete:
+            tags:
+                - training
+            summary: Delete training
+            operationId: deleteTraining
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                '200':
+                    description: Training deleted
+    /exercise:
+        get:
+            tags:
+                - exercise
+            summary: Get all exercises
+            operationId: getExercises
+            responses:
+                '200':
+                    description: A list of exercises
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: '#/components/schemas/Exercise'
+        post:
+            tags:
+                - exercise
+            summary: Create exercise
+            operationId: createExercise
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Exercise'
+            responses:
+                '200':
+                    description: Exercise created
+    /exercise/{id}:
+        get:
+            tags:
+                - exercise
+            summary: Get exercise by id
+            operationId: getExerciseById
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                '200':
+                    description: An exercise
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Exercise'
+        put:
+            tags:
+                - exercise
+            summary: Update exercise
+            operationId: updateExercise
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Exercise'
+            responses:
+                '200':
+                    description: Exercise updated
+        delete:
+            tags:
+                - exercise
+            summary: Delete exercise
+            operationId: deleteExercise
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                '200':
+                    description: Exercise deleted
 
 components:
+    securitySchemes:
+        basicAuth:
+            type: http
+            scheme: basic
     schemas:
         User:
             type: object
