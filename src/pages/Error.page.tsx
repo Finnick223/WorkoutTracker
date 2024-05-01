@@ -1,10 +1,10 @@
 import { Button, CssBaseline, Grid, Typography } from "@mui/material"
 import { Link } from "react-router-dom"
-import { useRouteError } from "react-router-dom"
-import errorText from "../components/Error.component"
+// import { useRouteError } from "react-router-dom"
+// import errorText from "../components/Error.component"
 
 export const ErrorPage = () => {
-    const error: any = useRouteError()
+    // const error: any = useRouteError()
 
     return(
         <>
@@ -15,7 +15,7 @@ export const ErrorPage = () => {
               direction="column"
             >
                 <Typography>Apka napotkała błąd</Typography>
-                {errorText(error)}
+                {/* {errorText(error)} */}
                 <Link 
                     to="/"
                 > 
