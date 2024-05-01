@@ -2,30 +2,18 @@
   "name": "workoutTracker-Frontend",
   "version": "0.0.1",
   "description": "OpenAPI client for workoutTracker-Frontend",
-  "author": "OpenAPI-Generator Contributors",
+  "author": "OpenAPI-Generator",
   "repository": {
     "type": "git",
     "url": "https://github.com/GIT_USER_ID/GIT_REPO_ID.git"
   },
-  "keywords": [
-    "axios",
-    "typescript",
-    "openapi-client",
-    "openapi-generator",
-    "workoutTracker-Frontend"
-  ],
-  "license": "Unlicense",
   "main": "./dist/index.js",
   "typings": "./dist/index.d.ts",
   "scripts": {
-    "build": "tsc ",
+    "build": "tsc",
     "prepare": "npm run build"
   },
-  "dependencies": {
-    "axios": "^0.27.2"
-  },
   "devDependencies": {
-    "@types/node": "^12.11.5",
     "typescript": "^4.0"
   }
 }
