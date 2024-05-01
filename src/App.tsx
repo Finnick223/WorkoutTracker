@@ -12,7 +12,7 @@ import Home from './pages/home.page.tsx'
 import Login, { action as loginAction } from './pages/login.page.tsx'
 import Register from './pages/register.page.tsx'
 import TrainingDetail from './pages/Training/trainingDetail.page.tsx'
-import Error from "./components/Error"
+import Error from "./components/Error.component.tsx"
 
 function App() {
   const router = createBrowserRouter(createRoutesFromElements(
