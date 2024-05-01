@@ -2,12 +2,11 @@ import { useEffect, useState } from 'react'
 import TrainingCard from '../components/TrainingItem.component.tsx'
 import { Box, CssBaseline } from '@mui/material';
 import { Training, Configuration, TrainingApi } from '../client/src/index.ts';
-import { useNavigate } from 'react-router-dom';
+import { redirect } from 'react-router-dom';
 
 
 function App() {
   const [trainings, setTrainings] = useState<Training[]>([])
-  const navigate = useNavigate();
 
   const config = new Configuration({
     username: "admin",
@@ -24,7 +23,7 @@ function App() {
         setTrainings(fetchedTrainings);
       } catch (error) {
         console.error("Error fetching users: ", error);
-        navigate("/error")
+        redirect("/error")
       }
     };
 

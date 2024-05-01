@@ -2,11 +2,11 @@ import { useEffect, useState } from 'react';
 import { User, Configuration, UserApi } from '../client/src/index.ts';
 import { Box, CssBaseline, ListItemText } from '@mui/material';
 import BasicList from '../components/SimpleList.component.tsx';
-import { useNavigate } from 'react-router-dom';
+import { redirect } from 'react-router-dom';
 
 function App() {
   const [users, setUsers] = useState<User[]>([]);
-  const navigate = useNavigate();
+
   
   const config = new Configuration({
     username: "admin",
@@ -24,7 +24,7 @@ function App() {
         setUsers(fetchedUsers);
       } catch (error) {
         console.error("Error fetching users: ", error);
-        navigate("/error")
+        redirect("/error")
       }
     };
 
