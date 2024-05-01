@@ -1,11 +1,10 @@
-import { To } from "react-router-dom";
-
-export interface trainingItemProps {
-    id: To;
-    trainingName: string;
-    category: string;
-    date: string;
-}
+// import { To } from "react-router-dom";
+// export interface trainingItemProps {
+//     id: To;
+//     trainingName: string;
+//     category: string;
+//     date: string;
+// }
 
 export interface FormDataInterface {
     firstName: string;
