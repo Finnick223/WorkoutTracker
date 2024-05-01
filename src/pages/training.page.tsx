@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import TrainingCard from '../components/TrainingItem'
 import { Box, CssBaseline } from '@mui/material';
 import axios from 'axios';
-import { loginUser } from './login';
+import { loginUser } from './login.page';
 function App() {
   const [training, setTraining] = useState([])
   
