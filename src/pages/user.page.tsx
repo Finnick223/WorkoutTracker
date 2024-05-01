@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { User, Configuration, UserApi } from '../client/src/index.ts';
 import { Box, CssBaseline, ListItemText } from '@mui/material';
-import BasicList from '../components/SimpleList.tsx';
+import BasicList from '../components/SimpleList.component.tsx';
 
 function App() {
   const [users, setUsers] = useState<User[]>([]);

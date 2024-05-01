@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import TrainingCard from '../components/TrainingItem'
+import TrainingCard from '../components/TrainingItem.component.tsx'
 import { Box, CssBaseline } from '@mui/material';
 import { Training, Configuration, TrainingApi } from '../client/src/index.ts';
 

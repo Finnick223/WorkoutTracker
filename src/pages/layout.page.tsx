@@ -1,5 +1,5 @@
 import { Outlet} from "react-router-dom";
-import Appbar from "../components/AppBar"
+import Appbar from "../components/AppBar.component"
 
 
 const Layout = () => {
