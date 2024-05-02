@@ -1,6 +1,6 @@
 import { useFormContext } from 'react-hook-form';
 import { TextField } from '@mui/material';
-interface Input{
+interface Input {
   id: string;
   name: any;
   label: string;
@@ -23,18 +23,18 @@ export const Input = ({
     formState: { errors },
   } = useFormContext();
   return (
-    <>    
+    <>
       <TextField
-      autoComplete={autoComplete}
-      required={required}
-      type={type}
-      fullWidth
-      id={id}
-      label={label}
-      error={errors[name] ? true : false}
-      //@ts-ignore
-      helperText={errors[name] ? errors[name]?.message : undefined}
-      {...register(name)}
+        autoComplete={autoComplete}
+        required={required}
+        type={type}
+        fullWidth
+        id={id}
+        label={label}
+        error={errors[name] ? true : false}
+        //@ts-ignore
+        helperText={errors[name] ? errors[name]?.message : undefined}
+        {...register(name)}
       />
     </>
   );

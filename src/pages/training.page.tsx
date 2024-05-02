@@ -1,16 +1,15 @@
-import { useEffect, useState } from 'react'
-import TrainingCard from '../components/TrainingItem.component.tsx'
+import { useEffect, useState } from 'react';
+import TrainingCard from '../components/TrainingItem.component.tsx';
 import { Box, CssBaseline } from '@mui/material';
 import { Training, Configuration, TrainingApi } from '../client/src/index.ts';
 import { redirect } from 'react-router-dom';
 
-
 function App() {
-  const [trainings, setTrainings] = useState<Training[]>([])
+  const [trainings, setTrainings] = useState<Training[]>([]);
 
   const config = new Configuration({
-    username: "admin",
-    password: "admin",
+    username: 'admin',
+    password: 'admin',
   });
 
   useEffect(() => {
@@ -22,27 +21,27 @@ function App() {
         const fetchedTrainings = response;
         setTrainings(fetchedTrainings);
       } catch (error) {
-        console.error("Error fetching users: ", error);
-        redirect("/error")
+        console.error('Error fetching users: ', error);
+        redirect('/error');
       }
     };
 
     loadTrainings();
   }, []);
-  
-   return (
-    <> 
-        <CssBaseline />
-        <Box sx={{display: "inline-flex", textAlign: "center"}}>
-            {trainings.map(training => (
-                <TrainingCard 
-                    id={training.id}
-                    name={training.name}
-                    description={training.description}
-                    key={training.id}
-                />
-            ))}
-        </Box>
+
+  return (
+    <>
+      <CssBaseline />
+      <Box sx={{ display: 'inline-flex', textAlign: 'center' }}>
+        {trainings.map((training) => (
+          <TrainingCard
+            id={training.id}
+            name={training.name}
+            description={training.description}
+            key={training.id}
+          />
+        ))}
+      </Box>
     </>
   );
 }

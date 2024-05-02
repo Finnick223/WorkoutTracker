@@ -17,7 +17,9 @@ const settings = ['Login', 'Register'];
 // const settings = ['Profile', 'Account', 'Dashboard', 'Login', 'Logout', 'Register'];
 
 function ResponsiveAppBar() {
-  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
+  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
+    null,
+  );
 
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
@@ -28,8 +30,8 @@ function ResponsiveAppBar() {
   };
 
   return (
-    <AppBar position="relative" sx={{marginBottom: "5vh"}}>
-      <Container maxWidth="xl" >
+    <AppBar position="relative" sx={{ marginBottom: '5vh' }}>
+      <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Typography
             variant="h6"
@@ -49,12 +51,14 @@ function ResponsiveAppBar() {
           </Typography>
           <Box sx={{ flexGrow: 1, display: { md: 'flex' } }}>
             {pages.map((page) => (
-              <Link key={page} style={{ textDecoration: 'none', color: 'inherit' }} to={`/${page}`}>
-              <Button
-                sx={{ my: 2, color: 'white', display: 'block' }}
+              <Link
+                key={page}
+                style={{ textDecoration: 'none', color: 'inherit' }}
+                to={`/${page}`}
               >
-                <Typography textAlign="center" >{page}</Typography>
-              </Button>
+                <Button sx={{ my: 2, color: 'white', display: 'block' }}>
+                  <Typography textAlign="center">{page}</Typography>
+                </Button>
               </Link>
             ))}
           </Box>
@@ -62,7 +66,7 @@ function ResponsiveAppBar() {
           <Box sx={{ flex: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp"/>
+                <Avatar alt="Remy Sharp" />
               </IconButton>
             </Tooltip>
             <Menu
@@ -80,9 +84,13 @@ function ResponsiveAppBar() {
               onClose={handleCloseUserMenu}
             >
               {settings.map((setting) => (
-                <Link key={setting} style={{ textDecoration: 'none', color: 'inherit' }} to={`/${setting}`}>
+                <Link
+                  key={setting}
+                  style={{ textDecoration: 'none', color: 'inherit' }}
+                  to={`/${setting}`}
+                >
                   <MenuItem onClick={handleCloseUserMenu}>
-                    <Typography textAlign="center" >{setting}</Typography>
+                    <Typography textAlign="center">{setting}</Typography>
                   </MenuItem>
                 </Link>
               ))}
