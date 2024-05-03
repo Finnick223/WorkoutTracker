@@ -9,12 +9,12 @@ export default function Table() {
           <th colSpan={2}>Set3</th>
         </tr>
         <tr>
-            <th>weight</th>
-            <th>reps</th>
-            <th>weight</th>
-            <th>reps</th>
-            <th>weight</th>
-            <th>reps</th>
+          <th>weight</th>
+          <th>reps</th>
+          <th>weight</th>
+          <th>reps</th>
+          <th>weight</th>
+          <th>reps</th>
         </tr>
       </thead>
       <tbody>

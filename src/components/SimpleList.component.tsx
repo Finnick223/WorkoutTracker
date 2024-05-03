@@ -9,15 +9,20 @@ interface BasicListProps<T> {
   // TODO: Return previous state of the function
 }
 
-
 export default function BasicList<T>({ items, renderItem }: BasicListProps<T>) {
   return (
     <Box sx={{ width: '100%', maxWidth: 360, bgcolor: 'inherit' }}>
       <nav aria-label="items list">
         <List>
-          {items.map(item => (
+          {items.map((item) => (
             <ListItem key={JSON.stringify(item)}>
-              <ListItemButton sx={{ bgcolor: 'text.secondary', borderRadius: '8px', margin: '4px 0' }}>
+              <ListItemButton
+                sx={{
+                  bgcolor: 'text.secondary',
+                  borderRadius: '8px',
+                  margin: '4px 0',
+                }}
+              >
                 {renderItem(item)}
               </ListItemButton>
             </ListItem>
@@ -27,4 +32,3 @@ export default function BasicList<T>({ items, renderItem }: BasicListProps<T>) {
     </Box>
   );
 }
-
