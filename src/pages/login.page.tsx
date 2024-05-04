@@ -18,13 +18,13 @@ import Visibility from '@mui/icons-material/Visibility';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import {
-  // useLoaderData,
   useNavigation,
   Form,
   redirect,
   useActionData,
 } from 'react-router-dom';
 import axios from 'axios';
+
 
 export const loginUser = async (creds: any) => {
   const authHeader = {
@@ -34,7 +34,7 @@ export const loginUser = async (creds: any) => {
     const response = await axios.get('http://188.68.247.208:8080/user', {
       headers: authHeader,
     });
-    // console.log(response.data);
+    console.log(response.data);
     console.log('logging gut');
   } catch (err) {
     console.error('Wystąpił błąd:', err);
@@ -57,7 +57,7 @@ export async function action({ request }: any) {
   }
 }
 
-function App() {
+function Login() {
   const [showPassword, setShowPassword] = useState(false);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -87,10 +87,6 @@ function App() {
           <Typography component="h1" variant="h5" sx={{ mb: 4 }}>
             Sign in
           </Typography>
-          {/* <Box 
-                component="form" 
-                sx={{mt: 3}}
-              > */}
           <Form className="form--register" method="post" replace>
             <Grid container spacing={2}>
               <Grid item xs={12}>
@@ -107,7 +103,6 @@ function App() {
                 <FormControl
                   fullWidth
                   variant="outlined"
-                  // error={formData.formErrors.password ? true : false}
                 >
                   <InputLabel htmlFor="outlined-adornment-password">
                     Password*
@@ -115,7 +110,6 @@ function App() {
                   <OutlinedInput
                     id="password"
                     type={showPassword ? 'text' : 'password'}
-                    // onChange={handleChange}
                     endAdornment={
                       <InputAdornment position="end">
                         <IconButton
@@ -132,7 +126,6 @@ function App() {
                     label="Password"
                     name="password"
                   />
-                  {/* <FormHelperText>{formData.formErrors.password}</FormHelperText> */}
                 </FormControl>
               </Grid>
             </Grid>
@@ -146,37 +139,11 @@ function App() {
               {navigation.state === 'submitting' ? 'Logging in...' : 'Log in'}
             </Button>
           </Form>
-          {/* </Box> */}
         </Box>
       </Container>
       {errorMessage && <h3>errorMessage</h3>}
-      {/* <Form 
-          className="form--register"
-          method="post" 
-          replace
-        >
-            <label>Username</label>
-            <input
-                type="text"
-                name="username"
-            />
-            <label>Password</label>
-            <input 
-            type="password"
-            name="password"
-            />
-            <br/>
-            <button
-                disabled={navigation.state === "submitting"}
-            >
-                {navigation.state === "submitting"
-                    ? "Logging in..."
-                    : "Log in"
-                }
-            </button>
-        </Form> */}
     </>
   );
 }
 
-export default App;
+export default Login;
