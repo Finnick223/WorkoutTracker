@@ -4,7 +4,7 @@ import { Box, CssBaseline, ListItemText } from '@mui/material';
 import BasicList from '../components/SimpleList.component.tsx';
 import { redirect } from 'react-router-dom';
 
-function App() {
+function UserPage() {
   const [users, setUsers] = useState<User[]>([]);
 
   const config = new Configuration({
@@ -45,4 +45,4 @@ function App() {
   );
 }
 
-export default App;
+export default UserPage;

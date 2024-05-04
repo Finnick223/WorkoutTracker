@@ -1,7 +1,6 @@
-// import { useState, useId } from 'react'
 import RegisterForm from '../components/RegisterForm.component';
 
-function App() {
+function Register() {
   return (
     <>
       <RegisterForm />
@@ -9,4 +8,4 @@ function App() {
   );
 }
 
-export default App;
+export default Register;

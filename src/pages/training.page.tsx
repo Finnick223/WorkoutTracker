@@ -4,7 +4,7 @@ import { Box, CssBaseline } from '@mui/material';
 import { Training, Configuration, TrainingApi } from '../client/src/index.ts';
 import { redirect } from 'react-router-dom';
 
-function App() {
+function TrainingPage() {
   const [trainings, setTrainings] = useState<Training[]>([]);
 
   const config = new Configuration({
@@ -46,4 +46,4 @@ function App() {
   );
 }
 
-export default App;
+export default TrainingPage;

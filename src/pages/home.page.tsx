@@ -1,7 +1,7 @@
 import { Box, Container, CssBaseline, Typography, Avatar } from '@mui/material';
 import SportsGymnasticsSharpIcon from '@mui/icons-material/SportsGymnasticsSharp';
 // import { useState } from 'react'
-function App() {
+function Home() {
   return (
     <>
       <Container maxWidth="lg">
@@ -31,4 +31,4 @@ function App() {
   );
 }
 
-export default App;
+export default Home;
