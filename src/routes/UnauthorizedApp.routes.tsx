@@ -2,8 +2,8 @@ import {
     createBrowserRouter,
     createRoutesFromElements,
     Route,
-    RouterProvider,
   } from 'react-router-dom';
+import { CommonRoutes, UnAuthorizedRoute } from '../enums/routes.enums.ts'
 import Layout from '../pages/layout.page.tsx';
 import User from '../pages/user.page.tsx';
 import Training from '../pages/training.page.tsx';
@@ -15,29 +15,29 @@ import { ErrorPage } from '../pages/Error.page.tsx';
 
 export const UnAuthorizedAppRoutes = () => {
 
-  const router = createBrowserRouter(
+   const router = createBrowserRouter(
     createRoutesFromElements(
-      <Route path="/" element={<Layout />}>
+      <Route path={CommonRoutes.Home} element={<Layout />}>
         <Route index element={<Home />} errorElement={<ErrorPage />} />
-        <Route path="user" element={<User />} errorElement={<ErrorPage />} />
+        <Route path={CommonRoutes.User} element={<User />} errorElement={<ErrorPage />} />
         <Route
-          path="training"
+          path={CommonRoutes.Training}
           element={<Training />}
           errorElement={<ErrorPage />}
         />
         <Route
-          path="training/:id"
+          path={CommonRoutes.TrainingDetail}
           element={<TrainingDetail />}
           errorElement={<ErrorPage />}
         />
         <Route
-          path="login"
+          path={UnAuthorizedRoute.Login}
           element={<Login />}
           action={loginAction}
           errorElement={<ErrorPage />}
         />
         <Route
-          path="register"
+          path={UnAuthorizedRoute.Register}
           element={<Register />}
           errorElement={<ErrorPage />}
         />
@@ -45,5 +45,34 @@ export const UnAuthorizedAppRoutes = () => {
       </Route>,
     ),
   );
-  return <RouterProvider router={router} />;
+  return router;
 }
+
+
+
+// import { Routes, Route } from 'react-router-dom';
+// import { CommonRoutes, UnAuthorizedRoute } from '../enums/routes.enums';
+// import Layout from '../pages/layout.page';
+// import User from '../pages/user.page';
+// import Training from '../pages/training.page';
+// import Home from '../pages/home.page';
+// import Login, { action as loginAction } from '../pages/login.page';
+// import Register from '../pages/register.page';
+// import TrainingDetail from '../pages/Training/trainingDetail.page';
+// import { ErrorPage } from '../pages/Error.page';
+
+// const UnAuthorizedAppRoutes = () => (
+//     <Routes>
+//       <Route path={CommonRoutes.Home} element={<Layout />}>
+//         <Route index element={<Home />} />
+//         <Route path={CommonRoutes.User} element={<User />} />
+//         <Route path={CommonRoutes.Training} element={<Training />} />
+//         <Route path={CommonRoutes.TrainingDetail} element={<TrainingDetail />} />
+//         <Route path={UnAuthorizedRoute.Login} element={<Login />} action={loginAction} />
+//         <Route path={UnAuthorizedRoute.Register} element={<Register />} />
+//         <Route path="*" element={<ErrorPage />} />
+//       </Route>
+//     </Routes>
+// );
+
+// export default UnAuthorizedAppRoutes;

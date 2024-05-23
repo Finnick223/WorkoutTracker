@@ -4,6 +4,7 @@ import {
   Route,
   RouterProvider,
 } from 'react-router-dom';
+import { CommonRoutes, AuthorizedRoute } from '../enums/routes.enums.ts'
 import Layout from '../pages/layout.page.tsx';
 import User from '../pages/user.page.tsx';
 import Training from '../pages/training.page.tsx';
@@ -15,16 +16,16 @@ export const UnAuthorizedAppRoutes = () => {
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path="/" element={<Layout />}>
-      <Route index element={<Home />} errorElement={<ErrorPage />} />
-      <Route path="user" element={<User />} errorElement={<ErrorPage />} />
+    <Route element={<Layout />}>
+      <Route index path={CommonRoutes.Home} element={<Home />} errorElement={<ErrorPage />} />
+      <Route path={CommonRoutes.User} element={<User />} errorElement={<ErrorPage />} />
       <Route
-        path="training"
+        path={CommonRoutes.Training}
         element={<Training />}
         errorElement={<ErrorPage />}
       />
       <Route
-        path="training/:id"
+        path={CommonRoutes.TrainingDetail}
         element={<TrainingDetail />}
         errorElement={<ErrorPage />}
       />
@@ -40,7 +41,7 @@ const router = createBrowserRouter(
         errorElement={<ErrorPage />}
       /> */}
       {/* <Route 
-          path='profile'
+          path={AuthorizedRoute.Profile}
           element={<Profile />}
           errorElement={<ErrorPage />}
       /> */}
