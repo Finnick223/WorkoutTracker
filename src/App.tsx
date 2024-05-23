@@ -1,51 +1,29 @@
 import {
-  createBrowserRouter,
-  createRoutesFromElements,
-  Route,
   RouterProvider,
 } from 'react-router-dom';
-import './index.css';
-import Layout from './pages/layout.page.tsx';
-import User from './pages/user.page.tsx';
-import Training from './pages/training.page.tsx';
-import Home from './pages/home.page.tsx';
-import Login, { action as loginAction } from './pages/login.page.tsx';
-import Register from './pages/register.page.tsx';
-import TrainingDetail from './pages/Training/trainingDetail.page.tsx';
-import { ErrorPage } from './pages/Error.page.tsx';
+import { Routes } from '../src/routes/Routes.routes'
 
 function App() {
-  const router = createBrowserRouter(
-    createRoutesFromElements(
-      <Route path="/" element={<Layout />}>
-        <Route index element={<Home />} errorElement={<ErrorPage />} />
-        <Route path="user" element={<User />} errorElement={<ErrorPage />} />
-        <Route
-          path="training"
-          element={<Training />}
-          errorElement={<ErrorPage />}
-        />
-        <Route
-          path="training/:id"
-          element={<TrainingDetail />}
-          errorElement={<ErrorPage />}
-        />
-        <Route
-          path="login"
-          element={<Login />}
-          action={loginAction}
-          errorElement={<ErrorPage />}
-        />
-        <Route
-          path="register"
-          element={<Register />}
-          errorElement={<ErrorPage />}
-        />
-        <Route path="*" element={<ErrorPage />} />
-      </Route>,
-    ),
-  );
+  const router = Routes();
+
   return <RouterProvider router={router} />;
 }
 
 export default App;
+
+
+
+// import { BrowserRouter } from 'react-router-dom';
+// import { Routes } from '../src/routes/Routes.routes'
+// import UnAuthorizedAppRoutes from '../src/routes/UnauthorizedApp.routes';
+
+
+// function App() {
+//   return (
+//     <BrowserRouter> 
+//       <UnAuthorizedAppRoutes /> 
+//     </BrowserRouter>
+//   );
+// }
+
+// export default App;
