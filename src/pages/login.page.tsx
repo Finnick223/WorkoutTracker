@@ -24,6 +24,7 @@ import {
   useActionData,
 } from 'react-router-dom';
 import axios from 'axios';
+import { ForgotPasswordModal } from '../components/ForgotPasswordModal';
 
 
 export const loginUser = async (creds: any) => {
@@ -138,6 +139,7 @@ function Login() {
             >
               {navigation.state === 'submitting' ? 'Logging in...' : 'Log in'}
             </Button>
+            <ForgotPasswordModal/>
           </Form>
         </Box>
       </Container>
