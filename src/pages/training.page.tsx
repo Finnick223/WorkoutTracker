@@ -8,8 +8,8 @@ function TrainingPage() {
   const [trainings, setTrainings] = useState<Training[]>([]);
 
   const config = new Configuration({
-    username: 'admin',
-    password: 'admin',
+    username: 'string',
+    password: 'string',
   });
 
   useEffect(() => {
