@@ -1,9 +1,9 @@
 export type FormDataType = {
+  email: string;
   firstName: string;
   lastName: string;
-  email: string;
   password: string;
   repasswd: string;
-  gender: 'female' | 'male';
+  gender: 'FEMALE' | 'MALE' | 'OTHER';
   termsAndConditions: boolean;
 };
