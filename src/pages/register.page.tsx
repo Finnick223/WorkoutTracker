@@ -72,7 +72,7 @@ export default function Register() {
         firstName: data.firstName,
         lastName: data.lastName,
         isTermsAndConditionsAccepted: data.termsAndConditions,
-        genders: [data.gender.toUpperCase()], // Convert gender to uppercase
+        genders: [data.gender.toUpperCase()],
       });
       navigate('/welcome');
     } catch (err) {
