@@ -2,28 +2,18 @@ import {
   RouterProvider,
 } from 'react-router-dom';
 import { Routes } from '../src/routes/Routes.routes'
+import { AuthProvider } from './providers/UserContext.provider.tsx';
+
 
 function App() {
   const router = Routes();
 
-  return <RouterProvider router={router} />;
+  return (
+    <AuthProvider>
+      <RouterProvider router={router} />
+    </AuthProvider>
+);
 }
 
 export default App;
 
-
-
-// import { BrowserRouter } from 'react-router-dom';
-// import { Routes } from '../src/routes/Routes.routes'
-// import UnAuthorizedAppRoutes from '../src/routes/UnauthorizedApp.routes';
-
-
-// function App() {
-//   return (
-//     <BrowserRouter> 
-//       <UnAuthorizedAppRoutes /> 
-//     </BrowserRouter>
-//   );
-// }
-
-// export default App;

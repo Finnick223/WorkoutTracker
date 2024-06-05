@@ -1,24 +1,21 @@
-// import { useState, createContext  } from 'react';
+import { useState, createContext, useEffect } from 'react';
+import { getItemFromStorage } from '../utils/getItemFromStorage';
 
-// export const getItemFromStorage = (key: any) => {
-//   const item = window.localStorage.getItem(key);
-//   return item ? JSON.parse(item) : null;
-// };
+export const AuthContext = createContext({
+  isLoggedIn: false,
+});
 
-// const AuthContext = createContext({
-//   isLoggedIn: false,
-//   login: () => {},
-//   logout: () => {},
-// });
+export const AuthProvider = ({ children }: any) => {
+  const token = getItemFromStorage('JWT');
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(!!token);
 
-// export const AuthProvider = (props: any) => {
-//   const user = getItemFromStorage('user');
-//   const [isloggedIn, setIsLoggedIn] = useState(!!(user && user.email));
+  useEffect(() => {
+    setIsLoggedIn(!!token);
+  }, [token]);
 
-//   const login = () => setIsLoggedIn(true);
-//   const logout = () => setIsLoggedIn(false);
-
-//   return (
-//     <AuthContext.Provider value={{ isloggedIn, login, logout }} {...props} />
-//   );
-// };
+  return (
+    <AuthContext.Provider value={{ isLoggedIn }}>
+      {children}
+    </AuthContext.Provider>
+  );
+};
