@@ -1,4 +1,5 @@
-import * as React from 'react';
+import {useContext, useState} from 'react';
+import { AuthContext } from '../providers/UserContext.provider';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -12,12 +13,15 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import { Link } from 'react-router-dom';
 
-const pages = ['User', 'Training'];
-const settings = ['Login', 'Register'];
-// const settings = ['Profile', 'Account', 'Dashboard', 'Login', 'Logout', 'Register'];
+
 
 function ResponsiveAppBar() {
-  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
+  const { isLoggedIn } = useContext(AuthContext);
+
+  const pages = isLoggedIn ? ['User', 'Training'] : [];
+  const settings = isLoggedIn ? ['Profile', 'Logout'] : ['Login', 'Register'];
+
+  const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(
     null,
   );
 

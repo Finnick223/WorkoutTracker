@@ -13,9 +13,13 @@ export const AuthProvider = ({ children }: any) => {
     setIsLoggedIn(!!token);
   }, [token]);
 
+
   return (
     <AuthContext.Provider value={{ isLoggedIn }}>
       {children}
     </AuthContext.Provider>
   );
 };
+
+
+//! Todo isloggedin is always false in routes.routes.tsx file i guess i need reactquery and isloading prop otherwise idk its fucked up
