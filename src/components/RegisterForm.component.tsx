@@ -1,4 +1,4 @@
-import { FormDataType } from './Interfaces';
+import { FormDataType } from '../interfaces/Interfaces';
 import {
   Box,
   Radio,
