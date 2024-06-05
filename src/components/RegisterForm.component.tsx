@@ -14,6 +14,7 @@ import {
   Checkbox,
   Button,
   Link,
+  FormHelperText,
 } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { useForm, FormProvider, SubmitHandler } from 'react-hook-form';
@@ -21,9 +22,9 @@ import InputFormPassword from './InputPassword.component';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { Input } from './InputForm.component';
-import { FormHelperText } from '@mui/material';
+import axios from 'axios';
 
-export default function Form() {
+export default function RegisterForm() {
   const registerSchema = yup.object().shape({
     email: yup.string().required().email(),
     firstName: yup.string().min(3).required(),
@@ -32,15 +33,15 @@ export default function Form() {
     repasswd: yup
       .string()
       .min(6)
-      .oneOf([yup.ref('password')], 'passwords Dont Match')
+      .oneOf([yup.ref('password')], 'Passwords do not match')
       .required(),
     gender: yup
       .string()
-      .oneOf(['female', 'male'], 'Please select a gender')
+      .oneOf(['FEMALE', 'MALE', 'OTHER'], 'Please select a gender')
       .required(),
     termsAndConditions: yup
       .boolean()
-      .oneOf([true], 'Accept terms is required')
+      .oneOf([true], 'Accepting terms is required')
       .required(),
   });
 
@@ -48,8 +49,24 @@ export default function Form() {
     resolver: yupResolver(registerSchema),
     mode: 'onBlur',
   });
-  const onSubmit: SubmitHandler<FormDataType> = (data: any) =>
-    console.log(data);
+
+  const onSubmit: SubmitHandler<FormDataType> = async (data) => {
+    const payload = {
+      email: data.email,
+      firstName: data.firstName,
+      lastName: data.lastName,
+      password: data.password,
+      isTermsAndConditionsAccepted: data.termsAndConditions,
+      genders: [data.gender],
+    };
+
+    try {
+      const response = await axios.post('http://188.68.247.208:8080/auth/signup', payload);
+      console.log('Response:', response.data);
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
 
   return (
     <>
@@ -123,20 +140,26 @@ export default function Form() {
                 </Grid>
                 <Grid item xs={12}>
                   <FormControl
-                    error={formMethods.formState.errors.gender ? true : false}
+                    error={!!formMethods.formState.errors.gender}
                   >
                     <FormLabel id="radio-buttons-group">Gender</FormLabel>
                     <RadioGroup aria-labelledby="radio-buttons-group">
                       <FormControlLabel
-                        value="female"
+                        value="FEMALE"
                         control={<Radio />}
                         label="Female"
                         {...formMethods.register('gender')}
                       />
                       <FormControlLabel
-                        value="male"
+                        value="MALE"
                         control={<Radio />}
                         label="Male"
+                        {...formMethods.register('gender')}
+                      />
+                      <FormControlLabel
+                        value="OTHER"
+                        control={<Radio />}
+                        label="Other"
                         {...formMethods.register('gender')}
                       />
                     </RadioGroup>
@@ -161,12 +184,11 @@ export default function Form() {
                 sx={{ mt: 1, mb: 1 }}
                 disabled={!formMethods.formState.isValid}
               >
-                {' '}
                 Sign Up
               </Button>
               <Grid container justifyContent="flex-end">
                 <Grid item>
-                  <Link href="/login" variant="body2">
+                  <Link href="/Login" variant="body2">
                     Already have an account? Sign in
                   </Link>
                 </Grid>
