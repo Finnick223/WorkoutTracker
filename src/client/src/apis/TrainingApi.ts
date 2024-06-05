@@ -27,15 +27,15 @@ export interface CreateTrainingRequest {
 }
 
 export interface DeleteTrainingRequest {
-    id: string;
+    trainingId: string;
 }
 
 export interface GetTrainingByIdRequest {
-    id: string;
+    trainingId: string;
 }
 
 export interface UpdateTrainingRequest {
-    id: string;
+    trainingId: string;
     training: Training;
 }
 
@@ -47,7 +47,7 @@ export class TrainingApi extends runtime.BaseAPI {
     /**
      * Create training
      */
-    async createTrainingRaw(requestParameters: CreateTrainingRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async createTrainingRaw(requestParameters: CreateTrainingRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Training>> {
         if (requestParameters.training === null || requestParameters.training === undefined) {
             throw new runtime.RequiredError('training','Required parameter requestParameters.training was null or undefined when calling createTraining.');
         }
@@ -69,22 +69,23 @@ export class TrainingApi extends runtime.BaseAPI {
             body: TrainingToJSON(requestParameters.training),
         }, initOverrides);
 
-        return new runtime.VoidApiResponse(response);
+        return new runtime.JSONApiResponse(response, (jsonValue) => TrainingFromJSON(jsonValue));
     }
 
     /**
      * Create training
      */
-    async createTraining(requestParameters: CreateTrainingRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.createTrainingRaw(requestParameters, initOverrides);
+    async createTraining(requestParameters: CreateTrainingRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Training> {
+        const response = await this.createTrainingRaw(requestParameters, initOverrides);
+        return await response.value();
     }
 
     /**
      * Delete training
      */
     async deleteTrainingRaw(requestParameters: DeleteTrainingRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        if (requestParameters.id === null || requestParameters.id === undefined) {
-            throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling deleteTraining.');
+        if (requestParameters.trainingId === null || requestParameters.trainingId === undefined) {
+            throw new runtime.RequiredError('trainingId','Required parameter requestParameters.trainingId was null or undefined when calling deleteTraining.');
         }
 
         const queryParameters: any = {};
@@ -95,7 +96,7 @@ export class TrainingApi extends runtime.BaseAPI {
             headerParameters["Authorization"] = "Basic " + btoa(this.configuration.username + ":" + this.configuration.password);
         }
         const response = await this.request({
-            path: `/training/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters.id))),
+            path: `/training/{trainingId}`.replace(`{${"trainingId"}}`, encodeURIComponent(String(requestParameters.trainingId))),
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
@@ -115,8 +116,8 @@ export class TrainingApi extends runtime.BaseAPI {
      * Get training by id
      */
     async getTrainingByIdRaw(requestParameters: GetTrainingByIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Training>> {
-        if (requestParameters.id === null || requestParameters.id === undefined) {
-            throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling getTrainingById.');
+        if (requestParameters.trainingId === null || requestParameters.trainingId === undefined) {
+            throw new runtime.RequiredError('trainingId','Required parameter requestParameters.trainingId was null or undefined when calling getTrainingById.');
         }
 
         const queryParameters: any = {};
@@ -127,7 +128,7 @@ export class TrainingApi extends runtime.BaseAPI {
             headerParameters["Authorization"] = "Basic " + btoa(this.configuration.username + ":" + this.configuration.password);
         }
         const response = await this.request({
-            path: `/training/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters.id))),
+            path: `/training/{trainingId}`.replace(`{${"trainingId"}}`, encodeURIComponent(String(requestParameters.trainingId))),
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
@@ -176,9 +177,9 @@ export class TrainingApi extends runtime.BaseAPI {
     /**
      * Update training
      */
-    async updateTrainingRaw(requestParameters: UpdateTrainingRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        if (requestParameters.id === null || requestParameters.id === undefined) {
-            throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling updateTraining.');
+    async updateTrainingRaw(requestParameters: UpdateTrainingRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Training>> {
+        if (requestParameters.trainingId === null || requestParameters.trainingId === undefined) {
+            throw new runtime.RequiredError('trainingId','Required parameter requestParameters.trainingId was null or undefined when calling updateTraining.');
         }
 
         if (requestParameters.training === null || requestParameters.training === undefined) {
@@ -195,21 +196,22 @@ export class TrainingApi extends runtime.BaseAPI {
             headerParameters["Authorization"] = "Basic " + btoa(this.configuration.username + ":" + this.configuration.password);
         }
         const response = await this.request({
-            path: `/training/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters.id))),
+            path: `/training/{trainingId}`.replace(`{${"trainingId"}}`, encodeURIComponent(String(requestParameters.trainingId))),
             method: 'PUT',
             headers: headerParameters,
             query: queryParameters,
             body: TrainingToJSON(requestParameters.training),
         }, initOverrides);
 
-        return new runtime.VoidApiResponse(response);
+        return new runtime.JSONApiResponse(response, (jsonValue) => TrainingFromJSON(jsonValue));
     }
 
     /**
      * Update training
      */
-    async updateTraining(requestParameters: UpdateTrainingRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.updateTrainingRaw(requestParameters, initOverrides);
+    async updateTraining(requestParameters: UpdateTrainingRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Training> {
+        const response = await this.updateTrainingRaw(requestParameters, initOverrides);
+        return await response.value();
     }
 
 }

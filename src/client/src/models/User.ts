@@ -43,7 +43,13 @@ export interface User {
      * @type {string}
      * @memberof User
      */
-    username?: string;
+    createdOn?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof User
+     */
+    modifiedOn?: string;
     /**
      * 
      * @type {string}
@@ -64,6 +70,12 @@ export interface User {
     lastName?: string;
     /**
      * 
+     * @type {string}
+     * @memberof User
+     */
+    gender?: UserGenderEnum;
+    /**
+     * 
      * @type {Array<UserMeasurement>}
      * @memberof User
      */
@@ -75,6 +87,18 @@ export interface User {
      */
     trainings?: Array<Training>;
 }
+
+
+/**
+ * @export
+ */
+export const UserGenderEnum = {
+    Male: 'MALE',
+    Female: 'FEMALE',
+    Other: 'OTHER'
+} as const;
+export type UserGenderEnum = typeof UserGenderEnum[keyof typeof UserGenderEnum];
+
 
 /**
  * Check if a given object implements the User interface.
@@ -96,10 +120,12 @@ export function UserFromJSONTyped(json: any, ignoreDiscriminator: boolean): User
     return {
         
         'id': !exists(json, 'id') ? undefined : json['id'],
-        'username': !exists(json, 'username') ? undefined : json['username'],
+        'createdOn': !exists(json, 'createdOn') ? undefined : json['createdOn'],
+        'modifiedOn': !exists(json, 'modifiedOn') ? undefined : json['modifiedOn'],
         'email': !exists(json, 'email') ? undefined : json['email'],
         'firstName': !exists(json, 'firstName') ? undefined : json['firstName'],
         'lastName': !exists(json, 'lastName') ? undefined : json['lastName'],
+        'gender': !exists(json, 'gender') ? undefined : json['gender'],
         'userMeasurements': !exists(json, 'userMeasurements') ? undefined : ((json['userMeasurements'] as Array<any>).map(UserMeasurementFromJSON)),
         'trainings': !exists(json, 'trainings') ? undefined : ((json['trainings'] as Array<any>).map(TrainingFromJSON)),
     };
@@ -115,10 +141,12 @@ export function UserToJSON(value?: User | null): any {
     return {
         
         'id': value.id,
-        'username': value.username,
+        'createdOn': value.createdOn,
+        'modifiedOn': value.modifiedOn,
         'email': value.email,
         'firstName': value.firstName,
         'lastName': value.lastName,
+        'gender': value.gender,
         'userMeasurements': value.userMeasurements === undefined ? undefined : ((value.userMeasurements as Array<any>).map(UserMeasurementToJSON)),
         'trainings': value.trainings === undefined ? undefined : ((value.trainings as Array<any>).map(TrainingToJSON)),
     };

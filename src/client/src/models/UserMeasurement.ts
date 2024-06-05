@@ -13,6 +13,13 @@
  */
 
 import { exists, mapValues } from '../runtime';
+import type { User } from './User';
+import {
+    UserFromJSON,
+    UserFromJSONTyped,
+    UserToJSON,
+} from './User';
+
 /**
  * 
  * @export
@@ -27,10 +34,16 @@ export interface UserMeasurement {
     id?: string;
     /**
      * 
-     * @type {Date}
+     * @type {string}
      * @memberof UserMeasurement
      */
-    date?: Date;
+    createdOn?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof UserMeasurement
+     */
+    modifiedOn?: string;
     /**
      * 
      * @type {number}
@@ -43,6 +56,18 @@ export interface UserMeasurement {
      * @memberof UserMeasurement
      */
     height?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof UserMeasurement
+     */
+    age?: number;
+    /**
+     * 
+     * @type {User}
+     * @memberof UserMeasurement
+     */
+    user?: User;
 }
 
 /**
@@ -65,9 +90,12 @@ export function UserMeasurementFromJSONTyped(json: any, ignoreDiscriminator: boo
     return {
         
         'id': !exists(json, 'id') ? undefined : json['id'],
-        'date': !exists(json, 'date') ? undefined : (new Date(json['date'])),
+        'createdOn': !exists(json, 'createdOn') ? undefined : json['createdOn'],
+        'modifiedOn': !exists(json, 'modifiedOn') ? undefined : json['modifiedOn'],
         'weight': !exists(json, 'weight') ? undefined : json['weight'],
         'height': !exists(json, 'height') ? undefined : json['height'],
+        'age': !exists(json, 'age') ? undefined : json['age'],
+        'user': !exists(json, 'user') ? undefined : UserFromJSON(json['user']),
     };
 }
 
@@ -81,9 +109,12 @@ export function UserMeasurementToJSON(value?: UserMeasurement | null): any {
     return {
         
         'id': value.id,
-        'date': value.date === undefined ? undefined : (value.date.toISOString().substring(0,10)),
+        'createdOn': value.createdOn,
+        'modifiedOn': value.modifiedOn,
         'weight': value.weight,
         'height': value.height,
+        'age': value.age,
+        'user': UserToJSON(value.user),
     };
 }
 
