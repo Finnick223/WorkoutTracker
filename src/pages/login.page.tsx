@@ -28,12 +28,10 @@ import { ForgotPasswordModal } from '../components/ForgotPasswordModal';
 
 
 export const loginUser = async (creds: any) => {
-  const authHeader = {
-    Authorization: `Basic ${btoa(creds.username + ':' + creds.password)}`,
-  };
   try {
-    const response = await axios.get('http://188.68.247.208:8080/user', {
-      headers: authHeader,
+    const response = await axios.post('http://188.68.247.208:8080/auth/signin', {
+      email: creds.email,
+      password: creds.password
     });
     console.log(response.data);
     console.log('logging gut');
@@ -45,13 +43,13 @@ export const loginUser = async (creds: any) => {
 
 export async function action({ request }: any) {
   const formData = await request.formData();
-  const username = formData.get('username');
+  const email = formData.get('email');
   const password = formData.get('password');
   const pathname =
     new URL(request.url).searchParams.get('redirectTo') || '/workout';
 
   try {
-    await loginUser({ username, password });
+    await loginUser({ email, password });
     return redirect(pathname);
   } catch (err: any) {
     return err.message;
@@ -92,11 +90,11 @@ function Login() {
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <TextField
-                  name="username"
+                  name="email"
                   required
                   fullWidth
-                  id="username"
-                  label="Username"
+                  id="email"
+                  label="email"
                   autoFocus
                 />
               </Grid>
