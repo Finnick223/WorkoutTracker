@@ -1,4 +1,5 @@
-import { useState } from 'react';
+//! Login feature using reactrouter/remix style (wanted to try it)
+import { useEffect, useState } from 'react';
 import {
   Box,
   TextField,
@@ -20,11 +21,12 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import {
   useNavigation,
   Form,
-  redirect,
   useActionData,
 } from 'react-router-dom';
 import axios from 'axios';
 import { ForgotPasswordModal } from '../components/ForgotPasswordModal';
+import { useUser } from '../hooks/useUser';
+import { ActionData } from '../interfaces/Interfaces';
 
 
 export const loginUser = async (creds: any) => {
@@ -33,11 +35,10 @@ export const loginUser = async (creds: any) => {
       email: creds.email,
       password: creds.password
     });
-    console.log(response.data);
-    console.log('logging gut');
+    return response.data.token;
   } catch (err) {
-    console.error('Wystąpił błąd:', err);
-    throw new Error('Problem z komunikacją z API');
+    console.error('Wystąpił błąd api:', err);
+    throw new Error('Login failed. Please check your email and password.');
   }
 };
 
@@ -45,19 +46,26 @@ export async function action({ request }: any) {
   const formData = await request.formData();
   const email = formData.get('email');
   const password = formData.get('password');
-  const pathname =
-    new URL(request.url).searchParams.get('redirectTo') || '/workout';
 
   try {
-    await loginUser({ email, password });
-    return redirect(pathname);
+    const token = await loginUser({ email, password });
+    return { token };
   } catch (err: any) {
-    return err.message;
+    console.error('logowanie nie powiodlo sie: ', err.message);
+    return { error: err.message };
   }
 }
 
-function Login() {
+function LoginPage() {
+  const { login } = useUser()
   const [showPassword, setShowPassword] = useState(false);
+  const actionData = useActionData() as ActionData;
+
+  useEffect(() => {
+    if (actionData && actionData.token) {
+      login(actionData.token);
+    }
+  }, [actionData, login]);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
   const handleMouseDownPassword = (
@@ -67,7 +75,6 @@ function Login() {
   };
 
   const navigation = useNavigation();
-  const errorMessage = useActionData();
 
   return (
     <>
@@ -137,13 +144,17 @@ function Login() {
             >
               {navigation.state === 'submitting' ? 'Logging in...' : 'Log in'}
             </Button>
+            {actionData && actionData.error && (
+              <Typography color="error" variant="body2" align="center">
+                {actionData.error}
+              </Typography>
+            )}
             <ForgotPasswordModal/>
           </Form>
         </Box>
       </Container>
-      {errorMessage && <h3>errorMessage</h3>}
     </>
   );
 }
 
-export default Login;
+export default LoginPage;
