@@ -6,7 +6,7 @@ export const AuthContext = createContext({
 });
 
 export const AuthProvider = ({ children }: any) => {
-  const token = getItemFromStorage('JWT');
+  const token = getItemFromStorage('token');
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(!!token);
 
   useEffect(() => {
