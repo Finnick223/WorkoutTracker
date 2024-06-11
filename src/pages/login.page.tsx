@@ -1,5 +1,4 @@
-//! Login feature using reactrouter/remix style (wanted to try it)
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import {
   Box,
   TextField,
@@ -18,54 +17,38 @@ import {
 import Visibility from '@mui/icons-material/Visibility';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import {
-  useNavigation,
-  Form,
-  useActionData,
-} from 'react-router-dom';
+import { useForm, Controller } from 'react-hook-form';
 import axios from 'axios';
 import { ForgotPasswordModal } from '../components/ForgotPasswordModal';
-import { useUser } from '../hooks/useUser';
-import { ActionData } from '../interfaces/Interfaces';
+import useAuthStatus from '../hooks/useAuth';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useNavigate } from 'react-router-dom';
 
-
-export const loginUser = async (creds: any) => {
-  try {
-    const response = await axios.post('http://188.68.247.208:8080/auth/signin', {
-      email: creds.email,
-      password: creds.password
-    });
-    return response.data.token;
-  } catch (err) {
-    console.error('Wystąpił błąd api:', err);
-    throw new Error('Login failed. Please check your email and password.');
-  }
+// this should be imported from other file
+const loginUser = async (creds: any) => {
+  const response = await axios.post('http://188.68.247.208:8080/auth/signin', {
+    email: creds.email,
+    password: creds.password,
+  });
+  return response.data.token;
 };
 
-export async function action({ request }: any) {
-  const formData = await request.formData();
-  const email = formData.get('email');
-  const password = formData.get('password');
-
-  try {
-    const token = await loginUser({ email, password });
-    return { token };
-  } catch (err: any) {
-    console.error('logowanie nie powiodlo sie: ', err.message);
-    return { error: err.message };
-  }
-}
-
 function LoginPage() {
-  const { login } = useUser()
+  const { login } = useAuthStatus();
   const [showPassword, setShowPassword] = useState(false);
-  const actionData = useActionData() as ActionData;
+  const { control, handleSubmit, formState: { errors } } = useForm();
+  const navigate = useNavigate();
 
-  useEffect(() => {
-    if (actionData && actionData.token) {
-      login(actionData.token);
-    }
-  }, [actionData, login]);
+  const mutation = useMutation({
+    mutationFn: loginUser,
+    onSuccess: (token) => {
+      login(token);
+      navigate('/')
+    },
+    onError: (error) => {
+      console.error('Login failed:', error.message);
+    },
+  });
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
   const handleMouseDownPassword = (
@@ -74,7 +57,7 @@ function LoginPage() {
     event.preventDefault();
   };
 
-  const navigation = useNavigation();
+  const submit = handleSubmit(values => mutation.mutate(values))
 
   return (
     <>
@@ -93,45 +76,62 @@ function LoginPage() {
           <Typography component="h1" variant="h5" sx={{ mb: 4 }}>
             Sign in
           </Typography>
-          <Form className="form--register" method="post" replace>
+          <form onSubmit={submit}>
             <Grid container spacing={2}>
               <Grid item xs={12}>
-                <TextField
+                <Controller
                   name="email"
-                  required
-                  fullWidth
-                  id="email"
-                  label="email"
-                  autoFocus
+                  control={control}
+                  defaultValue=""
+                  rules={{ required: 'Email is required' }}
+                  render={({ field }) => (
+                    <TextField
+                      {...field}
+                      fullWidth
+                      label="Email"
+                      error={!!errors.email}
+                      // @ts-ignore
+                      helperText={errors.email ? errors.email.message : ''}
+                      autoFocus
+                    />
+                  )}
                 />
               </Grid>
               <Grid item xs={12}>
-                <FormControl
-                  fullWidth
-                  variant="outlined"
-                >
-                  <InputLabel htmlFor="outlined-adornment-password">
-                    Password*
-                  </InputLabel>
-                  <OutlinedInput
-                    id="password"
-                    type={showPassword ? 'text' : 'password'}
-                    endAdornment={
-                      <InputAdornment position="end">
-                        <IconButton
-                          aria-label="toggle password visibility"
-                          onClick={handleClickShowPassword}
-                          onMouseDown={handleMouseDownPassword}
-                          edge="end"
-                        >
-                          {showPassword ? <VisibilityOff /> : <Visibility />}
-                        </IconButton>
-                      </InputAdornment>
-                    }
-                    required
-                    label="Password"
+                <FormControl fullWidth variant="outlined" error={!!errors.password}>
+                  <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+                  <Controller
                     name="password"
+                    control={control}
+                    defaultValue=""
+                    rules={{ required: 'Password is required' }}
+                    render={({ field }) => (
+                      <OutlinedInput
+                        {...field}
+                        id="password"
+                        type={showPassword ? 'text' : 'password'}
+                        endAdornment={
+                          <InputAdornment position="end">
+                            <IconButton
+                              aria-label="toggle password visibility"
+                              onClick={handleClickShowPassword}
+                              onMouseDown={handleMouseDownPassword}
+                              edge="end"
+                            >
+                              {showPassword ? <VisibilityOff /> : <Visibility />}
+                            </IconButton>
+                          </InputAdornment>
+                        }
+                        label="Password"
+                      />
+                    )}
                   />
+                  {errors.password && (
+                    <Typography color="error" variant="body2">
+                      {/* @ts-ignore */}
+                      {errors.password.message}
+                    </Typography>
+                  )}
                 </FormControl>
               </Grid>
             </Grid>
@@ -140,17 +140,17 @@ function LoginPage() {
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
-              disabled={navigation.state === 'submitting'}
+              disabled={login.isPending}
             >
-              {navigation.state === 'submitting' ? 'Logging in...' : 'Log in'}
+              {login.isPending ? 'Logging in...' : 'Log in'}
             </Button>
-            {actionData && actionData.error && (
+            {login.isError && (
               <Typography color="error" variant="body2" align="center">
-                {actionData.error}
+                {login.error.message}
               </Typography>
             )}
-            <ForgotPasswordModal/>
-          </Form>
+            <ForgotPasswordModal />
+          </form>
         </Box>
       </Container>
     </>
@@ -158,3 +158,165 @@ function LoginPage() {
 }
 
 export default LoginPage;
+
+
+
+//! Login feature using reactrouter/remix style (wanted to try it)
+// import { useEffect, useState } from 'react';
+// import {
+//   Box,
+//   TextField,
+//   FormControl,
+//   InputLabel,
+//   Avatar,
+//   OutlinedInput,
+//   InputAdornment,
+//   IconButton,
+//   Container,
+//   CssBaseline,
+//   Typography,
+//   Grid,
+//   Button,
+// } from '@mui/material';
+// import Visibility from '@mui/icons-material/Visibility';
+// import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+// import VisibilityOff from '@mui/icons-material/VisibilityOff';
+// import {
+//   useNavigation,
+//   Form,
+//   useActionData,
+// } from 'react-router-dom';
+// import axios from 'axios';
+// import { ForgotPasswordModal } from '../components/ForgotPasswordModal';
+// import { useUser } from '../hooks/useUser';
+// import { ActionData } from '../interfaces/Interfaces';
+
+// export const loginUser = async (creds: any) => {
+//   try {                                         
+//     const response = await axios.post('http://188.68.247.208:8080/auth/signin', {
+//       email: creds.email,
+//       password: creds.password
+//     });
+//     return response.data.token;
+//   } catch (err) {
+//     console.error('Wystąpił błąd api:', err);
+//     throw new Error('Login failed. Please check your email and password.');
+//   }
+// };
+
+// export async function action({ request }: any) {
+//   const formData = await request.formData();
+//   const email = formData.get('email');
+//   const password = formData.get('password');
+
+//   try {
+//     const token = await loginUser({ email, password });
+//     return { token };
+//   } catch (err: any) {
+//     console.error('logowanie nie powiodlo sie: ', err.message);
+//     return { error: err.message };
+//   }
+// }
+
+// function LoginPage() {
+//   const { login } = useUser()
+//   const [showPassword, setShowPassword] = useState(false);
+//   const actionData = useActionData() as ActionData;
+
+//   useEffect(() => {
+//     if (actionData && actionData.token) {
+//       login(actionData.token);
+//     }
+//   }, [actionData, login]);
+
+//   const handleClickShowPassword = () => setShowPassword((show) => !show);
+//   const handleMouseDownPassword = (
+//     event: React.MouseEvent<HTMLButtonElement>,
+//   ) => {
+//     event.preventDefault();
+//   };
+
+//   const navigation = useNavigation();
+
+//   return (
+//     <>
+//       <Container component="main" maxWidth="xs">
+//         <CssBaseline />
+//         <Box
+//           sx={{
+//             display: 'flex',
+//             flexDirection: 'column',
+//             alignItems: 'center',
+//           }}
+//         >
+//           <Avatar sx={{ m: 1 }}>
+//             <LockOutlinedIcon />
+//           </Avatar>
+//           <Typography component="h1" variant="h5" sx={{ mb: 4 }}>
+//             Sign in
+//           </Typography>
+//           <Form className="form--register" method="post" replace>
+//             <Grid container spacing={2}>
+//               <Grid item xs={12}>
+//                 <TextField
+//                   name="email"
+//                   required
+//                   fullWidth
+//                   id="email"
+//                   label="email"
+//                   autoFocus
+//                 />
+//               </Grid>
+//               <Grid item xs={12}>
+//                 <FormControl
+//                   fullWidth
+//                   variant="outlined"
+//                 >
+//                   <InputLabel htmlFor="outlined-adornment-password">
+//                     Password*
+//                   </InputLabel>
+//                   <OutlinedInput
+//                     id="password"
+//                     type={showPassword ? 'text' : 'password'}
+//                     endAdornment={
+//                       <InputAdornment position="end">
+//                         <IconButton
+//                           aria-label="toggle password visibility"
+//                           onClick={handleClickShowPassword}
+//                           onMouseDown={handleMouseDownPassword}
+//                           edge="end"
+//                         >
+//                           {showPassword ? <VisibilityOff /> : <Visibility />}
+//                         </IconButton>
+//                       </InputAdornment>
+//                     }
+//                     required
+//                     label="Password"
+//                     name="password"
+//                   />
+//                 </FormControl>
+//               </Grid>
+//             </Grid>
+//             <Button
+//               type="submit"
+//               fullWidth
+//               variant="contained"
+//               sx={{ mt: 3, mb: 2 }}
+//               disabled={navigation.state === 'submitting'}
+//             >
+//               {navigation.state === 'submitting' ? 'Logging in...' : 'Log in'}
+//             </Button>
+//             {actionData && actionData.error && (
+//               <Typography color="error" variant="body2" align="center">
+//                 {actionData.error}
+//               </Typography>
+//             )}
+//             <ForgotPasswordModal/>
+//           </Form>
+//         </Box>
+//       </Container>
+//     </>
+//   );
+// }
+
+// export default LoginPage;

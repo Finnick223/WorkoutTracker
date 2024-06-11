@@ -1,5 +1,5 @@
-import {useContext, useState} from 'react';
-import { AuthContext } from '../providers/UserContext.provider';
+import {useState} from 'react';
+import useAuthStatus from '../hooks/useAuth';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -16,7 +16,7 @@ import { Link } from 'react-router-dom';
 
 
 function ResponsiveAppBar() {
-  const { isLoggedIn } = useContext(AuthContext);
+  const { isLoggedIn } = useAuthStatus();
 
   const pages = isLoggedIn ? ['User', 'Training'] : [];
   const settings = isLoggedIn ? ['Profile', 'Logout'] : ['Login', 'Register'];
