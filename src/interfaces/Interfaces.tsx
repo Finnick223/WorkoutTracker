@@ -7,8 +7,3 @@ export type FormDataType = {
   gender: 'female' | 'male';
   termsAndConditions: boolean;
 };
-
-export interface ActionData {
-  token?: string;
-  error?: string;
-}
