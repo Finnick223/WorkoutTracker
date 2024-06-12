@@ -61,7 +61,10 @@ export default function RegisterForm() {
     };
 
     try {
-      const response = await axios.post('http://188.68.247.208:8080/auth/signup', payload);
+      const response = await axios.post(
+        'http://188.68.247.208:8080/auth/signup',
+        payload,
+      );
       console.log('Response:', response.data);
     } catch (error) {
       console.error('Error:', error);
@@ -139,9 +142,7 @@ export default function RegisterForm() {
                   />
                 </Grid>
                 <Grid item xs={12}>
-                  <FormControl
-                    error={!!formMethods.formState.errors.gender}
-                  >
+                  <FormControl error={!!formMethods.formState.errors.gender}>
                     <FormLabel id="radio-buttons-group">Gender</FormLabel>
                     <RadioGroup aria-labelledby="radio-buttons-group">
                       <FormControlLabel

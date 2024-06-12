@@ -1,11 +1,14 @@
 import { createContext, useContext, useEffect } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
-
-const AuthContext = createContext<{ token: string | null, login: (token: string) => void, logout: () => void }>({
+const AuthContext = createContext<{
+  token: string | null;
+  login: (token: string) => void;
+  logout: () => void;
+}>({
   token: null,
   login: () => {},
-  logout: () => {}
+  logout: () => {},
 });
 
 export const AuthProvider = ({ children }: any) => {
@@ -15,8 +18,10 @@ export const AuthProvider = ({ children }: any) => {
     return localStorage.getItem('token');
   };
 
-  const { data: token } = useQuery({queryKey: ['authToken'],queryFn: fetchToken, 
-    initialData: null
+  const { data: token } = useQuery({
+    queryKey: ['authToken'],
+    queryFn: fetchToken,
+    initialData: null,
   });
 
   useEffect(() => {
@@ -34,7 +39,7 @@ export const AuthProvider = ({ children }: any) => {
     },
     onSuccess: (newToken) => {
       queryClient.setQueryData(['authToken'], newToken);
-    }
+    },
   });
 
   const logout = useMutation({
@@ -44,11 +49,13 @@ export const AuthProvider = ({ children }: any) => {
     },
     onSuccess: () => {
       queryClient.setQueryData(['authToken'], null);
-    }
+    },
   });
 
   return (
-    <AuthContext.Provider value={{ token, login: login.mutate, logout: logout.mutate }}>
+    <AuthContext.Provider
+      value={{ token, login: login.mutate, logout: logout.mutate }}
+    >
       {children}
     </AuthContext.Provider>
   );

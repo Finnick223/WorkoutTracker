@@ -36,14 +36,18 @@ const loginUser = async (creds: any) => {
 function LoginPage() {
   const { login } = useAuthStatus();
   const [showPassword, setShowPassword] = useState(false);
-  const { control, handleSubmit, formState: { errors } } = useForm();
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
   const navigate = useNavigate();
 
   const mutation = useMutation({
     mutationFn: loginUser,
     onSuccess: (token) => {
       login(token);
-      navigate('/')
+      navigate('/');
     },
     onError: (error) => {
       console.error('Login failed:', error.message);
@@ -57,7 +61,7 @@ function LoginPage() {
     event.preventDefault();
   };
 
-  const submit = handleSubmit(values => mutation.mutate(values))
+  const submit = handleSubmit((values) => mutation.mutate(values));
 
   return (
     <>
@@ -98,8 +102,14 @@ function LoginPage() {
                 />
               </Grid>
               <Grid item xs={12}>
-                <FormControl fullWidth variant="outlined" error={!!errors.password}>
-                  <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+                <FormControl
+                  fullWidth
+                  variant="outlined"
+                  error={!!errors.password}
+                >
+                  <InputLabel htmlFor="outlined-adornment-password">
+                    Password
+                  </InputLabel>
                   <Controller
                     name="password"
                     control={control}
@@ -118,7 +128,11 @@ function LoginPage() {
                               onMouseDown={handleMouseDownPassword}
                               edge="end"
                             >
-                              {showPassword ? <VisibilityOff /> : <Visibility />}
+                              {showPassword ? (
+                                <VisibilityOff />
+                              ) : (
+                                <Visibility />
+                              )}
                             </IconButton>
                           </InputAdornment>
                         }

@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import { useState } from 'react';
 import useAuthStatus from '../hooks/useAuth';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -13,17 +13,13 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import { Link } from 'react-router-dom';
 
-
-
 function ResponsiveAppBar() {
   const { isLoggedIn } = useAuthStatus();
 
   const pages = isLoggedIn ? ['User', 'Training'] : [];
   const settings = isLoggedIn ? ['Profile', 'Logout'] : ['Login', 'Register'];
 
-  const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(
-    null,
-  );
+  const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
 
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
@@ -68,52 +64,53 @@ function ResponsiveAppBar() {
           </Box>
 
           <Box sx={{ flex: 0 }}>
-          {isLoggedIn ?
-          <>
-                       <Tooltip title="Open settings">
-                       <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                         <Avatar alt="Remy Sharp" />
-                       </IconButton>
-                     </Tooltip>
-                     <Menu
-                       id="menu-appbar"
-                       anchorEl={anchorElUser}
-                       anchorOrigin={{
-                         vertical: 'top',
-                         horizontal: 'right',
-                        }}
-                        transformOrigin={{
-                          vertical: 'top',
-                          horizontal: 'right',
-                        }}
-                        open={Boolean(anchorElUser)}
-                        onClose={handleCloseUserMenu}
-                        >
-                       {settings.map((setting) => (
-                         <Link
-                         key={setting}
-                         style={{ textDecoration: 'none', color: 'inherit' }}
-                         to={`/${setting}`}
-                         >
-                           <MenuItem onClick={handleCloseUserMenu}>
-                             <Typography textAlign="center">{setting}</Typography>
-                           </MenuItem>
-                         </Link>
-                       ))}
-                     </Menu>
-                       </>
-            :
-            settings.map((page) => (
-              <Link
-                key={page}
-                style={{ textDecoration: 'none', color: 'inherit' }}
-                to={`/${page}`}
-              >
-                <Button sx={{ my: 2, color: 'white', display: 'block' }}>
-                  <Typography textAlign="center">{page}</Typography>
-                </Button>
-              </Link>
-            ))}
+            {isLoggedIn ? (
+              <>
+                <Tooltip title="Open settings">
+                  <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                    <Avatar alt="Remy Sharp" />
+                  </IconButton>
+                </Tooltip>
+                <Menu
+                  id="menu-appbar"
+                  anchorEl={anchorElUser}
+                  anchorOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                  }}
+                  transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                  }}
+                  open={Boolean(anchorElUser)}
+                  onClose={handleCloseUserMenu}
+                >
+                  {settings.map((setting) => (
+                    <Link
+                      key={setting}
+                      style={{ textDecoration: 'none', color: 'inherit' }}
+                      to={`/${setting}`}
+                    >
+                      <MenuItem onClick={handleCloseUserMenu}>
+                        <Typography textAlign="center">{setting}</Typography>
+                      </MenuItem>
+                    </Link>
+                  ))}
+                </Menu>
+              </>
+            ) : (
+              settings.map((page) => (
+                <Link
+                  key={page}
+                  style={{ textDecoration: 'none', color: 'inherit' }}
+                  to={`/${page}`}
+                >
+                  <Button sx={{ my: 2, color: 'white', display: 'block' }}>
+                    <Typography textAlign="center">{page}</Typography>
+                  </Button>
+                </Link>
+              ))
+            )}
           </Box>
         </Toolbar>
       </Container>

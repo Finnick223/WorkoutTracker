@@ -5,21 +5,20 @@ import { useEffect } from 'react';
 import { CssBaseline } from '@mui/material';
 
 const LogoutUser = () => {
-    const { logout } = useAuthStatus()
-    const navigate = useNavigate();
+  const { logout } = useAuthStatus();
+  const navigate = useNavigate();
 
-    useEffect(() => {
-        logout()
-        navigate('/')
-
-    },[])
-    return (
-        <>
-            <CssBaseline />
-            <Typography>logging out....</Typography>
-            <CircularProgress />
-        </>
-    )
-}
+  useEffect(() => {
+    logout();
+    navigate('/');
+  }, []);
+  return (
+    <>
+      <CssBaseline />
+      <Typography>logging out....</Typography>
+      <CircularProgress />
+    </>
+  );
+};
 
 export default LogoutUser;
