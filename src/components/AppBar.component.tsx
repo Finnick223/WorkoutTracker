@@ -68,37 +68,52 @@ function ResponsiveAppBar() {
           </Box>
 
           <Box sx={{ flex: 0 }}>
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" />
-              </IconButton>
-            </Tooltip>
-            <Menu
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
-              {settings.map((setting) => (
-                <Link
-                  key={setting}
-                  style={{ textDecoration: 'none', color: 'inherit' }}
-                  to={`/${setting}`}
-                >
-                  <MenuItem onClick={handleCloseUserMenu}>
-                    <Typography textAlign="center">{setting}</Typography>
-                  </MenuItem>
-                </Link>
-              ))}
-            </Menu>
+          {isLoggedIn ?
+          <>
+                       <Tooltip title="Open settings">
+                       <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                         <Avatar alt="Remy Sharp" />
+                       </IconButton>
+                     </Tooltip>
+                     <Menu
+                       id="menu-appbar"
+                       anchorEl={anchorElUser}
+                       anchorOrigin={{
+                         vertical: 'top',
+                         horizontal: 'right',
+                        }}
+                        transformOrigin={{
+                          vertical: 'top',
+                          horizontal: 'right',
+                        }}
+                        open={Boolean(anchorElUser)}
+                        onClose={handleCloseUserMenu}
+                        >
+                       {settings.map((setting) => (
+                         <Link
+                         key={setting}
+                         style={{ textDecoration: 'none', color: 'inherit' }}
+                         to={`/${setting}`}
+                         >
+                           <MenuItem onClick={handleCloseUserMenu}>
+                             <Typography textAlign="center">{setting}</Typography>
+                           </MenuItem>
+                         </Link>
+                       ))}
+                     </Menu>
+                       </>
+            :
+            settings.map((page) => (
+              <Link
+                key={page}
+                style={{ textDecoration: 'none', color: 'inherit' }}
+                to={`/${page}`}
+              >
+                <Button sx={{ my: 2, color: 'white', display: 'block' }}>
+                  <Typography textAlign="center">{page}</Typography>
+                </Button>
+              </Link>
+            ))}
           </Box>
         </Toolbar>
       </Container>
