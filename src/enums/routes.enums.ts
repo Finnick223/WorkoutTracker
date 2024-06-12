@@ -4,11 +4,12 @@ export enum UnAuthorizedRoute {
     Register = '/register',
   }
 export enum AuthorizedRoute {
-    Profile = '/profile'
+    Profile = '/profile',
+    TrainingDetail = '/training/:id',
+    Training = '/training',
+    User = '/user',
   }
 export enum CommonRoutes {
     Home = '/',
-    TrainingDetail = '/training/:id',
-    Training = '/training',
-    User = '/user'
+    Logout = '/logout'
   }

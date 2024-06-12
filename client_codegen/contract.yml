@@ -9,7 +9,7 @@ servers:
       description: Local server
 
 security:
-    - basicAuth: []
+    - bearerAuth: []
 
 tags:
     - name: user
@@ -368,9 +368,10 @@ paths:
 
 components:
     securitySchemes:
-        basicAuth:
+        bearerAuth:
             type: http
-            scheme: basic
+            scheme: bearer
+            bearerFormat: JWT
     schemas:
         User:
             type: object

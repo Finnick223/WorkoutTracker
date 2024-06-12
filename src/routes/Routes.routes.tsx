@@ -1,23 +1,14 @@
-import { UnAuthorizedAppRoutes, 
-  // AuthorizedAppRoutes 
-} from "./UnauthorizedApp.routes";
+import { UnAuthorizedAppRoutes} from "./UnauthorizedApp.routes";
+import { AuthorizedAppRoutes } from "./AuthorizedApp.routes";
+import useAuthStatus from "../hooks/useAuth";
+
+
 export const Routes = () => {
-  // if (autoryzacja) {
-  //   const routes = AuthorizedAppRoutes()
-  //   return routes
-  // }
-  const routes = UnAuthorizedAppRoutes()
-  return routes;
+  const { isLoggedIn } = useAuthStatus();
+  console.log("czy zalogowany w routes ? " + isLoggedIn);
+  
+  if (isLoggedIn) {
+    return <AuthorizedAppRoutes />
+  }
+  return <UnAuthorizedAppRoutes />
 }
-
-
-// import { AuthorizedAppRoutes } from ''
-// import { UnAuthorizedAppRoutes } from '../routes/UnauthorizedApp.routes'
-
-// export const Routes = () => {
-  //deklaracja autoryzacji
-
-//   if (autoryzacja) return <autorizedApp />
-
-//   return UnAuthorizedAppRoutes;
-// }

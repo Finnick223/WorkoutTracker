@@ -1,8 +1,6 @@
 import {
-  createBrowserRouter,
-  createRoutesFromElements,
   Route,
-  RouterProvider,
+  Routes,
 } from 'react-router-dom';
 import { CommonRoutes, AuthorizedRoute } from '../enums/routes.enums.ts'
 import Layout from '../pages/layout.page.tsx';
@@ -11,43 +9,41 @@ import Training from '../pages/training.page.tsx';
 import Home from '../pages/home.page.tsx';
 import TrainingDetail from '../pages/Training/trainingDetail.page.tsx';
 import { ErrorPage } from '../pages/Error.page.tsx';
+import LogoutUser from '../pages/logout.page.tsx'
+import Profile from '../pages/profile.page.tsx';
 
-export const UnAuthorizedAppRoutes = () => {
+export const AuthorizedAppRoutes = () => {
+return(
 
-const router = createBrowserRouter(
-  createRoutesFromElements(
-    <Route element={<Layout />}>
-      <Route index path={CommonRoutes.Home} element={<Home />} errorElement={<ErrorPage />} />
-      <Route path={CommonRoutes.User} element={<User />} errorElement={<ErrorPage />} />
+  <Routes>
+    <Route path={CommonRoutes.Home} element={<Layout />}>
+      <Route index element={<Home />} errorElement={<ErrorPage />} />
+      <Route 
+        path={AuthorizedRoute.User} 
+      element={<User />} 
+    errorElement={<ErrorPage />} 
+  />
       <Route
-        path={CommonRoutes.Training}
-        element={<Training />}
-        errorElement={<ErrorPage />}
-      />
+        path={AuthorizedRoute.Training}
+      element={<Training />}
+    errorElement={<ErrorPage />}
+  />
       <Route
-        path={CommonRoutes.TrainingDetail}
-        element={<TrainingDetail />}
-        errorElement={<ErrorPage />}
-      />
-      {/* <Route
-        path="login"
-        element={<Login />}
-        action={loginAction}
-        errorElement={<ErrorPage />}
-      />
-      <Route
-        path="register"
-        element={<Register />}
-        errorElement={<ErrorPage />}
-      /> */}
-      {/* <Route 
+        path={AuthorizedRoute.TrainingDetail}
+      element={<TrainingDetail />}
+    errorElement={<ErrorPage />}
+  />
+      <Route 
           path={AuthorizedRoute.Profile}
-          element={<Profile />}
-          errorElement={<ErrorPage />}
-      /> */}
+        element={<Profile />}
+      errorElement={<ErrorPage />}
+    />
+      <Route 
+        path={CommonRoutes.Logout}
+      element={<LogoutUser />}
+    />
       <Route path="*" element={<ErrorPage />} />
-    </Route>,
-  ),
-);
-return <RouterProvider router={router} />;
+    </Route>
+  </Routes>
+)
 }
