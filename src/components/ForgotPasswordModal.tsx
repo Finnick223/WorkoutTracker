@@ -7,7 +7,6 @@ import { Backdrop, TextField } from '@mui/material';
 // import { useForm, FormProvider, SubmitHandler } from 'react-hook-form';
 // import { Input } from '../components/InputForm.component';
 
-
 const style = {
   position: 'absolute' as 'absolute',
   top: '50%',
@@ -26,7 +25,9 @@ export const ForgotPasswordModal = () => {
 
   return (
     <>
-      <Button onClick={handleOpen} variant='text'>Forgot password?</Button>
+      <Button onClick={handleOpen} variant="text">
+        Forgot password?
+      </Button>
       <Modal
         open={open}
         onClose={handleClose}
@@ -44,22 +45,22 @@ export const ForgotPasswordModal = () => {
             To reset password write your Email
           </Typography>
           {/* <Form> */}
-            <TextField
-                required
-                type="email"
-                fullWidth
-                id="email"
-                label="Email"
-                // error={errors[name] ? true : false}
-                //@ts-ignore
-                // helperText={errors[name] ? errors[name]?.message : undefined}
-                // {...register(name)}
-                sx={{my: 2}}
-            />
-            <Button variant='contained'>Reset</Button>
+          <TextField
+            required
+            type="email"
+            fullWidth
+            id="email"
+            label="Email"
+            // error={errors[name] ? true : false}
+            //@ts-ignore
+            // helperText={errors[name] ? errors[name]?.message : undefined}
+            // {...register(name)}
+            sx={{ my: 2 }}
+          />
+          <Button variant="contained">Reset</Button>
           {/* </Form> */}
         </Box>
       </Modal>
     </>
   );
-}
+};

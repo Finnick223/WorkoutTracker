@@ -13,14 +13,11 @@ function Profile() {
             justifyContent: 'center',
           }}
         >
-          <Avatar sx={{ m: 1 }}>
-          </Avatar>
+          <Avatar sx={{ m: 1 }}></Avatar>
           <Typography variant="h2" sx={{ mb: 4 }}>
-            Profile page 
+            Profile page
           </Typography>
-          <Typography variant="h6">
-            User informations
-          </Typography>
+          <Typography variant="h6">User informations</Typography>
         </Box>
       </Container>
     </>
