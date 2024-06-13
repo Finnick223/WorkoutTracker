@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import TrainingCard from '../components/TrainingItem.component.tsx';
 import { Box, CssBaseline } from '@mui/material';
-import { Training, Configuration, TrainingApi } from '../client/src/index.ts';
+import { Configuration, Training, TrainingApi } from '../client/src';
 import { redirect } from 'react-router-dom';
 
 function TrainingPage() {
@@ -17,11 +17,17 @@ function TrainingPage() {
 
     const loadTrainings = async () => {
       try {
-        const response = await api.getTrainings();
-        const fetchedTrainings = response;
+        const token = localStorage.getItem('token');
+        const initOverrides = {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        };
+
+        const fetchedTrainings = await api.getTrainings(initOverrides);
         setTrainings(fetchedTrainings);
       } catch (error) {
-        console.error('Error fetching users: ', error);
+        console.error('Error fetching trainings: ', error);
         redirect('/error');
       }
     };
