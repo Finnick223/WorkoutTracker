@@ -30,6 +30,11 @@ export interface GetUserByIdRequest {
     userId: string;
 }
 
+export interface GetUsersRequest {
+    page?: number;
+    size?: number;
+}
+
 export interface UpdateUserRequest {
     userId: string;
     user: User;
@@ -118,8 +123,16 @@ export class UserApi extends runtime.BaseAPI {
     /**
      * Get all users
      */
-    async getUsersRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<User>>> {
+    async getUsersRaw(requestParameters: GetUsersRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<User>>> {
         const queryParameters: any = {};
+
+        if (requestParameters.page !== undefined) {
+            queryParameters['page'] = requestParameters.page;
+        }
+
+        if (requestParameters.size !== undefined) {
+            queryParameters['size'] = requestParameters.size;
+        }
 
         const headerParameters: runtime.HTTPHeaders = {};
 
@@ -144,8 +157,8 @@ export class UserApi extends runtime.BaseAPI {
     /**
      * Get all users
      */
-    async getUsers(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<User>> {
-        const response = await this.getUsersRaw(initOverrides);
+    async getUsers(requestParameters: GetUsersRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<User>> {
+        const response = await this.getUsersRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

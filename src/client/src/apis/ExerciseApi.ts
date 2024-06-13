@@ -34,6 +34,11 @@ export interface GetExerciseByIdRequest {
     exerciseId: string;
 }
 
+export interface GetExercisesRequest {
+    page?: number;
+    size?: number;
+}
+
 export interface UpdateExerciseRequest {
     exerciseId: string;
     exercise: Exercise;
@@ -163,8 +168,16 @@ export class ExerciseApi extends runtime.BaseAPI {
     /**
      * Get all exercises
      */
-    async getExercisesRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<Exercise>>> {
+    async getExercisesRaw(requestParameters: GetExercisesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<Exercise>>> {
         const queryParameters: any = {};
+
+        if (requestParameters.page !== undefined) {
+            queryParameters['page'] = requestParameters.page;
+        }
+
+        if (requestParameters.size !== undefined) {
+            queryParameters['size'] = requestParameters.size;
+        }
 
         const headerParameters: runtime.HTTPHeaders = {};
 
@@ -189,8 +202,8 @@ export class ExerciseApi extends runtime.BaseAPI {
     /**
      * Get all exercises
      */
-    async getExercises(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<Exercise>> {
-        const response = await this.getExercisesRaw(initOverrides);
+    async getExercises(requestParameters: GetExercisesRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<Exercise>> {
+        const response = await this.getExercisesRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

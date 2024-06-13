@@ -28,6 +28,21 @@ paths:
                 - user
             summary: Get all users
             operationId: getUsers
+            parameters:
+                - name: page
+                  in: query
+                  description: "Page number"
+                  required: false
+                  schema:
+                      type: integer
+                      default: 0
+                - name: size
+                  in: query
+                  description: "Number of items per page"
+                  required: false
+                  schema:
+                      type: integer
+                      default: 10
             responses:
                 '200':
                     description: A list of users
@@ -95,12 +110,28 @@ paths:
             responses:
                 '200':
                     description: User deleted
+
     /training:
         get:
             tags:
                 - training
             summary: Get all trainings
             operationId: getTrainings
+            parameters:
+                - name: page
+                  in: query
+                  description: "Page number"
+                  required: false
+                  schema:
+                      type: integer
+                      default: 0
+                - name: size
+                  in: query
+                  description: "Number of items per page"
+                  required: false
+                  schema:
+                      type: integer
+                      default: 10
             responses:
                 '200':
                     description: A list of trainings
@@ -128,6 +159,7 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Training'
+
     /training/{trainingId}:
         get:
             tags:
@@ -185,12 +217,28 @@ paths:
             responses:
                 '200':
                     description: Training deleted
+
     /exercise:
         get:
             tags:
                 - exercise
             summary: Get all exercises
             operationId: getExercises
+            parameters:
+                - name: page
+                  in: query
+                  description: "Page number"
+                  required: false
+                  schema:
+                      type: integer
+                      default: 0
+                - name: size
+                  in: query
+                  description: "Number of items per page"
+                  required: false
+                  schema:
+                      type: integer
+                      default: 10
             responses:
                 '200':
                     description: A list of exercises
@@ -218,6 +266,7 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Exercise'
+
     /exercise/{exerciseId}:
         get:
             tags:
@@ -275,12 +324,28 @@ paths:
             responses:
                 '200':
                     description: Exercise deleted
+
     /usermeasurement:
         get:
             tags:
                 - userMeasurement
             summary: Get all user measurements
             operationId: getUserMeasurements
+            parameters:
+                - name: page
+                  in: query
+                  description: "Page number"
+                  required: false
+                  schema:
+                      type: integer
+                      default: 0
+                - name: size
+                  in: query
+                  description: "Number of items per page"
+                  required: false
+                  schema:
+                      type: integer
+                      default: 10
             responses:
                 '200':
                     description: A list of user measurements
@@ -308,6 +373,7 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/UserMeasurement'
+
     /usermeasurement/{userMeasurementId}:
         get:
             tags:
@@ -458,8 +524,6 @@ components:
                     type: integer
                 reps:
                     type: integer
-                training:
-                    $ref: '#/components/schemas/Training'
         TrainingCategory:
             type: string
             enum:
