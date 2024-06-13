@@ -27,15 +27,15 @@ export interface CreateExerciseRequest {
 }
 
 export interface DeleteExerciseRequest {
-    id: string;
+    exerciseId: string;
 }
 
 export interface GetExerciseByIdRequest {
-    id: string;
+    exerciseId: string;
 }
 
 export interface UpdateExerciseRequest {
-    id: string;
+    exerciseId: string;
     exercise: Exercise;
 }
 
@@ -47,7 +47,7 @@ export class ExerciseApi extends runtime.BaseAPI {
     /**
      * Create exercise
      */
-    async createExerciseRaw(requestParameters: CreateExerciseRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async createExerciseRaw(requestParameters: CreateExerciseRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Exercise>> {
         if (requestParameters.exercise === null || requestParameters.exercise === undefined) {
             throw new runtime.RequiredError('exercise','Required parameter requestParameters.exercise was null or undefined when calling createExercise.');
         }
@@ -58,8 +58,13 @@ export class ExerciseApi extends runtime.BaseAPI {
 
         headerParameters['Content-Type'] = 'application/json';
 
-        if (this.configuration && (this.configuration.username !== undefined || this.configuration.password !== undefined)) {
-            headerParameters["Authorization"] = "Basic " + btoa(this.configuration.username + ":" + this.configuration.password);
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("bearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
         }
         const response = await this.request({
             path: `/exercise`,
@@ -69,33 +74,39 @@ export class ExerciseApi extends runtime.BaseAPI {
             body: ExerciseToJSON(requestParameters.exercise),
         }, initOverrides);
 
-        return new runtime.VoidApiResponse(response);
+        return new runtime.JSONApiResponse(response, (jsonValue) => ExerciseFromJSON(jsonValue));
     }
 
     /**
      * Create exercise
      */
-    async createExercise(requestParameters: CreateExerciseRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.createExerciseRaw(requestParameters, initOverrides);
+    async createExercise(requestParameters: CreateExerciseRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Exercise> {
+        const response = await this.createExerciseRaw(requestParameters, initOverrides);
+        return await response.value();
     }
 
     /**
      * Delete exercise
      */
     async deleteExerciseRaw(requestParameters: DeleteExerciseRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        if (requestParameters.id === null || requestParameters.id === undefined) {
-            throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling deleteExercise.');
+        if (requestParameters.exerciseId === null || requestParameters.exerciseId === undefined) {
+            throw new runtime.RequiredError('exerciseId','Required parameter requestParameters.exerciseId was null or undefined when calling deleteExercise.');
         }
 
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        if (this.configuration && (this.configuration.username !== undefined || this.configuration.password !== undefined)) {
-            headerParameters["Authorization"] = "Basic " + btoa(this.configuration.username + ":" + this.configuration.password);
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("bearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
         }
         const response = await this.request({
-            path: `/exercise/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters.id))),
+            path: `/exercise/{exerciseId}`.replace(`{${"exerciseId"}}`, encodeURIComponent(String(requestParameters.exerciseId))),
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
@@ -115,19 +126,24 @@ export class ExerciseApi extends runtime.BaseAPI {
      * Get exercise by id
      */
     async getExerciseByIdRaw(requestParameters: GetExerciseByIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Exercise>> {
-        if (requestParameters.id === null || requestParameters.id === undefined) {
-            throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling getExerciseById.');
+        if (requestParameters.exerciseId === null || requestParameters.exerciseId === undefined) {
+            throw new runtime.RequiredError('exerciseId','Required parameter requestParameters.exerciseId was null or undefined when calling getExerciseById.');
         }
 
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        if (this.configuration && (this.configuration.username !== undefined || this.configuration.password !== undefined)) {
-            headerParameters["Authorization"] = "Basic " + btoa(this.configuration.username + ":" + this.configuration.password);
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("bearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
         }
         const response = await this.request({
-            path: `/exercise/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters.id))),
+            path: `/exercise/{exerciseId}`.replace(`{${"exerciseId"}}`, encodeURIComponent(String(requestParameters.exerciseId))),
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
@@ -152,8 +168,13 @@ export class ExerciseApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        if (this.configuration && (this.configuration.username !== undefined || this.configuration.password !== undefined)) {
-            headerParameters["Authorization"] = "Basic " + btoa(this.configuration.username + ":" + this.configuration.password);
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("bearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
         }
         const response = await this.request({
             path: `/exercise`,
@@ -176,9 +197,9 @@ export class ExerciseApi extends runtime.BaseAPI {
     /**
      * Update exercise
      */
-    async updateExerciseRaw(requestParameters: UpdateExerciseRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        if (requestParameters.id === null || requestParameters.id === undefined) {
-            throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling updateExercise.');
+    async updateExerciseRaw(requestParameters: UpdateExerciseRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Exercise>> {
+        if (requestParameters.exerciseId === null || requestParameters.exerciseId === undefined) {
+            throw new runtime.RequiredError('exerciseId','Required parameter requestParameters.exerciseId was null or undefined when calling updateExercise.');
         }
 
         if (requestParameters.exercise === null || requestParameters.exercise === undefined) {
@@ -191,25 +212,31 @@ export class ExerciseApi extends runtime.BaseAPI {
 
         headerParameters['Content-Type'] = 'application/json';
 
-        if (this.configuration && (this.configuration.username !== undefined || this.configuration.password !== undefined)) {
-            headerParameters["Authorization"] = "Basic " + btoa(this.configuration.username + ":" + this.configuration.password);
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("bearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
         }
         const response = await this.request({
-            path: `/exercise/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters.id))),
+            path: `/exercise/{exerciseId}`.replace(`{${"exerciseId"}}`, encodeURIComponent(String(requestParameters.exerciseId))),
             method: 'PUT',
             headers: headerParameters,
             query: queryParameters,
             body: ExerciseToJSON(requestParameters.exercise),
         }, initOverrides);
 
-        return new runtime.VoidApiResponse(response);
+        return new runtime.JSONApiResponse(response, (jsonValue) => ExerciseFromJSON(jsonValue));
     }
 
     /**
      * Update exercise
      */
-    async updateExercise(requestParameters: UpdateExerciseRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.updateExerciseRaw(requestParameters, initOverrides);
+    async updateExercise(requestParameters: UpdateExerciseRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Exercise> {
+        const response = await this.updateExerciseRaw(requestParameters, initOverrides);
+        return await response.value();
     }
 
 }

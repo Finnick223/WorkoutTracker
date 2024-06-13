@@ -43,6 +43,18 @@ export interface Training {
      * @type {string}
      * @memberof Training
      */
+    createdOn?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Training
+     */
+    modifiedOn?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Training
+     */
     name?: string;
     /**
      * 
@@ -84,6 +96,8 @@ export function TrainingFromJSONTyped(json: any, ignoreDiscriminator: boolean): 
     return {
         
         'id': !exists(json, 'id') ? undefined : json['id'],
+        'createdOn': !exists(json, 'createdOn') ? undefined : json['createdOn'],
+        'modifiedOn': !exists(json, 'modifiedOn') ? undefined : json['modifiedOn'],
         'name': !exists(json, 'name') ? undefined : json['name'],
         'description': !exists(json, 'description') ? undefined : json['description'],
         'exercises': !exists(json, 'exercises') ? undefined : ((json['exercises'] as Array<any>).map(ExerciseFromJSON)),
@@ -101,6 +115,8 @@ export function TrainingToJSON(value?: Training | null): any {
     return {
         
         'id': value.id,
+        'createdOn': value.createdOn,
+        'modifiedOn': value.modifiedOn,
         'name': value.name,
         'description': value.description,
         'exercises': value.exercises === undefined ? undefined : ((value.exercises as Array<any>).map(ExerciseToJSON)),
