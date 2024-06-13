@@ -10,6 +10,7 @@ const useAuthStatus = () => {
 
   return {
     isLoggedIn,
+    token,
     login,
     logout
   };
