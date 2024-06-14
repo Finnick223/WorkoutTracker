@@ -13,13 +13,6 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import type { Training } from './Training';
-import {
-    TrainingFromJSON,
-    TrainingFromJSONTyped,
-    TrainingToJSON,
-} from './Training';
-
 /**
  * 
  * @export
@@ -68,12 +61,6 @@ export interface Exercise {
      * @memberof Exercise
      */
     reps?: number;
-    /**
-     * 
-     * @type {Training}
-     * @memberof Exercise
-     */
-    training?: Training;
 }
 
 /**
@@ -102,7 +89,6 @@ export function ExerciseFromJSONTyped(json: any, ignoreDiscriminator: boolean): 
         'description': !exists(json, 'description') ? undefined : json['description'],
         'sets': !exists(json, 'sets') ? undefined : json['sets'],
         'reps': !exists(json, 'reps') ? undefined : json['reps'],
-        'training': !exists(json, 'training') ? undefined : TrainingFromJSON(json['training']),
     };
 }
 
@@ -122,7 +108,6 @@ export function ExerciseToJSON(value?: Exercise | null): any {
         'description': value.description,
         'sets': value.sets,
         'reps': value.reps,
-        'training': TrainingToJSON(value.training),
     };
 }
 

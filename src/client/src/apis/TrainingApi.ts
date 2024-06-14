@@ -34,6 +34,11 @@ export interface GetTrainingByIdRequest {
     trainingId: string;
 }
 
+export interface GetTrainingsRequest {
+    page?: number;
+    size?: number;
+}
+
 export interface UpdateTrainingRequest {
     trainingId: string;
     training: Training;
@@ -163,8 +168,16 @@ export class TrainingApi extends runtime.BaseAPI {
     /**
      * Get all trainings
      */
-    async getTrainingsRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<Training>>> {
+    async getTrainingsRaw(requestParameters: GetTrainingsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<Training>>> {
         const queryParameters: any = {};
+
+        if (requestParameters.page !== undefined) {
+            queryParameters['page'] = requestParameters.page;
+        }
+
+        if (requestParameters.size !== undefined) {
+            queryParameters['size'] = requestParameters.size;
+        }
 
         const headerParameters: runtime.HTTPHeaders = {};
 
@@ -189,8 +202,8 @@ export class TrainingApi extends runtime.BaseAPI {
     /**
      * Get all trainings
      */
-    async getTrainings(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<Training>> {
-        const response = await this.getTrainingsRaw(initOverrides);
+    async getTrainings(requestParameters: GetTrainingsRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<Training>> {
+        const response = await this.getTrainingsRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
