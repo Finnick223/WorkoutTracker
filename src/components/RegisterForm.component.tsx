@@ -20,55 +20,44 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { useForm, FormProvider, SubmitHandler } from 'react-hook-form';
 import InputFormPassword from './InputPassword.component';
 import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
 import { Input } from './InputForm.component';
 import axios from 'axios';
+import { useMutation } from '@tanstack/react-query';
+import { useNavigate } from 'react-router-dom';
+import { registerSchema } from '../validators/auth.validator';
 
 export default function RegisterForm() {
-  const registerSchema = yup.object().shape({
-    email: yup.string().required().email(),
-    firstName: yup.string().min(3).required(),
-    lastName: yup.string().min(3).required(),
-    password: yup.string().min(6).required(),
-    repasswd: yup
-      .string()
-      .min(6)
-      .oneOf([yup.ref('password')], 'Passwords do not match')
-      .required(),
-    gender: yup
-      .string()
-      .oneOf(['FEMALE', 'MALE', 'OTHER'], 'Please select a gender')
-      .required(),
-    termsAndConditions: yup
-      .boolean()
-      .oneOf([true], 'Accepting terms is required')
-      .required(),
-  });
-
+  const navigate = useNavigate();
+  
   const formMethods = useForm<FormDataType>({
     resolver: yupResolver(registerSchema),
     mode: 'onBlur',
   });
 
-  const onSubmit: SubmitHandler<FormDataType> = async (data) => {
-    const payload = {
-      email: data.email,
-      firstName: data.firstName,
-      lastName: data.lastName,
-      password: data.password,
-      isTermsAndConditionsAccepted: data.termsAndConditions,
-      genders: [data.gender],
-    };
-
-    try {
-      const response = await axios.post(
-        'http://188.68.247.208:8080/auth/signup',
-        payload,
-      );
-      console.log('Response:', response.data);
-    } catch (error) {
-      console.error('Error:', error);
+  const mutation = useMutation({
+    mutationFn: (data: FormDataType) => {
+      const payload = {
+        email: data.email,
+        firstName: data.firstName,
+        lastName: data.lastName,
+        password: data.password,
+        isTermsAndConditionsAccepted: data.termsAndConditions,
+        genders: [data.gender],
+      };
+      return axios.post('http://188.68.247.208:8080/auth/signup', payload)
     }
+  })
+
+  const onSubmit: SubmitHandler<FormDataType> = (data) => {
+    mutation.mutate(data, {
+      onSuccess: (response) => {
+        console.log('response: ', response.data);
+        navigate('/Login');
+      },
+      onError: (error) => {
+        console.log('Error: ', error)
+      }
+    })
   };
 
   return (
@@ -185,7 +174,7 @@ export default function RegisterForm() {
                 sx={{ mt: 1, mb: 1 }}
                 disabled={!formMethods.formState.isValid}
               >
-                Sign Up
+                {mutation.isPending ? 'Signing Up...' : 'Sign Up'}
               </Button>
               <Grid container justifyContent="flex-end">
                 <Grid item>
