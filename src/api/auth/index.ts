@@ -1,11 +1,8 @@
 import axios from 'axios'
-import { Configuration, Training, TrainingApi } from '../../client/src';
+import { Training, TrainingApi } from '../../client/src';
 
-const config = new Configuration({
-    username: 'string',
-    password: 'string',
-  });
-  const api = new TrainingApi(config);
+
+  const api = new TrainingApi();
 
   export const loadTrainings = async (token: string, page: number, size: number): Promise<Training[]> => {
     const initOverrides = {
