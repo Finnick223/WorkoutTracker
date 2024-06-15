@@ -1,41 +1,22 @@
 import { useEffect, useState } from 'react';
 import TrainingCard from '../components/TrainingItem.component.tsx';
 import { Box, Button, CircularProgress, CssBaseline, FormControl, InputLabel, MenuItem, Select, Stack } from '@mui/material';
-import { Configuration, Training, TrainingApi } from '../client/src';
+import { Training } from '../client/src';
 import { useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
+import { loadTrainings } from '../api/auth/index.ts';
 import useAuthStatus from '../hooks/useAuth.ts';
 
 function TrainingPage() {
   const [trainings, setTrainings] = useState<Training[]>([]);
   const [page, setPage] = useState<number>(0); // Start from page 0
   const [size, setSize] = useState<number>(10);
-  const { token } = useAuthStatus();
   const navigate = useNavigate();
+  const { token } = useAuthStatus();
 
-  //TODO This should be in other file
-  const config = new Configuration({
-    username: 'string',
-    password: 'string',
-  });
-  const api = new TrainingApi(config);
-
-  const loadTrainings = async () => {
-    const initOverrides = {
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
-    };
-    const requestParameters = {
-      page: page,
-      size: size,
-    };
-    return await api.getTrainings(requestParameters, initOverrides);
-  };
-
-  const { data, isSuccess, isLoading, isError } = useQuery({
+  const { data, isSuccess, isFetching, isError } = useQuery({
     queryKey: ["trainings", page, size],
-    queryFn: loadTrainings,
+    queryFn: () => loadTrainings(token, page, size),
   });
 
   useEffect(() => {
@@ -64,7 +45,7 @@ function TrainingPage() {
     <>
       <CssBaseline />
       <Box sx={{ display: 'inline-flex', textAlign: 'center' }}>
-        {isLoading ? <CircularProgress /> : trainings.map((training) => (
+        {isFetching ? <CircularProgress /> : trainings.map((training) => (
           <TrainingCard
             id={training.id}
             name={training.name}

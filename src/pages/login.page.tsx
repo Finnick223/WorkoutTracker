@@ -18,20 +18,11 @@ import Visibility from '@mui/icons-material/Visibility';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { useForm, Controller } from 'react-hook-form';
-import axios from 'axios';
+import { loginUser } from '../api/auth';
 import { ForgotPasswordModal } from '../components/ForgotPasswordModal';
 import useAuthStatus from '../hooks/useAuth';
 import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
-
-// this should be imported from other file
-const loginUser = async (creds: any) => {
-  const response = await axios.post('http://188.68.247.208:8080/auth/signin', {
-    email: creds.email,
-    password: creds.password,
-  });
-  return response.data.token;
-};
 
 function LoginPage() {
   const { login } = useAuthStatus();
