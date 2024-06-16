@@ -4,12 +4,12 @@ import { Box, Button, CircularProgress, CssBaseline, FormControl, InputLabel, Me
 import { Training } from '../client/src';
 import { useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import { loadTrainings } from '../api/auth/index.ts';
+import { loadTrainings } from '../api/auth';
 import useAuthStatus from '../hooks/useAuth.ts';
 
 function TrainingPage() {
   const [trainings, setTrainings] = useState<Training[]>([]);
-  const [page, setPage] = useState<number>(0); // Start from page 0
+  const [page, setPage] = useState<number>(0);
   const [size, setSize] = useState<number>(10);
   const navigate = useNavigate();
   const { token } = useAuthStatus();
@@ -61,7 +61,7 @@ function TrainingPage() {
       </Box>
       <FormControl>
         <InputLabel>Items</InputLabel>
-        <Select id="pageSize" value={size.toString()} label="Items"onChange={handleSizeChange} autoWidth>
+        <Select id="pageSize" value={size.toString()} label="Items" onChange={handleSizeChange} autoWidth>
           <MenuItem value={5}>5</MenuItem >
           <MenuItem value={10}>10</MenuItem >
           <MenuItem value={20}>20</MenuItem >
