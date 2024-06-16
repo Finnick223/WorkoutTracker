@@ -1,8 +1,9 @@
 import axios from 'axios'
-import { Training, TrainingApi } from '../../client/src';
+import { Training, TrainingApi, User, UserApi } from '../../client/src';
 
 
-  const api = new TrainingApi();
+  const trainingApi = new TrainingApi();
+  const userApi = new UserApi();
 
   export const loadTrainings = async (token: string, page: number, size: number): Promise<Training[]> => {
     const initOverrides = {
@@ -14,7 +15,7 @@ import { Training, TrainingApi } from '../../client/src';
       page: page,
       size: size,
     };
-    return await api.getTrainings(requestParameters, initOverrides);
+    return await trainingApi.getTrainings(requestParameters, initOverrides);
   };
 
   export const loginUser = async (creds: any) => {
@@ -25,3 +26,11 @@ import { Training, TrainingApi } from '../../client/src';
     return response.data.token;
   };
 
+export const getCurrentUser = async (token: string): Promise<User> => {
+  const initOverrides = {
+    headers: {
+      'Authorization': `Bearer ${token}`
+    }
+  };
+  return await userApi.getCurrentUser(initOverrides);
+};
