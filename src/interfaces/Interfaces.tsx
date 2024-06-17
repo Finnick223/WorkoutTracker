@@ -1,3 +1,5 @@
+import { User } from "../client/src";
+
 export type FormDataType = {
   email: string;
   firstName: string;
@@ -7,3 +9,10 @@ export type FormDataType = {
   gender: 'FEMALE' | 'MALE' | 'OTHER';
   termsAndConditions: boolean;
 };
+
+export interface EditUserModalProps {
+  open: boolean;
+  handleEditClose: () => void;
+  handleEditSave: () => void;
+  user: User | undefined;
+}
