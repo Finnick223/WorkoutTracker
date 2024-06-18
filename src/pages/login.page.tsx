@@ -23,6 +23,7 @@ import { ForgotPasswordModal } from '../components/ForgotPasswordModal';
 import useAuthStatus from '../hooks/useAuth';
 import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
 
 function LoginPage() {
   const { login } = useAuthStatus();
@@ -38,9 +39,11 @@ function LoginPage() {
     mutationFn: loginUser,
     onSuccess: (token) => {
       login(token);
+      toast.success('Logged in successfully');
       navigate('/');
     },
     onError: (error) => {
+      toast.error('Try other credentials');
       console.error('Login failed:', error.message);
     },
   });
