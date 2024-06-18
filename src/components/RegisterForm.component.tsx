@@ -25,6 +25,7 @@ import axios from 'axios';
 import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { registerSchema } from '../validators/auth.validator';
+import toast from 'react-hot-toast';
 
 export default function RegisterForm() {
   const navigate = useNavigate();
@@ -50,12 +51,13 @@ export default function RegisterForm() {
 
   const onSubmit: SubmitHandler<FormDataType> = (data) => {
     mutation.mutate(data, {
-      onSuccess: (response) => {
-        console.log('response: ', response.data);
+      onSuccess: () => {
+        toast.success('Account created! You can login now')        
         navigate('/Login');
       },
       onError: (error) => {
         console.log('Error: ', error)
+        toast.error('Something went wrong')
       }
     })
   };
