@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import TrainingCard from '../components/TrainingItem.component.tsx';
+import TrainingCard from '../components/TrainingCard.component.tsx';
 import { Box, Button, CircularProgress, CssBaseline, FormControl, InputLabel, MenuItem, Select, Stack } from '@mui/material';
 import { Training } from '../client/src';
 import { useNavigate } from 'react-router-dom';
@@ -48,6 +48,7 @@ function TrainingPage() {
         {isFetching ? <CircularProgress /> : trainings.map((training) => (
           <TrainingCard
             id={training.id}
+            createdOn={training.createdOn?.slice(0,10)}
             name={training.name}
             description={training.description}
             key={training.id}

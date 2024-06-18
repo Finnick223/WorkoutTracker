@@ -1,5 +1,4 @@
-import { Link } from 'react-router-dom';
-// import { trainingItemProps } from "./Interfaces";
+import { Link, To } from 'react-router-dom';
 import { Training } from '../client/src';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
@@ -10,19 +9,18 @@ import { Paper } from '@mui/material';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import EditNoteOutlinedIcon from '@mui/icons-material/EditNoteOutlined';
 
-export default function TrainingItem(props: Training) {
+export default function TrainingCard(props: Training) {
   return (
     <Paper elevation={4} sx={{ width: '16vw', m: 2 }}>
       <Card sx={{ width: '16vw' }}>
-        {/* @ts-ignore */}
         <Link
-          to={props.id}
+          to={props.id as To}
           style={{ textDecoration: 'none', color: 'inherit' }}
         >
           <CardContent>
-            {/* <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-                {props.date}
-              </Typography> */}
+            <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                {props.createdOn}
+              </Typography>
             <Typography variant="h5" component="div">
               {props.name}
             </Typography>
