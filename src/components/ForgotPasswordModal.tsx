@@ -4,6 +4,8 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import { Backdrop, TextField } from '@mui/material';
+import { useMutation } from '@tanstack/react-query';
+import { useForm } from 'react-hook-form';
 // import { useForm, FormProvider, SubmitHandler } from 'react-hook-form';
 // import { Input } from '../components/InputForm.component';
 
@@ -22,6 +24,17 @@ export const ForgotPasswordModal = () => {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  const mutation = useMutation({
+    mutationFn: "endpoint"
+  });
+  const submit = handleSubmit(() => mutation.mutate());
+
 
   return (
     <>
@@ -44,7 +57,7 @@ export const ForgotPasswordModal = () => {
           <Typography id="modal-modal-title" variant="h6" component="h2">
             To reset password write your Email
           </Typography>
-          {/* <Form> */}
+          <form onSubmit={submit}>
           <TextField
             required
             type="email"
@@ -58,7 +71,7 @@ export const ForgotPasswordModal = () => {
             sx={{ my: 2 }}
           />
           <Button variant="contained">Reset</Button>
-          {/* </Form> */}
+          </form>
         </Box>
       </Modal>
     </>
