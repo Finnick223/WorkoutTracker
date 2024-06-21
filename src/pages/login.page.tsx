@@ -19,7 +19,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { useForm, Controller } from 'react-hook-form';
 import { loginUser } from '../api/auth';
-import { ForgotPasswordModal } from '../components/ForgotPasswordModal';
+import { ForgotPasswordModal } from '../components/modals/ForgotPassword.modal';
 import useAuthStatus from '../hooks/useAuth';
 import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';

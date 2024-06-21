@@ -336,7 +336,7 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/Training'
+                                $ref: '#/components/schemas/TrainingDetails'
                 '400':
                     description: Bad request
                     content:
@@ -377,14 +377,14 @@ paths:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/Training'
+                            $ref: '#/components/schemas/TrainingDetails'
             responses:
                 '200':
                     description: Training updated
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/Training'
+                                $ref: '#/components/schemas/TrainingDetails'
                 '400':
                     description: Bad request
                     content:
@@ -930,9 +930,20 @@ components:
                 age:
                     type: number
 
-                user:
-                    $ref: '#/components/schemas/User'
         Training:
+            type: object
+            properties:
+                id:
+                    type: string
+                createdOn:
+                    type: string
+                modifiedOn:
+                    type: string
+                name:
+                    type: string
+                description:
+                    type: string
+        TrainingDetails:
             type: object
             properties:
                 id:
