@@ -34,3 +34,11 @@ export const getCurrentUser = async (token: string): Promise<User> => {
   };
   return await userApi.getCurrentUser(initOverrides);
 };
+
+//TODO change api request to working one
+export const requestPasswordReset = async (email: string) => {
+  const response = await axios.post('http://188.68.247.208:8080/request-password-reset', {
+    email: email
+  });
+  return response.data.message
+}

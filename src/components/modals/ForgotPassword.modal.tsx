@@ -5,7 +5,9 @@ import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import { Backdrop, TextField } from '@mui/material';
 import { useMutation } from '@tanstack/react-query';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
+import { requestPasswordReset } from '../../api/auth';
+import toast from 'react-hot-toast';
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -23,14 +25,24 @@ export const ForgotPasswordModal = () => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const {
+    control,
     handleSubmit,
-    // formState: { errors },
+    formState: { errors },
   } = useForm();
 
+  
   const mutation = useMutation({
-    mutationFn: "endpoint"
+    mutationFn: requestPasswordReset,
+    onSuccess: (message) => {
+      toast.success(message);
+    },
+    onError: (error) => {
+      toast.error('Account with this email doesnt exist');
+      console.error('wtf : ', error.message);
+    },
   });
-  const submit = handleSubmit(() => mutation.mutate());
+
+  const submit = handleSubmit((email) => mutation.mutate(email as unknown as string));
 
 
   return (
@@ -55,19 +67,25 @@ export const ForgotPasswordModal = () => {
             To reset password write your Email
           </Typography>
           <form onSubmit={submit}>
-          <TextField
-            required
-            type="email"
-            fullWidth
-            id="email"
-            label="Email"
-            // error={errors[name] ? true : false}
-            //@ts-ignore
-            // helperText={errors[name] ? errors[name]?.message : undefined}
-            // {...register(name)}
-            sx={{ my: 2 }}
-          />
-          <Button variant="contained">Reset</Button>
+          <Controller
+                  name="email"
+                  control={control}
+                  defaultValue=""
+                  rules={{ required: 'Email is required' }}
+                  render={({ field }) => (
+                    <TextField
+                      {...field}
+                      fullWidth
+                      label="Email"
+                      error={!!errors.email}
+                      // @ts-ignore
+                      helperText={errors.email ? errors.email.message : ''}
+                      autoFocus
+                      sx={{ my: 2 }}
+                    />
+                  )}
+                />
+          <Button variant="contained" type='submit'>Reset</Button>
           </form>
         </Box>
       </Modal>
