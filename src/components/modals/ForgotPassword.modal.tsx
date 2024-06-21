@@ -37,12 +37,14 @@ export const ForgotPasswordModal = () => {
       toast.success(message);
     },
     onError: (error) => {
-      toast.error('Account with this email doesnt exist');
-      console.error('wtf : ', error.message);
+      toast.error('Account with this email doesnt exist or something went wrong');
+      console.error('requestPasswordReset error: ' + error.message)
     },
   });
 
-  const submit = handleSubmit((email) => mutation.mutate(email as unknown as string));
+  const submit = handleSubmit((email) => {
+    console.log(email);
+    mutation.mutate(email as unknown as string)});
 
 
   return (
