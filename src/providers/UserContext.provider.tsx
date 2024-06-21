@@ -1,21 +1,20 @@
-import { createContext, useContext, useEffect } from 'react';
+import { createContext, useContext } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useCookies } from 'react-cookie';
+import { AuthContextType, AuthProviderProps } from '../interfaces/Interfaces';
 
-const AuthContext = createContext<{
-  token: string | null;
-  login: (token: string) => void;
-  logout: () => void;
-}>({
+const AuthContext = createContext<AuthContextType>({
   token: null,
   login: () => {},
   logout: () => {},
 });
 
-export const AuthProvider = ({ children }: any) => {
+export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const queryClient = useQueryClient();
+  const [cookies, setCookie, removeCookie] = useCookies(['token']);
 
   const fetchToken = () => {
-    return localStorage.getItem('token');
+    return cookies.token || null;
   };
 
   const { data: token } = useQuery({
@@ -24,17 +23,9 @@ export const AuthProvider = ({ children }: any) => {
     initialData: null,
   });
 
-  useEffect(() => {
-    if (token) {
-      localStorage.setItem('token', token);
-    } else {
-      localStorage.removeItem('token');
-    }
-  }, [token]);
-
   const login = useMutation<string, Error, string>({
     mutationFn: async (newToken: string) => {
-      localStorage.setItem('token', newToken);
+      setCookie('token', newToken, { maxAge: 3600, sameSite: true });
       return newToken;
     },
     onSuccess: (newToken) => {
@@ -44,7 +35,7 @@ export const AuthProvider = ({ children }: any) => {
 
   const logout = useMutation({
     mutationFn: async () => {
-      localStorage.removeItem('token');
+      removeCookie('token');
       return null;
     },
     onSuccess: () => {
