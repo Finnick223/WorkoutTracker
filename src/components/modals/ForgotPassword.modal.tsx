@@ -6,8 +6,6 @@ import Modal from '@mui/material/Modal';
 import { Backdrop, TextField } from '@mui/material';
 import { useMutation } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
-// import { useForm, FormProvider, SubmitHandler } from 'react-hook-form';
-// import { Input } from '../components/InputForm.component';
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -25,9 +23,8 @@ export const ForgotPasswordModal = () => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const {
-    control,
     handleSubmit,
-    formState: { errors },
+    // formState: { errors },
   } = useForm();
 
   const mutation = useMutation({
