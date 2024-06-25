@@ -1,20 +1,27 @@
-import { Box, Button, Modal, TextField, Typography } from "@mui/material"
+import { Box, Button, FormControl, InputLabel, MenuItem, Modal, Select, SelectChangeEvent, TextField, Typography } from "@mui/material"
 import { EditUserModalProps } from "../../interfaces/Interfaces";
 import { useForm } from "react-hook-form";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { updateUser } from "../../api/auth";
 import useAuthStatus from "../../hooks/useAuth";
-import { User } from "../../client/src";
+import { User, UserGenderEnum } from "../../client/src";
+
 
 const EditUserModal: React.FC<EditUserModalProps> = ({ open, handleEditClose, user, id }) => {
-    const { register, handleSubmit } = useForm();
+    const { register, handleSubmit, setValue } = useForm();
     const { token } = useAuthStatus();
+    const queryClient = useQueryClient()
 
 
+    const handleGenderChange = (event: SelectChangeEvent<UserGenderEnum>) => {
+      const value = event.target.value;
+      setValue("gender", value);
+  };
     const { mutate } = useMutation({
       mutationFn: ({ token, user }: { token: string; user: User }) => updateUser(token, user), 
-      onSuccess: () => {
+      onSuccess: (data) => {
+        queryClient.setQueryData(['profile'], data)
         toast.success("profile info updated successfully")
         handleEditClose()
       },
@@ -72,14 +79,20 @@ const EditUserModal: React.FC<EditUserModalProps> = ({ open, handleEditClose, us
               defaultValue={user?.email}
               variant="outlined"
               />
-              <TextField
-              {...register("gender")}
-              margin="normal"
-              fullWidth
-              label="Gender"
-              defaultValue={user?.gender}
-              variant="outlined"
-              />
+              <FormControl fullWidth>
+                <InputLabel id="gender">Gender</InputLabel>
+                <Select
+                  id="gender"
+                  value={user?.gender}
+                  label="Gender"
+                  fullWidth
+                  onChange={handleGenderChange}
+                  >
+                  <MenuItem value={"MALE"}>Male</MenuItem>
+                  <MenuItem value={"FEMALE"}>Female</MenuItem>
+                  <MenuItem value={"OTHER"}>Other</MenuItem>
+                </Select>
+              </FormControl>
             <Button
               variant="contained"
               color="primary"

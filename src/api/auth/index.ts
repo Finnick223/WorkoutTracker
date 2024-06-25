@@ -29,7 +29,8 @@ import { Training, TrainingApi, User, UserApi } from '../../client/src';
   export const updateUser = async (token: string, user: User): Promise<User> => {
     const initOverrides = {
       headers: {
-        'Authorization': `Bearer ${token}`
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
       }
     };
     const requestParameters = {
