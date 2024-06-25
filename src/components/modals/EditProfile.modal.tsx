@@ -3,20 +3,26 @@ import { EditUserModalProps } from "../../interfaces/Interfaces";
 import { useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
 import toast from "react-hot-toast";
+import { updateUser } from "../../api/auth";
+import useAuthStatus from "../../hooks/useAuth";
+import { User } from "../../client/src";
 
-const EditUserModal: React.FC<EditUserModalProps> = ({ open, handleEditClose, handleEditSave, user }) => {
+const EditUserModal: React.FC<EditUserModalProps> = ({ open, handleEditClose, user, id }) => {
     const { register, handleSubmit } = useForm();
+    const { token } = useAuthStatus();
+
 
     const { mutate } = useMutation({
-      mutationFn: , //TODO CREATE API function
+      mutationFn: ({ token, user }: { token: string; user: User }) => updateUser(token, user), 
       onSuccess: () => {
         toast.success("profile info updated successfully")
+        handleEditClose()
       },
       onError: (error) => {
         toast.error("err : " + error)
       }
     })
-    const onSubmit = handleSubmit((user) => mutate(user))
+    const onSubmit = handleSubmit((formData) => mutate({ token, user: { ...formData, id } }))
 
     return (
         <>
@@ -66,7 +72,6 @@ const EditUserModal: React.FC<EditUserModalProps> = ({ open, handleEditClose, ha
               defaultValue={user?.email}
               variant="outlined"
               />
-            {user?.gender && (
               <TextField
               {...register("gender")}
               margin="normal"
@@ -75,12 +80,11 @@ const EditUserModal: React.FC<EditUserModalProps> = ({ open, handleEditClose, ha
               defaultValue={user?.gender}
               variant="outlined"
               />
-            )}
             <Button
               variant="contained"
               color="primary"
               sx={{ my: 2 }}
-              onClick={handleEditSave}
+              type="submit"
               fullWidth
               >
               Save

@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { Training, TrainingApi, UpdateUserRequest, User, UserApi } from '../../client/src';
+import { Training, TrainingApi, User, UserApi } from '../../client/src';
 
 
   const trainingApi = new TrainingApi();
@@ -26,18 +26,16 @@ import { Training, TrainingApi, UpdateUserRequest, User, UserApi } from '../../c
     return response.data.token;
   };
 
-  //TODO working api call
-  export const updateUser = async (token: string, userId, user) => {
+  export const updateUser = async (token: string, user: User): Promise<User> => {
     const initOverrides = {
       headers: {
         'Authorization': `Bearer ${token}`
       }
     };
-    const requestParameters: UpdateUserRequest = {
-      userId: userId;
-      user: user;
+    const requestParameters = {
+      user: user,
     }
-    return userApi.updateUser(requestParameters,initOverrides)
+    return userApi.updateCurrentUser(requestParameters,initOverrides)
   }
 
 export const getCurrentUser = async (token: string): Promise<User> => {

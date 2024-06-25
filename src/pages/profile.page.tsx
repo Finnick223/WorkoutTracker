@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import EditNoteIcon from '@mui/icons-material/EditNote';
 import EditUserModal from '../components/modals/EditProfile.modal.tsx';
 
+
 function Profile() {
   const { token } = useAuthStatus();
   const [user, setUser] = useState<User>();
@@ -31,10 +32,6 @@ function Profile() {
 
   const handleEditOpen = () => setIsEditOpen(true);
   const handleEditClose = () => setIsEditOpen(false);
-  const handleEditSave = () => {
-    // Add logic to save edited user information here
-    handleEditClose();
-  };
 
   if (isFetching) {
     return (
@@ -74,8 +71,7 @@ function Profile() {
           <Typography variant="h6">Email: {user?.email}</Typography>
           <Typography variant="h6">First Name: {user?.firstName}</Typography>
           <Typography variant="h6">Last Name: {user?.lastName}</Typography>
-          {user?.gender && <Typography variant="h6">Gender: {user.gender}</Typography>}
-          {user?.userMeasurements && <Typography variant="h6">Measurements: {JSON.stringify(user.userMeasurements)}</Typography>}
+          <Typography variant="h6">Gender: {user?.gender}</Typography>
           <Button variant="contained" color="primary" startIcon={<EditNoteIcon />} fullWidth onClick={handleEditOpen} sx={{my: 2}}>
             Edit
           </Button>
@@ -83,9 +79,9 @@ function Profile() {
         </Box>
       </Container>
       <EditUserModal
+        id={user?.id}
         open={isEditOpen}
         handleEditClose={handleEditClose}
-        handleEditSave={handleEditSave}
         user={user}
       />
     </>

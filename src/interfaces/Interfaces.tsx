@@ -12,9 +12,9 @@ export type FormDataType = {
 };
 
 export interface EditUserModalProps {
+  id: string | undefined;
   open: boolean;
   handleEditClose: () => void;
-  handleEditSave: () => void;
   user: User | undefined;
 }
 
