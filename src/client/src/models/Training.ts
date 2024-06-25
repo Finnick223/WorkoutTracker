@@ -13,19 +13,6 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import type { Exercise } from './Exercise';
-import {
-    ExerciseFromJSON,
-    ExerciseFromJSONTyped,
-    ExerciseToJSON,
-} from './Exercise';
-import type { TrainingCategory } from './TrainingCategory';
-import {
-    TrainingCategoryFromJSON,
-    TrainingCategoryFromJSONTyped,
-    TrainingCategoryToJSON,
-} from './TrainingCategory';
-
 /**
  * 
  * @export
@@ -62,18 +49,6 @@ export interface Training {
      * @memberof Training
      */
     description?: string;
-    /**
-     * 
-     * @type {Array<Exercise>}
-     * @memberof Training
-     */
-    exercises?: Array<Exercise>;
-    /**
-     * 
-     * @type {Array<TrainingCategory>}
-     * @memberof Training
-     */
-    trainingCategories?: Array<TrainingCategory>;
 }
 
 /**
@@ -100,8 +75,6 @@ export function TrainingFromJSONTyped(json: any, ignoreDiscriminator: boolean): 
         'modifiedOn': !exists(json, 'modifiedOn') ? undefined : json['modifiedOn'],
         'name': !exists(json, 'name') ? undefined : json['name'],
         'description': !exists(json, 'description') ? undefined : json['description'],
-        'exercises': !exists(json, 'exercises') ? undefined : ((json['exercises'] as Array<any>).map(ExerciseFromJSON)),
-        'trainingCategories': !exists(json, 'trainingCategories') ? undefined : ((json['trainingCategories'] as Array<any>).map(TrainingCategoryFromJSON)),
     };
 }
 
@@ -119,8 +92,6 @@ export function TrainingToJSON(value?: Training | null): any {
         'modifiedOn': value.modifiedOn,
         'name': value.name,
         'description': value.description,
-        'exercises': value.exercises === undefined ? undefined : ((value.exercises as Array<any>).map(ExerciseToJSON)),
-        'trainingCategories': value.trainingCategories === undefined ? undefined : ((value.trainingCategories as Array<any>).map(TrainingCategoryToJSON)),
     };
 }
 

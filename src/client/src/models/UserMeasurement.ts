@@ -13,13 +13,6 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import type { User } from './User';
-import {
-    UserFromJSON,
-    UserFromJSONTyped,
-    UserToJSON,
-} from './User';
-
 /**
  * 
  * @export
@@ -62,12 +55,6 @@ export interface UserMeasurement {
      * @memberof UserMeasurement
      */
     age?: number;
-    /**
-     * 
-     * @type {User}
-     * @memberof UserMeasurement
-     */
-    user?: User;
 }
 
 /**
@@ -95,7 +82,6 @@ export function UserMeasurementFromJSONTyped(json: any, ignoreDiscriminator: boo
         'weight': !exists(json, 'weight') ? undefined : json['weight'],
         'height': !exists(json, 'height') ? undefined : json['height'],
         'age': !exists(json, 'age') ? undefined : json['age'],
-        'user': !exists(json, 'user') ? undefined : UserFromJSON(json['user']),
     };
 }
 
@@ -114,7 +100,6 @@ export function UserMeasurementToJSON(value?: UserMeasurement | null): any {
         'weight': value.weight,
         'height': value.height,
         'age': value.age,
-        'user': UserToJSON(value.user),
     };
 }
 

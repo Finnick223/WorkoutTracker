@@ -13,19 +13,6 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import type { Training } from './Training';
-import {
-    TrainingFromJSON,
-    TrainingFromJSONTyped,
-    TrainingToJSON,
-} from './Training';
-import type { UserMeasurement } from './UserMeasurement';
-import {
-    UserMeasurementFromJSON,
-    UserMeasurementFromJSONTyped,
-    UserMeasurementToJSON,
-} from './UserMeasurement';
-
 /**
  * 
  * @export
@@ -38,18 +25,6 @@ export interface User {
      * @memberof User
      */
     id?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof User
-     */
-    createdOn?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof User
-     */
-    modifiedOn?: string;
     /**
      * 
      * @type {string}
@@ -74,18 +49,6 @@ export interface User {
      * @memberof User
      */
     gender?: UserGenderEnum;
-    /**
-     * 
-     * @type {Array<UserMeasurement>}
-     * @memberof User
-     */
-    userMeasurements?: Array<UserMeasurement>;
-    /**
-     * 
-     * @type {Array<Training>}
-     * @memberof User
-     */
-    trainings?: Array<Training>;
 }
 
 
@@ -120,14 +83,10 @@ export function UserFromJSONTyped(json: any, ignoreDiscriminator: boolean): User
     return {
         
         'id': !exists(json, 'id') ? undefined : json['id'],
-        'createdOn': !exists(json, 'createdOn') ? undefined : json['createdOn'],
-        'modifiedOn': !exists(json, 'modifiedOn') ? undefined : json['modifiedOn'],
         'email': !exists(json, 'email') ? undefined : json['email'],
         'firstName': !exists(json, 'firstName') ? undefined : json['firstName'],
         'lastName': !exists(json, 'lastName') ? undefined : json['lastName'],
         'gender': !exists(json, 'gender') ? undefined : json['gender'],
-        'userMeasurements': !exists(json, 'userMeasurements') ? undefined : ((json['userMeasurements'] as Array<any>).map(UserMeasurementFromJSON)),
-        'trainings': !exists(json, 'trainings') ? undefined : ((json['trainings'] as Array<any>).map(TrainingFromJSON)),
     };
 }
 
@@ -141,14 +100,10 @@ export function UserToJSON(value?: User | null): any {
     return {
         
         'id': value.id,
-        'createdOn': value.createdOn,
-        'modifiedOn': value.modifiedOn,
         'email': value.email,
         'firstName': value.firstName,
         'lastName': value.lastName,
         'gender': value.gender,
-        'userMeasurements': value.userMeasurements === undefined ? undefined : ((value.userMeasurements as Array<any>).map(UserMeasurementToJSON)),
-        'trainings': value.trainings === undefined ? undefined : ((value.trainings as Array<any>).map(TrainingToJSON)),
     };
 }
 
