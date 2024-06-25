@@ -101,6 +101,42 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/ErrorResponse'
+        put:
+            tags:
+                - user
+            summary: Update current user
+            operationId: updateCurrentUser
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/User'
+            responses:
+                '200':
+                    description: User updated
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/User'
+                '400':
+                    description: Bad request
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ErrorResponse'
+                '401':
+                    description: Unauthorized
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ErrorResponse'
+                '403':
+                    description: Forbidden
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ErrorResponse'
 
     /user/{userId}:
         get:
@@ -120,7 +156,7 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/User'
+                                $ref: '#/components/schemas/UserDetails'
                 '400':
                     description: Bad request
                     content:
@@ -161,14 +197,14 @@ paths:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/User'
+                            $ref: '#/components/schemas/UserDetails'
             responses:
                 '200':
                     description: User updated
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/User'
+                                $ref: '#/components/schemas/UserDetails'
                 '400':
                     description: Bad request
                     content:
@@ -885,7 +921,7 @@ components:
             scheme: bearer
             bearerFormat: JWT
     schemas:
-        User:
+        UserDetails:
             type: object
             properties:
                 id:
@@ -914,6 +950,23 @@ components:
                     type: array
                     items:
                         $ref: '#/components/schemas/Training'
+        User:
+            type: object
+            properties:
+                id:
+                    type: string
+                email:
+                    type: string
+                firstName:
+                    type: string
+                lastName:
+                    type: string
+                gender:
+                    type: string
+                    enum:
+                        - MALE
+                        - FEMALE
+                        - OTHER
         UserMeasurement:
             type: object
             properties:
