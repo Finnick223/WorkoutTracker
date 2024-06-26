@@ -52,6 +52,8 @@ function TrainingPage() {
             name={training.name}
             description={training.description}
             key={training.id}
+            page={page}
+            size={size}
           />
         ))}
       </Box>

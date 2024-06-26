@@ -1,5 +1,4 @@
 import { Link, To } from 'react-router-dom';
-import { Training } from '../client/src';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
@@ -12,13 +11,14 @@ import { useMutation } from '@tanstack/react-query';
 import { deleteTraining } from '../api/auth';
 import toast from 'react-hot-toast';
 import useAuthStatus from '../hooks/useAuth';
+import { TrainingExtended } from '../interfaces/Interfaces';
 
-export default function TrainingCard(props: Training) {
+export default function TrainingCard(props: TrainingExtended) {
   const { token } = useAuthStatus();
 
   const { mutate } = useMutation({
     mutationFn: deleteTraining,
-    mutationKey: ["trainings"],
+    mutationKey: ["trainings", props.page, props.size],
     onSuccess: () => {
       toast.success('Training deleted')
     }
