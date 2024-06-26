@@ -1,5 +1,4 @@
 import { Link, To } from 'react-router-dom';
-import { Training } from '../client/src';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
@@ -8,8 +7,34 @@ import Typography from '@mui/material/Typography';
 import { Paper } from '@mui/material';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import EditNoteOutlinedIcon from '@mui/icons-material/EditNoteOutlined';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { deleteTraining } from '../api/auth';
+import toast from 'react-hot-toast';
+import useAuthStatus from '../hooks/useAuth';
+import { TrainingExtended } from '../interfaces/Interfaces';
 
-export default function TrainingCard(props: Training) {
+export default function TrainingCard(props: TrainingExtended) {
+  const { token } = useAuthStatus();
+  const queryClient =  useQueryClient();
+
+
+  const { mutate,  } = useMutation({
+    mutationFn: deleteTraining,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["trainings", props.page, props.size]
+      })
+      toast.success('Training deleted')
+    }
+  })
+  const handleClick = () => {
+    const trainingId = props.id;
+    if (trainingId) {
+      mutate({ token, trainingId });
+    } else {
+      toast.error('Training ID is undefined');
+    }
+  }
   return (
     <Paper elevation={4} sx={{ width: '16vw', m: 2 }}>
       <Card sx={{ width: '16vw' }}>
@@ -33,7 +58,7 @@ export default function TrainingCard(props: Training) {
           <Button size="small" variant="contained">
             <EditNoteOutlinedIcon />
           </Button>
-          <Button size="small" variant="contained">
+          <Button size="small" variant="contained" onClick={handleClick}>
             <DeleteOutlineOutlinedIcon />
           </Button>
         </CardActions>

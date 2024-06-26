@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { User } from "../client/src";
+import { Training, User } from "../client/src";
 
 export type FormDataType = {
   email: string;
@@ -25,4 +25,9 @@ export interface AuthContextType {
 }
 export interface AuthProviderProps {
   children: ReactNode;
+}
+
+export interface TrainingExtended extends Training {
+  page: number,
+  size: number,
 }
