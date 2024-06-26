@@ -7,7 +7,7 @@ import Typography from '@mui/material/Typography';
 import { Paper } from '@mui/material';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import EditNoteOutlinedIcon from '@mui/icons-material/EditNoteOutlined';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { deleteTraining } from '../api/auth';
 import toast from 'react-hot-toast';
 import useAuthStatus from '../hooks/useAuth';
@@ -15,11 +15,15 @@ import { TrainingExtended } from '../interfaces/Interfaces';
 
 export default function TrainingCard(props: TrainingExtended) {
   const { token } = useAuthStatus();
+  const queryClient =  useQueryClient();
 
-  const { mutate } = useMutation({
+
+  const { mutate,  } = useMutation({
     mutationFn: deleteTraining,
-    mutationKey: ["trainings", props.page, props.size],
     onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["trainings", props.page, props.size]
+      })
       toast.success('Training deleted')
     }
   })
