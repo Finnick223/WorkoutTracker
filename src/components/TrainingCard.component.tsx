@@ -8,8 +8,29 @@ import Typography from '@mui/material/Typography';
 import { Paper } from '@mui/material';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import EditNoteOutlinedIcon from '@mui/icons-material/EditNoteOutlined';
+import { useMutation } from '@tanstack/react-query';
+import { deleteTraining } from '../api/auth';
+import toast from 'react-hot-toast';
+import useAuthStatus from '../hooks/useAuth';
 
 export default function TrainingCard(props: Training) {
+  const { token } = useAuthStatus();
+
+  const { mutate } = useMutation({
+    mutationFn: deleteTraining,
+    mutationKey: ["trainings"],
+    onSuccess: () => {
+      toast.success('Training deleted')
+    }
+  })
+  const handleClick = () => {
+    const trainingId = props.id;
+    if (trainingId) {
+      mutate({ token, trainingId });
+    } else {
+      toast.error('Training ID is undefined');
+    }
+  }
   return (
     <Paper elevation={4} sx={{ width: '16vw', m: 2 }}>
       <Card sx={{ width: '16vw' }}>
@@ -33,7 +54,7 @@ export default function TrainingCard(props: Training) {
           <Button size="small" variant="contained">
             <EditNoteOutlinedIcon />
           </Button>
-          <Button size="small" variant="contained">
+          <Button size="small" variant="contained" onClick={handleClick}>
             <DeleteOutlineOutlinedIcon />
           </Button>
         </CardActions>

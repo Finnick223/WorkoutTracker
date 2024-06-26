@@ -5,6 +5,7 @@ import { Training, TrainingApi, User, UserApi } from '../../client/src';
   const trainingApi = new TrainingApi();
   const userApi = new UserApi();
 
+
   export const loadTrainings = async (token: string, page: number, size: number): Promise<Training[]> => {
     const initOverrides = {
       headers: {
@@ -17,6 +18,18 @@ import { Training, TrainingApi, User, UserApi } from '../../client/src';
     };
     return await trainingApi.getTrainings(requestParameters, initOverrides);
   };
+
+  export const deleteTraining = async ({token, trainingId}: {token: string, trainingId: string}) => {
+    const initOverrides = {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    };
+    const requestParameters = {
+      trainingId: trainingId,
+    }
+    return await trainingApi.deleteTraining(requestParameters,initOverrides)
+  }
 
   export const loginUser = async (creds: any) => {
     const response = await axios.post('http://188.68.247.208:8080/auth/signin', {
