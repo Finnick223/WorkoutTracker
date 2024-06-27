@@ -6,12 +6,15 @@ import toast from "react-hot-toast";
 import { updateUser } from "../../api/auth";
 import useAuthStatus from "../../hooks/useAuth";
 import { User, UserGenderEnum } from "../../client/src";
+import { useNavigate } from "react-router-dom";
 
 
 const EditUserModal: React.FC<EditUserModalProps> = ({ open, handleEditClose, user, id }) => {
     const { register, handleSubmit, setValue } = useForm();
-    const { token } = useAuthStatus();
-    const queryClient = useQueryClient()
+    const { token, logout } = useAuthStatus();
+    const queryClient = useQueryClient();
+    const navigate = useNavigate();
+    const initialEmail = user?.email;
 
 
     const handleGenderChange = (event: SelectChangeEvent<UserGenderEnum>) => {
@@ -24,6 +27,10 @@ const EditUserModal: React.FC<EditUserModalProps> = ({ open, handleEditClose, us
         queryClient.setQueryData(['profile'], data)
         toast.success("profile info updated successfully")
         handleEditClose()
+        if (initialEmail && initialEmail !== data.email) {
+          logout();
+          navigate('/Login')
+      }
       },
       onError: (error) => {
         toast.error("err : " + error)
