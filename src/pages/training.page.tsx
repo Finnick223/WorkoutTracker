@@ -83,7 +83,7 @@ function TrainingPage() {
         </Fab>
         <AddTrainingModal 
           open={isAddOpen}
-          handleEditClose={handleAddClose}
+          handleAddClose={handleAddClose}
         />
       </Stack>
     </>

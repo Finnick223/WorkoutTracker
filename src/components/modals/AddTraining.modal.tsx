@@ -2,23 +2,41 @@ import { Box, Button, Modal, TextField, Typography } from "@mui/material"
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import useAuthStatus from "../../hooks/useAuth";
+import { AddTrainingModalProps } from "../../interfaces/Interfaces";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { addTraining } from "../../api/auth";
+import { Training } from "../../client/src";
 
 
-const AddTrainingModal = ({open, handleEditClose}) => {
+const AddTrainingModal: React.FC<AddTrainingModalProps> = ({open, handleAddClose}) => {
     const { register, handleSubmit } = useForm();
     const { token } = useAuthStatus();
+    const queryClient = useQueryClient();
 
 
-    // const onSubmit = handleSubmit((formData) => Mutation.mutate())
+
+    const mutation = useMutation({
+      mutationFn: ({token, training}:{token: string, training: Training}) => addTraining(token, training),
+      onSuccess: () => {
+        queryClient.invalidateQueries({queryKey: ['training']})
+        toast.success('Training added successfully')
+        handleAddClose()
+      },
+      onError: (error) => {
+        toast.error("err : " + error)
+      }
+    })
+    //TODO fix input data in mutation
+    const onSubmit = handleSubmit((formData) => mutation.mutate(({ token, training: { ...formData,  createdOn: Date.now().toString(), modifiedOn: Date.now().toString()}})))
     return (
         <>
         <Modal
         open={open}
-        onClose={handleEditClose}
+        onClose={handleAddClose}
         aria-labelledby="edit-user-modal"
         aria-describedby="edit-user-modal-description"
       >
-        {/* <form onSubmit={onSubmit}> */}
+        <form onSubmit={onSubmit}>
           <Box
             sx={{
               position: 'absolute',
@@ -60,7 +78,7 @@ const AddTrainingModal = ({open, handleEditClose}) => {
               Add
             </Button>
           </Box>
-        {/* </form> */}
+        </form>
       </Modal>
       </>
     )

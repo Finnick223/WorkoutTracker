@@ -19,6 +19,17 @@ import { Training, TrainingApi, User, UserApi } from '../../client/src';
     return await trainingApi.getTrainings(requestParameters, initOverrides);
   };
 
+  export const addTraining = async (token: string, training: Training) => {
+    const initOverrides = {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    }
+    const requestParameters = {
+      training: training
+    }
+    return await trainingApi.createTraining(requestParameters, initOverrides)
+}
   export const deleteTraining = async ({token, trainingId}: {token: string, trainingId: string}) => {
     const initOverrides = {
       headers: {
