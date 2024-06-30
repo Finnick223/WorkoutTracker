@@ -18,7 +18,7 @@ const AddTrainingModal: React.FC<AddTrainingModalProps> = ({open, handleAddClose
     const mutation = useMutation({
       mutationFn: ({token, training}:{token: string, training: Training}) => addTraining(token, training),
       onSuccess: () => {
-        queryClient.invalidateQueries({queryKey: ['training']})
+        queryClient.invalidateQueries()
         toast.success('Training added successfully')
         handleAddClose()
       },
@@ -26,8 +26,9 @@ const AddTrainingModal: React.FC<AddTrainingModalProps> = ({open, handleAddClose
         toast.error("err : " + error)
       }
     })
-    //TODO fix input data in mutation
-    const onSubmit = handleSubmit((formData) => mutation.mutate(({ token, training: { ...formData,  createdOn: Date.now().toString(), modifiedOn: Date.now().toString()}})))
+    const onSubmit = handleSubmit((formData) => {
+      mutation.mutate(({ token, training: { ...formData}}))
+  })
     return (
         <>
         <Modal
@@ -57,7 +58,6 @@ const AddTrainingModal: React.FC<AddTrainingModalProps> = ({open, handleAddClose
               margin="normal"
               fullWidth
               label="Training name"
-            //   defaultValue={user?.firstName}
               variant="outlined"
               />
             <TextField
@@ -65,7 +65,6 @@ const AddTrainingModal: React.FC<AddTrainingModalProps> = ({open, handleAddClose
               margin="normal"
               fullWidth
               label="Training description"
-            //   defaultValue={user?.lastName}
               variant="outlined"
               />
             <Button
