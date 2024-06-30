@@ -1,18 +1,24 @@
 import { useEffect, useState } from 'react';
 import TrainingCard from '../components/TrainingCard.component.tsx';
-import { Box, Button, CircularProgress, CssBaseline, FormControl, InputLabel, MenuItem, Select, Stack } from '@mui/material';
+import { Box, Button, CircularProgress, CssBaseline, Fab, FormControl, InputLabel, MenuItem, Select, Stack } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
 import { Training } from '../client/src';
 import { useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { loadTrainings } from '../api/auth';
 import useAuthStatus from '../hooks/useAuth.ts';
+import AddTrainingModal from '../components/modals/AddTraining.modal.tsx';
 
 function TrainingPage() {
   const [trainings, setTrainings] = useState<Training[]>([]);
   const [page, setPage] = useState<number>(0);
   const [size, setSize] = useState<number>(10);
+  const [isAddOpen, setIsAddOpen] = useState<boolean>(false);
   const navigate = useNavigate();
   const { token } = useAuthStatus();
+
+  const handleAddOpen = () => setIsAddOpen(true);
+  const handleAddClose = () => setIsAddOpen(false);
 
   const { data, isSuccess, isFetching, isError } = useQuery({
     queryKey: ["trainings", page, size],
@@ -71,6 +77,14 @@ function TrainingPage() {
           <MenuItem value={50}>50</MenuItem >
         </Select>
         </FormControl>
+        <Fab variant="extended" color="primary" aria-label="add" onClick={handleAddOpen}>
+          <AddIcon />
+          Add
+        </Fab>
+        <AddTrainingModal 
+          open={isAddOpen}
+          handleAddClose={handleAddClose}
+        />
       </Stack>
     </>
   );

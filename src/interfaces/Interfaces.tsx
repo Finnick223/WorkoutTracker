@@ -11,6 +11,10 @@ export type FormDataType = {
   termsAndConditions: boolean;
 };
 
+export interface AddTrainingModalProps {
+  open: boolean;
+  handleAddClose: () => void;
+}
 export interface EditUserModalProps {
   id: string | undefined;
   open: boolean;
