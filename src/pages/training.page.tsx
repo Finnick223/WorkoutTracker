@@ -49,7 +49,7 @@ function TrainingPage() {
   return (
     <>
       <CssBaseline />
-      <Box sx={{ display: 'inline-flex', textAlign: 'center' }}>
+      <Box sx={{ display: 'inline-flex', textAlign: 'center', flexWrap: 'wrap' }}>
         {isFetching ? <CircularProgress /> : trainings.map((training) => (
           <TrainingCard
             id={training.id}
