@@ -35,7 +35,7 @@ function TrainingPage() {
   }, [isSuccess, isError, data]);
 
   const handlePageChange = (
-    event: React.MouseEvent<HTMLButtonElement> | null,
+    _event: React.MouseEvent<HTMLButtonElement> | null,
     newPage: number,
   ) => {
     setPage(newPage);
