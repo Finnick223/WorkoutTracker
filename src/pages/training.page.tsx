@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import TrainingCard from '../components/TrainingCard.component.tsx';
-import { Box, Button, CircularProgress, CssBaseline, Fab, FormControl, InputLabel, MenuItem, Select, Stack } from '@mui/material';
+import { Box, CircularProgress, CssBaseline, Fab, Stack, TablePagination } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { Training } from '../client/src';
 import { useNavigate } from 'react-router-dom';
@@ -34,12 +34,11 @@ function TrainingPage() {
     }
   }, [isSuccess, isError, data]);
 
-  const handlePreviousPage = () => {
-    setPage(prevPage => Math.max(prevPage - 1, 0));
-  };
-  
-  const handleNextPage = () => {
-    setPage(prevPage => prevPage + 1);
+  const handlePageChange = (
+    _event: React.MouseEvent<HTMLButtonElement> | null,
+    newPage: number,
+  ) => {
+    setPage(newPage);
   };
 
   const handleSizeChange = (event: { target: { value: string; }; }) => {
@@ -50,7 +49,7 @@ function TrainingPage() {
   return (
     <>
       <CssBaseline />
-      <Box sx={{ display: 'inline-flex', textAlign: 'center' }}>
+      <Box sx={{ display: 'inline-flex', textAlign: 'center', flexWrap: 'wrap' }}>
         {isFetching ? <CircularProgress /> : trainings.map((training) => (
           <TrainingCard
             id={training.id}
@@ -64,19 +63,14 @@ function TrainingPage() {
         ))}
       </Box>
       <Stack spacing={2} direction="column" sx={{ display: 'flex', alignItems: 'center', mt: 4 }}>
-      <Box>
-        <Button onClick={handlePreviousPage} disabled={page === 0}>Previous Page</Button>
-        <Button onClick={handleNextPage}>Next Page</Button>
-      </Box>
-      <FormControl>
-        <InputLabel>Items</InputLabel>
-        <Select id="pageSize" value={size.toString()} label="Items" onChange={handleSizeChange} autoWidth>
-          <MenuItem value={5}>5</MenuItem >
-          <MenuItem value={10}>10</MenuItem >
-          <MenuItem value={20}>20</MenuItem >
-          <MenuItem value={50}>50</MenuItem >
-        </Select>
-        </FormControl>
+        <TablePagination
+        component="div"
+        count={-1}
+        page={page}
+        onPageChange={handlePageChange}
+        rowsPerPage={size}
+        onRowsPerPageChange={handleSizeChange}
+        />
         <Fab variant="extended" color="primary" aria-label="add" onClick={handleAddOpen}>
           <AddIcon />
           Add
