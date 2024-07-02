@@ -16,93 +16,72 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface UserMeasurement
+ * @interface UserMeasurementCreate
  */
-export interface UserMeasurement {
-    /**
-     * 
-     * @type {string}
-     * @memberof UserMeasurement
-     */
-    id?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof UserMeasurement
-     */
-    createdOn?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof UserMeasurement
-     */
-    modifiedOn?: string;
+export interface UserMeasurementCreate {
     /**
      * 
      * @type {number}
-     * @memberof UserMeasurement
+     * @memberof UserMeasurementCreate
      */
     weight?: number;
     /**
      * 
      * @type {number}
-     * @memberof UserMeasurement
+     * @memberof UserMeasurementCreate
      */
     height?: number;
     /**
      * 
      * @type {number}
-     * @memberof UserMeasurement
+     * @memberof UserMeasurementCreate
      */
     age?: number;
     /**
      * 
      * @type {number}
-     * @memberof UserMeasurement
+     * @memberof UserMeasurementCreate
      */
     arms?: number;
     /**
      * 
      * @type {number}
-     * @memberof UserMeasurement
+     * @memberof UserMeasurementCreate
      */
     chest?: number;
     /**
      * 
      * @type {number}
-     * @memberof UserMeasurement
+     * @memberof UserMeasurementCreate
      */
     belly?: number;
     /**
      * 
      * @type {number}
-     * @memberof UserMeasurement
+     * @memberof UserMeasurementCreate
      */
     legs?: number;
 }
 
 /**
- * Check if a given object implements the UserMeasurement interface.
+ * Check if a given object implements the UserMeasurementCreate interface.
  */
-export function instanceOfUserMeasurement(value: object): boolean {
+export function instanceOfUserMeasurementCreate(value: object): boolean {
     let isInstance = true;
 
     return isInstance;
 }
 
-export function UserMeasurementFromJSON(json: any): UserMeasurement {
-    return UserMeasurementFromJSONTyped(json, false);
+export function UserMeasurementCreateFromJSON(json: any): UserMeasurementCreate {
+    return UserMeasurementCreateFromJSONTyped(json, false);
 }
 
-export function UserMeasurementFromJSONTyped(json: any, ignoreDiscriminator: boolean): UserMeasurement {
+export function UserMeasurementCreateFromJSONTyped(json: any, ignoreDiscriminator: boolean): UserMeasurementCreate {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
         
-        'id': !exists(json, 'id') ? undefined : json['id'],
-        'createdOn': !exists(json, 'createdOn') ? undefined : json['createdOn'],
-        'modifiedOn': !exists(json, 'modifiedOn') ? undefined : json['modifiedOn'],
         'weight': !exists(json, 'weight') ? undefined : json['weight'],
         'height': !exists(json, 'height') ? undefined : json['height'],
         'age': !exists(json, 'age') ? undefined : json['age'],
@@ -113,7 +92,7 @@ export function UserMeasurementFromJSONTyped(json: any, ignoreDiscriminator: boo
     };
 }
 
-export function UserMeasurementToJSON(value?: UserMeasurement | null): any {
+export function UserMeasurementCreateToJSON(value?: UserMeasurementCreate | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -122,9 +101,6 @@ export function UserMeasurementToJSON(value?: UserMeasurement | null): any {
     }
     return {
         
-        'id': value.id,
-        'createdOn': value.createdOn,
-        'modifiedOn': value.modifiedOn,
         'weight': value.weight,
         'height': value.height,
         'age': value.age,

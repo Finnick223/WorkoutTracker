@@ -17,6 +17,7 @@ import * as runtime from '../runtime';
 import type {
   ErrorResponse,
   User,
+  UserCreate,
   UserDetails,
 } from '../models/index';
 import {
@@ -24,6 +25,8 @@ import {
     ErrorResponseToJSON,
     UserFromJSON,
     UserToJSON,
+    UserCreateFromJSON,
+    UserCreateToJSON,
     UserDetailsFromJSON,
     UserDetailsToJSON,
 } from '../models/index';
@@ -42,12 +45,12 @@ export interface GetUsersRequest {
 }
 
 export interface UpdateCurrentUserRequest {
-    user: User;
+    userCreate: UserCreate;
 }
 
 export interface UpdateUserRequest {
     userId: string;
-    userDetails: UserDetails;
+    userCreate: UserCreate;
 }
 
 /**
@@ -210,8 +213,8 @@ export class UserApi extends runtime.BaseAPI {
      * Update current user
      */
     async updateCurrentUserRaw(requestParameters: UpdateCurrentUserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<User>> {
-        if (requestParameters.user === null || requestParameters.user === undefined) {
-            throw new runtime.RequiredError('user','Required parameter requestParameters.user was null or undefined when calling updateCurrentUser.');
+        if (requestParameters.userCreate === null || requestParameters.userCreate === undefined) {
+            throw new runtime.RequiredError('userCreate','Required parameter requestParameters.userCreate was null or undefined when calling updateCurrentUser.');
         }
 
         const queryParameters: any = {};
@@ -233,7 +236,7 @@ export class UserApi extends runtime.BaseAPI {
             method: 'PUT',
             headers: headerParameters,
             query: queryParameters,
-            body: UserToJSON(requestParameters.user),
+            body: UserCreateToJSON(requestParameters.userCreate),
         }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => UserFromJSON(jsonValue));
@@ -255,8 +258,8 @@ export class UserApi extends runtime.BaseAPI {
             throw new runtime.RequiredError('userId','Required parameter requestParameters.userId was null or undefined when calling updateUser.');
         }
 
-        if (requestParameters.userDetails === null || requestParameters.userDetails === undefined) {
-            throw new runtime.RequiredError('userDetails','Required parameter requestParameters.userDetails was null or undefined when calling updateUser.');
+        if (requestParameters.userCreate === null || requestParameters.userCreate === undefined) {
+            throw new runtime.RequiredError('userCreate','Required parameter requestParameters.userCreate was null or undefined when calling updateUser.');
         }
 
         const queryParameters: any = {};
@@ -278,7 +281,7 @@ export class UserApi extends runtime.BaseAPI {
             method: 'PUT',
             headers: headerParameters,
             query: queryParameters,
-            body: UserDetailsToJSON(requestParameters.userDetails),
+            body: UserCreateToJSON(requestParameters.userCreate),
         }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => UserDetailsFromJSON(jsonValue));
