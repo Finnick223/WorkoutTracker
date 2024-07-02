@@ -1,9 +1,10 @@
 import axios from 'axios'
-import { Training, TrainingApi, User, UserApi } from '../../client/src';
+import { Training, TrainingApi, User, UserApi, UserMeasurementApi } from '../../client/src';
 
 
   const trainingApi = new TrainingApi();
   const userApi = new UserApi();
+  const MeasApi = new UserMeasurementApi();
 
 
   export const loadTrainings = async (token: string, page: number, size: number): Promise<Training[]> => {
@@ -27,7 +28,7 @@ import { Training, TrainingApi, User, UserApi } from '../../client/src';
       }
     }
     const requestParameters = {
-      training: training
+      trainingCreate: training
     }
     return await trainingApi.createTraining(requestParameters, initOverrides)
 }
@@ -59,7 +60,7 @@ export const updateUser = async (token: string, user: User): Promise<User> => {
     }
   };
   const requestParameters = {
-    user: user,
+    userCreate: user,
   };
   return userApi.updateCurrentUser(requestParameters, initOverrides);
 }
@@ -76,4 +77,17 @@ export const getCurrentUser = async (token: string): Promise<User> => {
 export const requestPasswordReset = async (email: string) => {
   const response = await axios.post('http://188.68.247.208:8080/request-password-reset', email);
   return response.data.message
+}
+
+export const getUserMeasurement = async (token: string) => {
+  const initOverrides = {
+    headers: {
+      'Authorization': `Bearer ${token}`
+    }
+  };
+  const requestParameters = {
+    userMeasurementId: 'b7393418-f187-4ada-999e-2158a2e8ae02'
+  }
+
+  return await MeasApi.getUserMeasurementById(requestParameters, initOverrides)
 }
