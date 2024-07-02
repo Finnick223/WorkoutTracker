@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { Training, TrainingApi, User, UserApi, UserMeasurementApi } from '../../client/src';
+import { Training, TrainingApi, User, UserApi, UserMeasurement, UserMeasurementApi } from '../../client/src';
 
 
   const trainingApi = new TrainingApi();
@@ -90,4 +90,17 @@ export const getUserMeasurement = async (token: string) => {
   }
 
   return await MeasApi.getUserMeasurementById(requestParameters, initOverrides)
+}
+export const updateUserMeasurement = async ({token, userMeasurement}: {token: string, userMeasurement: UserMeasurement}) => {
+  const initOverrides = {
+    headers: {
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    }
+  };
+  const requestParameters = {
+    userMeasurementId: 'b7393418-f187-4ada-999e-2158a2e8ae02',
+    userMeasurementCreate: userMeasurement
+  }
+  return await MeasApi.updateUserMeasurement(requestParameters, initOverrides)
 }

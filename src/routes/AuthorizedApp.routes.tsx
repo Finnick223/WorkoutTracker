@@ -1,7 +1,7 @@
 import { Route, Routes } from 'react-router-dom';
 import { CommonRoutes, AuthorizedRoute } from '../enums/routes.enums.ts';
 import Layout from '../pages/layout.page.tsx';
-import User from '../pages/user.page.tsx';
+import User from '../pages/userMeasurement.page.tsx';
 import Training from '../pages/training.page.tsx';
 import Home from '../pages/home.page.tsx';
 import TrainingDetail from '../pages/Training/trainingDetail.page.tsx';
