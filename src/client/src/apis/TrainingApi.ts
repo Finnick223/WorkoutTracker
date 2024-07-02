@@ -17,6 +17,7 @@ import * as runtime from '../runtime';
 import type {
   ErrorResponse,
   Training,
+  TrainingCreate,
   TrainingDetails,
 } from '../models/index';
 import {
@@ -24,12 +25,14 @@ import {
     ErrorResponseToJSON,
     TrainingFromJSON,
     TrainingToJSON,
+    TrainingCreateFromJSON,
+    TrainingCreateToJSON,
     TrainingDetailsFromJSON,
     TrainingDetailsToJSON,
 } from '../models/index';
 
 export interface CreateTrainingRequest {
-    training: Training;
+    trainingCreate: TrainingCreate;
 }
 
 export interface DeleteTrainingRequest {
@@ -47,7 +50,7 @@ export interface GetTrainingsRequest {
 
 export interface UpdateTrainingRequest {
     trainingId: string;
-    trainingDetails: TrainingDetails;
+    trainingCreate: TrainingCreate;
 }
 
 /**
@@ -59,8 +62,8 @@ export class TrainingApi extends runtime.BaseAPI {
      * Create training
      */
     async createTrainingRaw(requestParameters: CreateTrainingRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Training>> {
-        if (requestParameters.training === null || requestParameters.training === undefined) {
-            throw new runtime.RequiredError('training','Required parameter requestParameters.training was null or undefined when calling createTraining.');
+        if (requestParameters.trainingCreate === null || requestParameters.trainingCreate === undefined) {
+            throw new runtime.RequiredError('trainingCreate','Required parameter requestParameters.trainingCreate was null or undefined when calling createTraining.');
         }
 
         const queryParameters: any = {};
@@ -82,7 +85,7 @@ export class TrainingApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: TrainingToJSON(requestParameters.training),
+            body: TrainingCreateToJSON(requestParameters.trainingCreate),
         }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => TrainingFromJSON(jsonValue));
@@ -221,8 +224,8 @@ export class TrainingApi extends runtime.BaseAPI {
             throw new runtime.RequiredError('trainingId','Required parameter requestParameters.trainingId was null or undefined when calling updateTraining.');
         }
 
-        if (requestParameters.trainingDetails === null || requestParameters.trainingDetails === undefined) {
-            throw new runtime.RequiredError('trainingDetails','Required parameter requestParameters.trainingDetails was null or undefined when calling updateTraining.');
+        if (requestParameters.trainingCreate === null || requestParameters.trainingCreate === undefined) {
+            throw new runtime.RequiredError('trainingCreate','Required parameter requestParameters.trainingCreate was null or undefined when calling updateTraining.');
         }
 
         const queryParameters: any = {};
@@ -244,7 +247,7 @@ export class TrainingApi extends runtime.BaseAPI {
             method: 'PUT',
             headers: headerParameters,
             query: queryParameters,
-            body: TrainingDetailsToJSON(requestParameters.trainingDetails),
+            body: TrainingCreateToJSON(requestParameters.trainingCreate),
         }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => TrainingDetailsFromJSON(jsonValue));

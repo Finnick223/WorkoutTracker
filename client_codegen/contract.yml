@@ -111,7 +111,7 @@ paths:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/User'
+                            $ref: '#/components/schemas/UserCreate'
             responses:
                 '200':
                     description: User updated
@@ -197,7 +197,7 @@ paths:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/UserDetails'
+                            $ref: '#/components/schemas/UserCreate'
             responses:
                 '200':
                     description: User updated
@@ -327,7 +327,7 @@ paths:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/Training'
+                            $ref: '#/components/schemas/TrainingCreate'
             responses:
                 '200':
                     description: Training created
@@ -413,7 +413,7 @@ paths:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/TrainingDetails'
+                            $ref: '#/components/schemas/TrainingCreate'
             responses:
                 '200':
                     description: Training updated
@@ -542,7 +542,7 @@ paths:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/Exercise'
+                            $ref: '#/components/schemas/ExerciseCreate'
             responses:
                 '200':
                     description: Exercise created
@@ -628,7 +628,7 @@ paths:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/Exercise'
+                            $ref: '#/components/schemas/ExerciseCreate'
             responses:
                 '200':
                     description: Exercise updated
@@ -757,7 +757,7 @@ paths:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/UserMeasurement'
+                            $ref: '#/components/schemas/UserMeasurementCreate'
             responses:
                 '200':
                     description: User measurement created
@@ -843,7 +843,7 @@ paths:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/UserMeasurement'
+                            $ref: '#/components/schemas/UserMeasurementCreate'
             responses:
                 '200':
                     description: User measurement updated
@@ -967,6 +967,21 @@ components:
                         - MALE
                         - FEMALE
                         - OTHER
+        UserCreate:
+            type: object
+            properties:
+                email:
+                    type: string
+                firstName:
+                    type: string
+                lastName:
+                    type: string
+                gender:
+                    type: string
+                    enum:
+                        - MALE
+                        - FEMALE
+                        - OTHER
         UserMeasurement:
             type: object
             properties:
@@ -982,7 +997,31 @@ components:
                     type: number
                 age:
                     type: number
-
+                arms:
+                    type: number
+                chest:
+                    type: number
+                belly:
+                    type: number
+                legs:
+                    type: number
+        UserMeasurementCreate:
+            type: object
+            properties:
+                weight:
+                    type: number
+                height:
+                    type: number
+                age:
+                    type: number
+                arms:
+                    type: number
+                chest:
+                    type: number
+                belly:
+                    type: number
+                legs:
+                    type: number
         Training:
             type: object
             properties:
@@ -992,6 +1031,13 @@ components:
                     type: string
                 modifiedOn:
                     type: string
+                name:
+                    type: string
+                description:
+                    type: string
+        TrainingCreate:
+            type: object
+            properties:
                 name:
                     type: string
                 description:
@@ -1034,6 +1080,20 @@ components:
                     type: integer
                 reps:
                     type: integer
+        ExerciseCreate:
+            type: object
+            properties:
+                name:
+                    type: string
+                description:
+                    type: string
+                sets:
+                    type: integer
+                reps:
+                    type: integer
+                trainingId:
+                    type: string
+
         TrainingCategory:
             type: string
             enum:

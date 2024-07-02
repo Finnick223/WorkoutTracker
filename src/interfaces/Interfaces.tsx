@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { Training, User } from "../client/src";
+import { Training, User, UserMeasurement } from "../client/src";
 
 export type FormDataType = {
   email: string;
@@ -34,4 +34,9 @@ export interface AuthProviderProps {
 export interface TrainingExtended extends Training {
   page: number,
   size: number,
+}
+export interface MeasurementFormProps {
+  measurements: UserMeasurement;
+  onSubmit: (userMeasurement: any) => void;
+  onPartChange: (part: string) => void;
 }

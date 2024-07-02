@@ -17,16 +17,19 @@ import * as runtime from '../runtime';
 import type {
   ErrorResponse,
   Exercise,
+  ExerciseCreate,
 } from '../models/index';
 import {
     ErrorResponseFromJSON,
     ErrorResponseToJSON,
     ExerciseFromJSON,
     ExerciseToJSON,
+    ExerciseCreateFromJSON,
+    ExerciseCreateToJSON,
 } from '../models/index';
 
 export interface CreateExerciseRequest {
-    exercise: Exercise;
+    exerciseCreate: ExerciseCreate;
 }
 
 export interface DeleteExerciseRequest {
@@ -44,7 +47,7 @@ export interface GetExercisesRequest {
 
 export interface UpdateExerciseRequest {
     exerciseId: string;
-    exercise: Exercise;
+    exerciseCreate: ExerciseCreate;
 }
 
 /**
@@ -56,8 +59,8 @@ export class ExerciseApi extends runtime.BaseAPI {
      * Create exercise
      */
     async createExerciseRaw(requestParameters: CreateExerciseRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Exercise>> {
-        if (requestParameters.exercise === null || requestParameters.exercise === undefined) {
-            throw new runtime.RequiredError('exercise','Required parameter requestParameters.exercise was null or undefined when calling createExercise.');
+        if (requestParameters.exerciseCreate === null || requestParameters.exerciseCreate === undefined) {
+            throw new runtime.RequiredError('exerciseCreate','Required parameter requestParameters.exerciseCreate was null or undefined when calling createExercise.');
         }
 
         const queryParameters: any = {};
@@ -79,7 +82,7 @@ export class ExerciseApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: ExerciseToJSON(requestParameters.exercise),
+            body: ExerciseCreateToJSON(requestParameters.exerciseCreate),
         }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => ExerciseFromJSON(jsonValue));
@@ -218,8 +221,8 @@ export class ExerciseApi extends runtime.BaseAPI {
             throw new runtime.RequiredError('exerciseId','Required parameter requestParameters.exerciseId was null or undefined when calling updateExercise.');
         }
 
-        if (requestParameters.exercise === null || requestParameters.exercise === undefined) {
-            throw new runtime.RequiredError('exercise','Required parameter requestParameters.exercise was null or undefined when calling updateExercise.');
+        if (requestParameters.exerciseCreate === null || requestParameters.exerciseCreate === undefined) {
+            throw new runtime.RequiredError('exerciseCreate','Required parameter requestParameters.exerciseCreate was null or undefined when calling updateExercise.');
         }
 
         const queryParameters: any = {};
@@ -241,7 +244,7 @@ export class ExerciseApi extends runtime.BaseAPI {
             method: 'PUT',
             headers: headerParameters,
             query: queryParameters,
-            body: ExerciseToJSON(requestParameters.exercise),
+            body: ExerciseCreateToJSON(requestParameters.exerciseCreate),
         }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => ExerciseFromJSON(jsonValue));

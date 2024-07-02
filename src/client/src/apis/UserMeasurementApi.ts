@@ -17,16 +17,19 @@ import * as runtime from '../runtime';
 import type {
   ErrorResponse,
   UserMeasurement,
+  UserMeasurementCreate,
 } from '../models/index';
 import {
     ErrorResponseFromJSON,
     ErrorResponseToJSON,
     UserMeasurementFromJSON,
     UserMeasurementToJSON,
+    UserMeasurementCreateFromJSON,
+    UserMeasurementCreateToJSON,
 } from '../models/index';
 
 export interface CreateUserMeasurementRequest {
-    userMeasurement: UserMeasurement;
+    userMeasurementCreate: UserMeasurementCreate;
 }
 
 export interface DeleteUserMeasurementRequest {
@@ -44,7 +47,7 @@ export interface GetUserMeasurementsRequest {
 
 export interface UpdateUserMeasurementRequest {
     userMeasurementId: string;
-    userMeasurement: UserMeasurement;
+    userMeasurementCreate: UserMeasurementCreate;
 }
 
 /**
@@ -56,8 +59,8 @@ export class UserMeasurementApi extends runtime.BaseAPI {
      * Create user measurement
      */
     async createUserMeasurementRaw(requestParameters: CreateUserMeasurementRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<UserMeasurement>> {
-        if (requestParameters.userMeasurement === null || requestParameters.userMeasurement === undefined) {
-            throw new runtime.RequiredError('userMeasurement','Required parameter requestParameters.userMeasurement was null or undefined when calling createUserMeasurement.');
+        if (requestParameters.userMeasurementCreate === null || requestParameters.userMeasurementCreate === undefined) {
+            throw new runtime.RequiredError('userMeasurementCreate','Required parameter requestParameters.userMeasurementCreate was null or undefined when calling createUserMeasurement.');
         }
 
         const queryParameters: any = {};
@@ -79,7 +82,7 @@ export class UserMeasurementApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: UserMeasurementToJSON(requestParameters.userMeasurement),
+            body: UserMeasurementCreateToJSON(requestParameters.userMeasurementCreate),
         }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => UserMeasurementFromJSON(jsonValue));
@@ -218,8 +221,8 @@ export class UserMeasurementApi extends runtime.BaseAPI {
             throw new runtime.RequiredError('userMeasurementId','Required parameter requestParameters.userMeasurementId was null or undefined when calling updateUserMeasurement.');
         }
 
-        if (requestParameters.userMeasurement === null || requestParameters.userMeasurement === undefined) {
-            throw new runtime.RequiredError('userMeasurement','Required parameter requestParameters.userMeasurement was null or undefined when calling updateUserMeasurement.');
+        if (requestParameters.userMeasurementCreate === null || requestParameters.userMeasurementCreate === undefined) {
+            throw new runtime.RequiredError('userMeasurementCreate','Required parameter requestParameters.userMeasurementCreate was null or undefined when calling updateUserMeasurement.');
         }
 
         const queryParameters: any = {};
@@ -241,7 +244,7 @@ export class UserMeasurementApi extends runtime.BaseAPI {
             method: 'PUT',
             headers: headerParameters,
             query: queryParameters,
-            body: UserMeasurementToJSON(requestParameters.userMeasurement),
+            body: UserMeasurementCreateToJSON(requestParameters.userMeasurementCreate),
         }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => UserMeasurementFromJSON(jsonValue));
