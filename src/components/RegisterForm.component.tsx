@@ -20,7 +20,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { useForm, FormProvider, SubmitHandler } from 'react-hook-form';
 import InputFormPassword from './InputPassword.component';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Input } from './InputForm.component';
+import { Input } from './CustomInput/InputForm.component';
 import axios from 'axios';
 import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
