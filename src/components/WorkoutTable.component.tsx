@@ -10,22 +10,12 @@ import {
   GridToolbarContainer,
   GridColumnGroupingModel,
 } from '@mui/x-data-grid';
-import { useState } from 'react';
-
-const initialRows = [
-  {
-    id: Math.random().toString(36).substr(2, 9),
-    name: 'ława',
-    weight1: '60',
-    reps1: '10',
-  },
-  {
-    id: Math.random().toString(36).substr(2, 9),
-    name: 'siady',
-    weight1: '100',
-    reps1: '8',
-  },
-];
+import { useCallback, useEffect, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { getTrainingDetails } from 'src/api/auth';
+import useAuthStatus from 'src/hooks/useAuth';
+import { useLocation } from 'react-router-dom';
+import toast from 'react-hot-toast';
 
 interface EditToolbarProps {
   setRows: (newRows: (oldRows: GridRowsProp) => GridRowsProp) => void;
@@ -66,9 +56,43 @@ function EditToolbar(props: EditToolbarProps) {
   );
 }
 
+//PUT MUTATION TO SAVE DATA ON API
+
 export default function Table() {
-  const [rows, setRows] = useState(initialRows);
+  const [rows, setRows] = useState([]);
   const [rowModesModel, setRowModesModel] = useState({});
+  const { token } = useAuthStatus();
+  const location = useLocation();
+
+  const trainingId = location.pathname.split('/').pop();
+  if (!trainingId) throw new Error('trainingId doesnt exist');
+
+  const { data, isSuccess } = useQuery({
+    queryKey: ['exercises'],
+    queryFn: () => getTrainingDetails(token, trainingId),
+  });
+
+  useEffect(() => {
+    if (isSuccess) {
+      setRows(data.exercises);
+      console.log(data.exercises);
+    }
+  }, [isSuccess]);
+
+  // const mutateRow = PUT MUTATION FUNCTION ();
+
+  // const processRowUpdate = React.useCallback(
+  //   async (newRow: GridRowModel) => {
+  //     // Make the HTTP request to save in the backend
+  //     const response = await mutateRow(newRow);
+  //     return response;
+  //   },
+  //   [mutateRow],
+  // );
+
+  const handleProcessRowUpdateError = useCallback((error: Error) => {
+    toast.error(error.message);
+  }, []);
 
   const columns: GridColDef[] = [
     { field: 'name', headerName: 'name', width: 180, editable: true },
@@ -165,6 +189,7 @@ export default function Table() {
     >
       <DataGrid
         rows={rows}
+        // getRowId={(row) => row.id}
         columns={columns}
         editMode="row"
         rowModesModel={rowModesModel}
@@ -175,6 +200,8 @@ export default function Table() {
           toolbar: { setRows, setRowModesModel },
         }}
         columnGroupingModel={ColumnGroupingModel}
+        // processRowUpdate={processRowUpdate}
+        onProcessRowUpdateError={handleProcessRowUpdateError}
       />
     </Box>
   );
