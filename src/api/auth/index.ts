@@ -1,18 +1,17 @@
 import axios from 'axios'
-import { Training, TrainingApi, User, UserApi, UserMeasurement, UserMeasurementApi } from '../../client/src';
+import { ExerciseApi, Training, TrainingApi, User, UserApi, UserMeasurement, UserMeasurementApi } from '../../client/src';
+import { createInitOverrides } from '@utils/createInitOverrides';
 
 
   const trainingApi = new TrainingApi();
   const userApi = new UserApi();
   const MeasApi = new UserMeasurementApi();
+  const ExerApi = new ExerciseApi();
 
 
   export const loadTrainings = async (token: string, page: number, size: number): Promise<Training[]> => {
-    const initOverrides = {
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
-    };
+    const initOverrides = createInitOverrides(token);
+
     const requestParameters = {
       page: page,
       size: size,
@@ -21,23 +20,16 @@ import { Training, TrainingApi, User, UserApi, UserMeasurement, UserMeasurementA
   };
 
   export const addTraining = async (token: string, training: Training) => {
-    const initOverrides = {
-      headers: {
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      }
-    }
+    const initOverrides = createInitOverrides(token);
+
     const requestParameters = {
       trainingCreate: training
     }
     return await trainingApi.createTraining(requestParameters, initOverrides)
 }
   export const deleteTraining = async ({token, trainingId}: {token: string, trainingId: string}) => {
-    const initOverrides = {
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
-    };
+    const initOverrides = createInitOverrides(token);
+
     const requestParameters = {
       trainingId: trainingId,
     }
@@ -53,12 +45,8 @@ import { Training, TrainingApi, User, UserApi, UserMeasurement, UserMeasurementA
   };
 
 export const updateUser = async (token: string, user: User): Promise<User> => {
-  const initOverrides = {
-    headers: {
-      'Authorization': `Bearer ${token}`,
-      'Content-Type': 'application/json'
-    }
-  };
+  const initOverrides = createInitOverrides(token);
+
   const requestParameters = {
     userCreate: user,
   };
@@ -66,11 +54,8 @@ export const updateUser = async (token: string, user: User): Promise<User> => {
 }
 
 export const getCurrentUser = async (token: string): Promise<User> => {
-  const initOverrides = {
-    headers: {
-      'Authorization': `Bearer ${token}`
-    }
-  };
+  const initOverrides = createInitOverrides(token);
+
   return await userApi.getCurrentUser(initOverrides);
 };
 
@@ -80,11 +65,8 @@ export const requestPasswordReset = async (email: string) => {
 }
 
 export const getUserMeasurement = async (token: string) => {
-  const initOverrides = {
-    headers: {
-      'Authorization': `Bearer ${token}`
-    }
-  };
+  const initOverrides = createInitOverrides(token);
+
   const requestParameters = {
     userMeasurementId: 'b7393418-f187-4ada-999e-2158a2e8ae02'
   }
@@ -92,12 +74,8 @@ export const getUserMeasurement = async (token: string) => {
   return await MeasApi.getUserMeasurementById(requestParameters, initOverrides)
 }
 export const updateUserMeasurement = async ({token, userMeasurement}: {token: string, userMeasurement: UserMeasurement}) => {
-  const initOverrides = {
-    headers: {
-      'Authorization': `Bearer ${token}`,
-      'Content-Type': 'application/json'
-    }
-  };
+  const initOverrides = createInitOverrides(token);
+
   const requestParameters = {
     userMeasurementId: 'b7393418-f187-4ada-999e-2158a2e8ae02',
     userMeasurementCreate: userMeasurement
