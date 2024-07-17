@@ -5,7 +5,6 @@ import {
   GridColDef,
   GridRowModes,
   GridRowModesModel,
-  GridRowsProp,
   GridSlots,
   GridToolbarContainer,
   GridColumnGroupingModel,
@@ -16,13 +15,7 @@ import { getTrainingDetails } from 'src/api/auth';
 import useAuthStatus from 'src/hooks/useAuth';
 import { useLocation } from 'react-router-dom';
 import toast from 'react-hot-toast';
-
-interface EditToolbarProps {
-  setRows: (newRows: (oldRows: GridRowsProp) => GridRowsProp) => void;
-  setRowModesModel: (
-    newModel: (oldModel: GridRowModesModel) => GridRowModesModel,
-  ) => void;
-}
+import { EditToolbarProps, Rows } from 'src/interfaces/Interfaces';
 
 function EditToolbar(props: EditToolbarProps) {
   const { setRows, setRowModesModel } = props;
@@ -59,8 +52,8 @@ function EditToolbar(props: EditToolbarProps) {
 //PUT MUTATION TO SAVE DATA ON API
 
 export default function Table() {
-  const [rows, setRows] = useState([]);
-  const [rowModesModel, setRowModesModel] = useState({});
+  const [rows, setRows] = useState<Rows[]>([]);
+  const [rowModesModel, setRowModesModel] = useState<GridRowModesModel>({});
   const { token } = useAuthStatus();
   const location = useLocation();
 
@@ -68,14 +61,22 @@ export default function Table() {
   if (!trainingId) throw new Error('trainingId doesnt exist');
 
   const { data, isSuccess } = useQuery({
-    queryKey: ['exercises'],
+    queryKey: ['exercises', trainingId],
     queryFn: () => getTrainingDetails(token, trainingId),
   });
 
   useEffect(() => {
-    if (isSuccess) {
-      setRows(data.exercises);
-      console.log(data.exercises);
+    if (isSuccess && data.exercises) {
+      const transformedRows = data.exercises.map((exercise) => {
+        const flattenedSets = exercise.sets?.reduce((acc: any, set, index) => {
+          acc[`weight${index + 1}`] = set.weight;
+          acc[`reps${index + 1}`] = set.reps;
+          return acc;
+        }, {});
+        return { ...exercise, ...flattenedSets };
+      });
+      setRows(transformedRows);
+      console.log(transformedRows);
     }
   }, [isSuccess]);
 
@@ -189,7 +190,7 @@ export default function Table() {
     >
       <DataGrid
         rows={rows}
-        // getRowId={(row) => row.id}
+        getRowId={(row) => row.id as string}
         columns={columns}
         editMode="row"
         rowModesModel={rowModesModel}
