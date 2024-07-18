@@ -1,8 +1,11 @@
 import axios from 'axios';
 import {
+  CreateExerciseRequest,
   ExerciseApi,
+  ExerciseCreate,
   Training,
   TrainingApi,
+  UpdateExerciseRequest,
   User,
   UserApi,
   UserMeasurement,
@@ -117,4 +120,39 @@ export const getTrainingDetails = async (token: string, exerciseId: string) => {
     trainingId: exerciseId,
   };
   return await trainingApi.getTrainingById(requestParameters, initOverrides);
+};
+
+export const addExercise = async ({
+  token,
+  exerciseCreate,
+}: {
+  token: string;
+  exerciseCreate: ExerciseCreate;
+}) => {
+  const initOverrides = createInitOverrides(token);
+
+  const requestParameters: CreateExerciseRequest = {
+    exerciseCreate: exerciseCreate,
+  };
+  console.log('request add' + requestParameters);
+  return await ExerApi.createExercise(requestParameters, initOverrides);
+};
+
+export const updateExercise = async ({
+  token,
+  exerciseCreate,
+  exerciseId,
+}: {
+  token: string;
+  exerciseCreate: ExerciseCreate;
+  exerciseId: string;
+}) => {
+  const initOverrides = createInitOverrides(token);
+
+  const requestParameters: UpdateExerciseRequest = {
+    exerciseCreate: exerciseCreate,
+    exerciseId: exerciseId,
+  };
+  console.log('request update' + requestParameters);
+  return await ExerApi.updateExercise(requestParameters, initOverrides);
 };

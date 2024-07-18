@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 import { Training, User, UserMeasurement, ExerciseSet } from '../client/src';
-import { GridRowModesModel, GridRowsProp } from '@mui/x-data-grid';
+// import { GridRowModesModel, GridRowsProp } from '@mui/x-data-grid';
 
 export type FormDataType = {
   email: string;
@@ -43,10 +43,11 @@ export interface MeasurementFormProps {
 }
 
 export interface EditToolbarProps {
-  setRows: (newRows: (oldRows: GridRowsProp) => GridRowsProp) => void;
-  setRowModesModel: (
-    newModel: (oldModel: GridRowModesModel) => GridRowModesModel,
-  ) => void;
+  trainingId: string;
+  // setRows: (newRows: (oldRows: GridRowsProp) => GridRowsProp) => void;
+  // setRowModesModel: (
+  //   newModel: (oldModel: GridRowModesModel) => GridRowModesModel,
+  // ) => void;
 }
 
 export interface Rows {

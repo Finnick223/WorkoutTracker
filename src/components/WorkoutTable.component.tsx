@@ -8,37 +8,50 @@ import {
   GridSlots,
   GridToolbarContainer,
   GridColumnGroupingModel,
+  GridRowModel,
+  GridEventListener,
+  GridRowEditStopReasons,
+  GridRowId,
+  GridActionsCellItem,
 } from '@mui/x-data-grid';
 import { useCallback, useEffect, useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
-import { getTrainingDetails } from 'src/api/auth';
+import { useQueryClient, useMutation, useQuery } from '@tanstack/react-query';
+import { addExercise, getTrainingDetails, updateExercise } from 'src/api/auth';
 import useAuthStatus from 'src/hooks/useAuth';
 import { useLocation } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { EditToolbarProps, Rows } from 'src/interfaces/Interfaces';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/DeleteOutlined';
+import SaveIcon from '@mui/icons-material/Save';
+import CancelIcon from '@mui/icons-material/Close';
 
+//utility function
 function EditToolbar(props: EditToolbarProps) {
-  const { setRows, setRowModesModel } = props;
+  const queryClient = useQueryClient();
+  const { token } = useAuthStatus();
+
+  const MutationAdd = useMutation({
+    mutationFn: ({
+      token,
+      exerciseCreate,
+    }: {
+      token: string;
+      exerciseCreate: any;
+    }) => addExercise({ token, exerciseCreate }),
+    onSuccess: () => {
+      queryClient.invalidateQueries();
+      toast.success('Exercise created successfully');
+    },
+  });
 
   const handleClick = () => {
-    const id = Math.random().toString(36).substr(2, 9);
-    setRows((oldRows) => [
-      ...oldRows,
-      {
-        id,
-        name: '',
-        weight1: '',
-        reps1: '',
-        weight2: '',
-        reps2: '',
-        weight3: '',
-        reps3: '',
-      },
-    ]);
-    setRowModesModel((oldModel) => ({
-      ...oldModel,
-      [id]: { mode: GridRowModes.Edit, fieldToFocus: 'name' },
-    }));
+    const exerciseCreate = {
+      name: '',
+      trainingId: props.trainingId,
+      sets: [],
+    };
+    MutationAdd.mutate({ token, exerciseCreate });
   };
   return (
     <GridToolbarContainer>
@@ -49,13 +62,43 @@ function EditToolbar(props: EditToolbarProps) {
   );
 }
 
-//PUT MUTATION TO SAVE DATA ON API
-
 export default function Table() {
   const [rows, setRows] = useState<Rows[]>([]);
   const [rowModesModel, setRowModesModel] = useState<GridRowModesModel>({});
   const { token } = useAuthStatus();
   const location = useLocation();
+  const queryClient = useQueryClient();
+
+  console.log(' rows ' + rows);
+
+  const handleRowEditStop: GridEventListener<'rowEditStop'> = (
+    params,
+    event,
+  ) => {
+    if (params.reason === GridRowEditStopReasons.rowFocusOut) {
+      event.defaultMuiPrevented = true;
+    }
+  };
+
+  const handleEditClick = (id: GridRowId) => () => {
+    setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.Edit } });
+  };
+
+  const handleSaveClick = (id: GridRowId) => () => {
+    setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.View } });
+  };
+
+  //!Delete from Database here!!
+  const handleDeleteClick = (id: GridRowId) => () => {
+    setRows(rows.filter((row) => row.id !== id));
+  };
+
+  const handleCancelClick = (id: GridRowId) => () => {
+    setRowModesModel({
+      ...rowModesModel,
+      [id]: { mode: GridRowModes.View, ignoreModifications: true },
+    });
+  };
 
   const trainingId = location.pathname.split('/').pop();
   if (!trainingId) throw new Error('trainingId doesnt exist');
@@ -63,6 +106,22 @@ export default function Table() {
   const { data, isSuccess } = useQuery({
     queryKey: ['exercises', trainingId],
     queryFn: () => getTrainingDetails(token, trainingId),
+  });
+
+  const MutationUpdate = useMutation({
+    mutationFn: ({
+      token,
+      exerciseCreate,
+      exerciseId,
+    }: {
+      token: string;
+      exerciseCreate: any;
+      exerciseId: string;
+    }) => updateExercise({ token, exerciseCreate, exerciseId }),
+    onSuccess: () => {
+      queryClient.invalidateQueries();
+      toast.success('Exercise updated successfully');
+    },
   });
 
   useEffect(() => {
@@ -76,20 +135,42 @@ export default function Table() {
         return { ...exercise, ...flattenedSets };
       });
       setRows(transformedRows);
-      console.log(transformedRows);
+      console.log('transformed rows ' + transformedRows);
     }
-  }, [isSuccess]);
+  }, [isSuccess, queryClient, data]);
 
-  // const mutateRow = PUT MUTATION FUNCTION ();
+  const processRowUpdate = (
+    newRow: GridRowModel,
+    oldRow: GridRowModel,
+  ): any => {
+    const exerciseCreate = {
+      name: newRow.name,
+      trainingId: trainingId,
+      sets: [
+        { reps: newRow?.reps1, weight: newRow?.weight1 },
+        { reps: newRow?.reps2, weight: newRow?.weight2 },
+        { reps: newRow?.reps3, weight: newRow?.weight3 },
+      ],
+    };
+    const exerciseId = newRow.id;
+    MutationUpdate.mutate(
+      { token, exerciseCreate, exerciseId },
+      {
+        onSuccess: () => {
+          setRows((prevRows) =>
+            prevRows.map((row) =>
+              row.id === exerciseId ? { ...row, ...newRow } : row,
+            ),
+          );
+        },
+      },
+    );
+    return { ...newRow, id: exerciseId };
+  };
 
-  // const processRowUpdate = React.useCallback(
-  //   async (newRow: GridRowModel) => {
-  //     // Make the HTTP request to save in the backend
-  //     const response = await mutateRow(newRow);
-  //     return response;
-  //   },
-  //   [mutateRow],
-  // );
+  const handleRowModesModelChange = (newRowModesModel: GridRowModesModel) => {
+    setRowModesModel(newRowModesModel);
+  };
 
   const handleProcessRowUpdateError = useCallback((error: Error) => {
     toast.error(error.message);
@@ -151,6 +232,46 @@ export default function Table() {
       headerAlign: 'left',
       editable: true,
     },
+    {
+      field: 'actions',
+      type: 'actions',
+      headerName: 'Actions',
+      cellClassName: 'actions',
+      getActions: ({ id }) => {
+        const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
+        console.log('grid row id' + id);
+        if (isInEditMode) {
+          return [
+            <GridActionsCellItem
+              icon={<SaveIcon />}
+              label="Save"
+              onClick={handleSaveClick(id)}
+            />,
+            <GridActionsCellItem
+              icon={<CancelIcon />}
+              label="Cancel"
+              onClick={handleCancelClick(id)}
+              color="inherit"
+            />,
+          ];
+        }
+        return [
+          <GridActionsCellItem
+            icon={<EditIcon />}
+            label="Edit"
+            className="textPrimary"
+            onClick={handleEditClick(id)}
+            color="inherit"
+          />,
+          <GridActionsCellItem
+            icon={<DeleteIcon />}
+            label="Delete"
+            onClick={handleDeleteClick(id)}
+            color="inherit"
+          />,
+        ];
+      },
+    },
   ];
 
   const ColumnGroupingModel: GridColumnGroupingModel = [
@@ -194,15 +315,17 @@ export default function Table() {
         columns={columns}
         editMode="row"
         rowModesModel={rowModesModel}
+        columnGroupingModel={ColumnGroupingModel}
+        onRowModesModelChange={handleRowModesModelChange}
+        onRowEditStop={handleRowEditStop}
+        processRowUpdate={processRowUpdate}
+        onProcessRowUpdateError={handleProcessRowUpdateError}
         slots={{
           toolbar: EditToolbar as GridSlots['toolbar'],
         }}
         slotProps={{
-          toolbar: { setRows, setRowModesModel },
+          toolbar: { setRows, setRowModesModel, trainingId },
         }}
-        columnGroupingModel={ColumnGroupingModel}
-        // processRowUpdate={processRowUpdate}
-        onProcessRowUpdateError={handleProcessRowUpdateError}
       />
     </Box>
   );
