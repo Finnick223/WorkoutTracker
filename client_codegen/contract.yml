@@ -1023,77 +1023,46 @@ components:
                 legs:
                     type: number
         Training:
-            type: object
-            properties:
-                id:
-                    type: string
-                createdOn:
-                    type: string
-                modifiedOn:
-                    type: string
-                name:
-                    type: string
-                description:
-                    type: string
+          type: object
+          properties:
+            id:
+              type: string
+            createdOn:
+              type: string
+            modifiedOn:
+              type: string
+            name:
+              type: string
+            description:
+              type: string
         TrainingCreate:
-            type: object
-            properties:
-                name:
-                    type: string
-                description:
-                    type: string
+          type: object
+          properties:
+            name:
+              type: string
+            description:
+              type: string
         TrainingDetails:
-            type: object
-            properties:
-                id:
-                    type: string
-                createdOn:
-                    type: string
-                modifiedOn:
-                    type: string
-                name:
-                    type: string
-                description:
-                    type: string
-                exercises:
-                    type: array
-                    items:
-                        $ref: '#/components/schemas/Exercise'
-                trainingCategories:
-                    type: array
-                    items:
-                        $ref: '#/components/schemas/TrainingCategory'
-        Exercise:
-            type: object
-            properties:
-                id:
-                    type: string
-                createdOn:
-                    type: string
-                modifiedOn:
-                    type: string
-                name:
-                    type: string
-                description:
-                    type: string
-                sets:
-                    type: integer
-                reps:
-                    type: integer
-        ExerciseCreate:
-            type: object
-            properties:
-                name:
-                    type: string
-                description:
-                    type: string
-                sets:
-                    type: integer
-                reps:
-                    type: integer
-                trainingId:
-                    type: string
-
+          type: object
+          properties:
+            id:
+              type: string
+            createdOn:
+              type: string
+            modifiedOn:
+              type: string
+            name:
+              type: string
+            description:
+              type: string
+            exercises:
+              type: array
+              items:
+                $ref: '#/components/schemas/Exercise'
+            trainingCategories:
+              type: array
+              items:
+                $ref: '#/components/schemas/TrainingCategory'
         TrainingCategory:
             type: string
             enum:
@@ -1102,11 +1071,47 @@ components:
                 - cardio
                 - stretching
                 - other
-        ErrorResponse:
+        Exercise:
+          type: object
+          properties:
+            id:
+              type: string
+            createdOn:
+              type: string
+            modifiedOn:
+              type: string
+            name:
+              type: string
+            description:
+              type: string
+            sets:
+              type: array
+              items:
+                $ref: '#/components/schemas/ExerciseSet'
+        ExerciseCreate:
+          type: object
+          properties:
+            name:
+              type: string
+            description:
+              type: string
+            sets:
+              type: array
+              items:
+                $ref: '#/components/schemas/ExerciseSet'
+            trainingId:
+              type: string
+        ExerciseSet:
             type: object
             properties:
-                code:
-                    type: string
-                message:
-                    type: string
+                reps:
+                    type: integer
+        ErrorResponse:
+          type: object
+          properties:
+            code:
+              type: string
+            message:
+              type: string
+
 

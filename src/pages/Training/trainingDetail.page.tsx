@@ -1,16 +1,11 @@
-// import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom';
-import Table from '../../components/WorkoutTable.component';
+import ExerciseGrid from '../../components/ExercisesGrid.component';
+import { CssBaseline } from '@mui/material';
 
 function App() {
   return (
     <>
-      <section>
-        <Link to=".." relative="path" className="back-button">
-          &larr; <span>Back to all trainings</span>
-        </Link>
-      </section>
-      <Table />
+      <CssBaseline />
+      <ExerciseGrid />
     </>
   );
 }

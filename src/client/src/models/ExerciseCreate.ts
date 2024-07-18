@@ -13,6 +13,13 @@
  */
 
 import { exists, mapValues } from '../runtime';
+import type { ExerciseSet } from './ExerciseSet';
+import {
+    ExerciseSetFromJSON,
+    ExerciseSetFromJSONTyped,
+    ExerciseSetToJSON,
+} from './ExerciseSet';
+
 /**
  * 
  * @export
@@ -33,16 +40,10 @@ export interface ExerciseCreate {
     description?: string;
     /**
      * 
-     * @type {number}
+     * @type {Array<ExerciseSet>}
      * @memberof ExerciseCreate
      */
-    sets?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof ExerciseCreate
-     */
-    reps?: number;
+    sets?: Array<ExerciseSet>;
     /**
      * 
      * @type {string}
@@ -72,8 +73,7 @@ export function ExerciseCreateFromJSONTyped(json: any, ignoreDiscriminator: bool
         
         'name': !exists(json, 'name') ? undefined : json['name'],
         'description': !exists(json, 'description') ? undefined : json['description'],
-        'sets': !exists(json, 'sets') ? undefined : json['sets'],
-        'reps': !exists(json, 'reps') ? undefined : json['reps'],
+        'sets': !exists(json, 'sets') ? undefined : ((json['sets'] as Array<any>).map(ExerciseSetFromJSON)),
         'trainingId': !exists(json, 'trainingId') ? undefined : json['trainingId'],
     };
 }
@@ -89,8 +89,7 @@ export function ExerciseCreateToJSON(value?: ExerciseCreate | null): any {
         
         'name': value.name,
         'description': value.description,
-        'sets': value.sets,
-        'reps': value.reps,
+        'sets': value.sets === undefined ? undefined : ((value.sets as Array<any>).map(ExerciseSetToJSON)),
         'trainingId': value.trainingId,
     };
 }
