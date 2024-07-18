@@ -1,6 +1,7 @@
 import axios from 'axios';
 import {
   CreateExerciseRequest,
+  DeleteExerciseRequest,
   ExerciseApi,
   ExerciseCreate,
   Training,
@@ -155,4 +156,19 @@ export const updateExercise = async ({
   };
   console.log('request update' + requestParameters);
   return await ExerApi.updateExercise(requestParameters, initOverrides);
+};
+
+export const deleteExercise = async ({
+  token,
+  exerciseId,
+}: {
+  token: string;
+  exerciseId: string;
+}) => {
+  const initOverrides = createInitOverrides(token);
+  const requestParameters: DeleteExerciseRequest = {
+    exerciseId: exerciseId,
+  };
+
+  return await ExerApi.deleteExercise(requestParameters, initOverrides);
 };
