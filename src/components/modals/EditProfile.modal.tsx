@@ -1,46 +1,63 @@
-import { Box, Button, FormControl, InputLabel, MenuItem, Modal, Select, SelectChangeEvent, TextField, Typography } from "@mui/material"
-import { EditUserModalProps } from "../../interfaces/Interfaces";
-import { useForm } from "react-hook-form";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import toast from "react-hot-toast";
-import { updateUser } from "../../api/auth";
-import useAuthStatus from "../../hooks/useAuth";
-import { User, UserGenderEnum } from "../../client/src";
-import { useNavigate } from "react-router-dom";
+import {
+  Box,
+  Button,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Modal,
+  Select,
+  SelectChangeEvent,
+  TextField,
+  Typography,
+} from '@mui/material';
+import { EditUserModalProps } from 'src/interfaces/user.interfaces';
+import { useForm } from 'react-hook-form';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import toast from 'react-hot-toast';
+import { updateUser } from 'src/api/auth';
+import useAuthStatus from 'src/hooks/useAuth';
+import { User, UserGenderEnum } from 'src/client/src';
+import { useNavigate } from 'react-router-dom';
 
+const EditUserModal: React.FC<EditUserModalProps> = ({
+  open,
+  handleEditClose,
+  user,
+  id,
+}) => {
+  const { register, handleSubmit, setValue } = useForm();
+  const { token, logout } = useAuthStatus();
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
+  const initialEmail = user?.email;
 
-const EditUserModal: React.FC<EditUserModalProps> = ({ open, handleEditClose, user, id }) => {
-    const { register, handleSubmit, setValue } = useForm();
-    const { token, logout } = useAuthStatus();
-    const queryClient = useQueryClient();
-    const navigate = useNavigate();
-    const initialEmail = user?.email;
-
-
-    const handleGenderChange = (event: SelectChangeEvent<UserGenderEnum>) => {
-      const value = event.target.value;
-      setValue("gender", value);
+  const handleGenderChange = (event: SelectChangeEvent<UserGenderEnum>) => {
+    const value = event.target.value;
+    setValue('gender', value);
   };
-    const { mutate } = useMutation({
-      mutationFn: ({ token, user }: { token: string; user: User }) => updateUser(token, user), 
-      onSuccess: (data) => {
-        queryClient.setQueryData(['profile'], data)
-        toast.success("profile info updated successfully")
-        handleEditClose()
-        if (initialEmail && initialEmail !== data.email) {
-          logout();
-          navigate('/Login')
+  const { mutate } = useMutation({
+    mutationFn: ({ token, user }: { token: string; user: User }) =>
+      updateUser(token, user),
+    onSuccess: (data) => {
+      queryClient.setQueryData(['profile'], data);
+      toast.success('profile info updated successfully');
+      handleEditClose();
+      if (initialEmail && initialEmail !== data.email) {
+        logout();
+        navigate('/Login');
       }
-      },
-      onError: (error) => {
-        toast.error("err : " + error)
-      }
-    })
-    const onSubmit = handleSubmit((formData) => mutate({ token, user: { ...formData, id } }))
+    },
+    onError: (error) => {
+      toast.error('err : ' + error);
+    },
+  });
+  const onSubmit = handleSubmit((formData) =>
+    mutate({ token, user: { ...formData, id } }),
+  );
 
-    return (
-        <>
-        <Modal
+  return (
+    <>
+      <Modal
         open={open}
         onClose={handleEditClose}
         aria-labelledby="edit-user-modal"
@@ -58,62 +75,62 @@ const EditUserModal: React.FC<EditUserModalProps> = ({ open, handleEditClose, us
               boxShadow: 24,
               p: 4,
             }}
-            >
+          >
             <Typography id="edit-user-modal" variant="h6" component="h2">
               Edit User Information
             </Typography>
             <TextField
-              {...register("firstName")}
+              {...register('firstName')}
               margin="normal"
               fullWidth
               label="First Name"
               defaultValue={user?.firstName}
               variant="outlined"
-              />
+            />
             <TextField
-              {...register("lastName")}
+              {...register('lastName')}
               margin="normal"
               fullWidth
               label="Last Name"
               defaultValue={user?.lastName}
               variant="outlined"
-              />
+            />
             <TextField
-              {...register("email")}
+              {...register('email')}
               margin="normal"
               fullWidth
               label="Email"
               defaultValue={user?.email}
               variant="outlined"
-              />
-              <FormControl fullWidth>
-                <InputLabel id="gender">Gender</InputLabel>
-                <Select
-                  id="gender"
-                  value={user?.gender}
-                  label="Gender"
-                  fullWidth
-                  onChange={handleGenderChange}
-                  >
-                  <MenuItem value={"MALE"}>Male</MenuItem>
-                  <MenuItem value={"FEMALE"}>Female</MenuItem>
-                  <MenuItem value={"OTHER"}>Other</MenuItem>
-                </Select>
-              </FormControl>
+            />
+            <FormControl fullWidth>
+              <InputLabel id="gender">Gender</InputLabel>
+              <Select
+                id="gender"
+                value={user?.gender}
+                label="Gender"
+                fullWidth
+                onChange={handleGenderChange}
+              >
+                <MenuItem value={'MALE'}>Male</MenuItem>
+                <MenuItem value={'FEMALE'}>Female</MenuItem>
+                <MenuItem value={'OTHER'}>Other</MenuItem>
+              </Select>
+            </FormControl>
             <Button
               variant="contained"
               color="primary"
               sx={{ my: 2 }}
               type="submit"
               fullWidth
-              >
+            >
               Save
             </Button>
           </Box>
         </form>
       </Modal>
-      </>
-    )
-}
+    </>
+  );
+};
 
 export default EditUserModal;

@@ -1,9 +1,9 @@
 import { BrowserRouter as Router } from 'react-router-dom';
-import { Routes } from '../src/routes/Routes.routes';
-import { AuthProvider } from './providers/UserContext.provider.tsx';
-import { ReactQueryProvider } from './providers/ReactQuery.provider.tsx';
+import { Routes } from 'src/routes/Routes.routes';
+import { AuthProvider } from 'src/providers/UserContext.provider.tsx';
+import { ReactQueryProvider } from 'src/providers/ReactQuery.provider.tsx';
 import { Toaster } from 'react-hot-toast';
-import { CookiesProvider } from 'react-cookie'
+import { CookiesProvider } from 'react-cookie';
 
 function App() {
   return (

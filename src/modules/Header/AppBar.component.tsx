@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import useAuthStatus from '../hooks/useAuth';
+import useAuthStatus from 'src/hooks/useAuth';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';

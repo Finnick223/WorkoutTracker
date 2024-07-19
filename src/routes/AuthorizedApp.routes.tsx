@@ -1,13 +1,13 @@
 import { Route, Routes } from 'react-router-dom';
-import { CommonRoutes, AuthorizedRoute } from '../enums/routes.enums.ts';
-import Layout from '../pages/layout.page.tsx';
-import User from '../pages/userMeasurement.page.tsx';
-import Training from '../pages/training.page.tsx';
-import Home from '../pages/home.page.tsx';
-import TrainingDetail from '../pages/Training/trainingDetail.page.tsx';
-import { ErrorPage } from '../pages/Error.page.tsx';
-import LogoutUser from '../pages/logout.page.tsx';
-import Profile from '../pages/profile.page.tsx';
+import { CommonRoutes, AuthorizedRoute } from 'src/enums/routes.enums.ts';
+import Layout from 'src/pages/layout.page.tsx';
+import User from 'src/pages/userMeasurement.page.tsx';
+import Training from 'src/pages/training.page.tsx';
+import Home from 'src/pages/home.page.tsx';
+import TrainingDetail from 'src/pages/Training/trainingDetail.page.tsx';
+import { ErrorPage } from 'src/pages/Error.page.tsx';
+import LogoutUser from 'src/pages/logout.page.tsx';
+import Profile from 'src/pages/profile.page.tsx';
 
 export const AuthorizedAppRoutes = () => {
   return (

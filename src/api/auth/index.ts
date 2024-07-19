@@ -11,7 +11,7 @@ import {
   UserApi,
   UserMeasurement,
   UserMeasurementApi,
-} from '../../client/src';
+} from 'src/client/src';
 import { createInitOverrides } from '@utils/createInitOverrides';
 
 const trainingApi = new TrainingApi();

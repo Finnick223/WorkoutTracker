@@ -1,8 +1,8 @@
 import { CssBaseline, Grid } from '@mui/material';
 import { useState } from 'react';
-import { useUserMeasurements } from '../hooks/useUserMeasurements';
-import MeasurementForm from '../components/MeasurementForm';
-import BodyDisplay from '../components/HumanBodyDisplay';
+import { useUserMeasurements } from 'src/hooks/useUserMeasurements';
+import MeasurementForm from 'src/modules/User/MeasurementForm';
+import BodyDisplay from 'src/components/HumanBodyDisplay.component';
 
 function UserPage() {
   const [params, setParams] = useState<any>();
@@ -36,7 +36,7 @@ function UserPage() {
   return (
     <>
       <CssBaseline />
-      <Grid container sx={{p: 10}}>
+      <Grid container sx={{ p: 10 }}>
         <Grid item direction={'column'} xs={4}>
           {isSuccess && data && (
             <MeasurementForm

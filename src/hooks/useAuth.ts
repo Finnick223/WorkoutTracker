@@ -1,8 +1,8 @@
-import { useQueryClient } from "@tanstack/react-query";
-import { useAuth } from "../providers/UserContext.provider";
+import { useQueryClient } from '@tanstack/react-query';
+import { useAuth } from 'src/providers/UserContext.provider';
 
 const useAuthStatus = () => {
-  const { token, login, logout}: any = useAuth();
+  const { token, login, logout }: any = useAuth();
   const queryClient = useQueryClient();
 
   const authToken = queryClient.getQueryData(['authToken']);
@@ -12,7 +12,7 @@ const useAuthStatus = () => {
     isLoggedIn,
     token,
     login,
-    logout
+    logout,
   };
 };
 

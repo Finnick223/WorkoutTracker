@@ -1,6 +1,5 @@
 import { Box, Container, CssBaseline, Typography, Avatar } from '@mui/material';
 import SportsGymnasticsSharpIcon from '@mui/icons-material/SportsGymnasticsSharp';
-// import { useState } from 'react'
 function Home() {
   return (
     <>
