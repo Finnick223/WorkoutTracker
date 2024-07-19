@@ -2,19 +2,23 @@ import { useEffect, useState } from 'react';
 import TrainingCard from 'src/modules/Training/TrainingCard.component.tsx';
 import {
   Box,
-  CircularProgress,
+  Card,
+  CardActions,
+  CardContent,
   CssBaseline,
   Fab,
+  Paper,
+  Skeleton,
   Stack,
   TablePagination,
 } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
-import { Training } from 'src/client/src';
+import { Training } from '../client/src';
 import { useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import { loadTrainings } from 'src/api/auth';
-import useAuthStatus from 'src/hooks/useAuth.ts';
-import AddTrainingModal from 'src/components/modals/AddTraining.modal.tsx';
+import { loadTrainings } from '../api/auth';
+import useAuthStatus from '../hooks/useAuth.ts';
+import AddTrainingModal from '../components/modals/AddTraining.modal.tsx';
 
 function TrainingPage() {
   const [trainings, setTrainings] = useState<Training[]>([]);
@@ -59,21 +63,34 @@ function TrainingPage() {
       <Box
         sx={{ display: 'inline-flex', textAlign: 'center', flexWrap: 'wrap' }}
       >
-        {isFetching ? (
-          <CircularProgress />
-        ) : (
-          trainings.map((training) => (
-            <TrainingCard
-              id={training.id}
-              createdOn={training.createdOn?.slice(0, 10)}
-              name={training.name}
-              description={training.description}
-              key={training.id}
-              page={page}
-              size={size}
-            />
-          ))
-        )}
+        {isFetching
+          ? Array.from(new Array(size)).map((_, index) => (
+              <Paper elevation={4} sx={{ width: '16vw', m: 2 }} key={index}>
+                <Card sx={{ width: '16vw' }}>
+                  <CardContent>
+                    <Skeleton variant="text" sx={{ fontSize: 14 }} />
+                    <Skeleton variant="text" sx={{ fontSize: '0.83em' }} />
+                    <Skeleton variant="text" sx={{ fontSize: '0.83em' }} />
+                    <Skeleton variant="text" sx={{ fontSize: 14, mb: 1.5 }} />
+                  </CardContent>
+                  <CardActions sx={{ justifyContent: 'center' }}>
+                    <Skeleton variant="rounded" width={40} height={40} />
+                    <Skeleton variant="rounded" width={40} height={40} />
+                  </CardActions>
+                </Card>
+              </Paper>
+            ))
+          : trainings.map((training) => (
+              <TrainingCard
+                id={training.id}
+                createdOn={training.createdOn?.slice(0, 10)}
+                name={training.name}
+                description={training.description}
+                key={training.id}
+                page={page}
+                size={size}
+              />
+            ))}
       </Box>
       <Stack
         spacing={2}
