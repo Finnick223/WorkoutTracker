@@ -1,4 +1,4 @@
-import ExerciseGrid from '../../components/ExercisesGrid.component';
+import ExerciseGrid from 'src/modules/Training/ExercisesGrid.component';
 import { CssBaseline } from '@mui/material';
 
 function App() {

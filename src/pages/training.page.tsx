@@ -1,13 +1,20 @@
 import { useEffect, useState } from 'react';
-import TrainingCard from '../components/TrainingCard.component.tsx';
-import { Box, CircularProgress, CssBaseline, Fab, Stack, TablePagination } from '@mui/material';
+import TrainingCard from 'src/modules/Training/TrainingCard.component.tsx';
+import {
+  Box,
+  CircularProgress,
+  CssBaseline,
+  Fab,
+  Stack,
+  TablePagination,
+} from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
-import { Training } from '../client/src';
+import { Training } from 'src/client/src';
 import { useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import { loadTrainings } from '../api/auth';
-import useAuthStatus from '../hooks/useAuth.ts';
-import AddTrainingModal from '../components/modals/AddTraining.modal.tsx';
+import { loadTrainings } from 'src/api/auth';
+import useAuthStatus from 'src/hooks/useAuth.ts';
+import AddTrainingModal from 'src/components/modals/AddTraining.modal.tsx';
 
 function TrainingPage() {
   const [trainings, setTrainings] = useState<Training[]>([]);
@@ -21,7 +28,7 @@ function TrainingPage() {
   const handleAddClose = () => setIsAddOpen(false);
 
   const { data, isSuccess, isFetching, isError } = useQuery({
-    queryKey: ["trainings", page, size],
+    queryKey: ['trainings', page, size],
     queryFn: () => loadTrainings(token, page, size),
   });
 
@@ -41,7 +48,7 @@ function TrainingPage() {
     setPage(newPage);
   };
 
-  const handleSizeChange = (event: { target: { value: string; }; }) => {
+  const handleSizeChange = (event: { target: { value: string } }) => {
     setSize(parseInt(event.target.value));
     setPage(0);
   };
@@ -49,36 +56,48 @@ function TrainingPage() {
   return (
     <>
       <CssBaseline />
-      <Box sx={{ display: 'inline-flex', textAlign: 'center', flexWrap: 'wrap' }}>
-        {isFetching ? <CircularProgress /> : trainings.map((training) => (
-          <TrainingCard
-            id={training.id}
-            createdOn={training.createdOn?.slice(0,10)}
-            name={training.name}
-            description={training.description}
-            key={training.id}
-            page={page}
-            size={size}
-          />
-        ))}
+      <Box
+        sx={{ display: 'inline-flex', textAlign: 'center', flexWrap: 'wrap' }}
+      >
+        {isFetching ? (
+          <CircularProgress />
+        ) : (
+          trainings.map((training) => (
+            <TrainingCard
+              id={training.id}
+              createdOn={training.createdOn?.slice(0, 10)}
+              name={training.name}
+              description={training.description}
+              key={training.id}
+              page={page}
+              size={size}
+            />
+          ))
+        )}
       </Box>
-      <Stack spacing={2} direction="column" sx={{ display: 'flex', alignItems: 'center', mt: 4 }}>
+      <Stack
+        spacing={2}
+        direction="column"
+        sx={{ display: 'flex', alignItems: 'center', mt: 4 }}
+      >
         <TablePagination
-        component="div"
-        count={-1}
-        page={page}
-        onPageChange={handlePageChange}
-        rowsPerPage={size}
-        onRowsPerPageChange={handleSizeChange}
+          component="div"
+          count={-1}
+          page={page}
+          onPageChange={handlePageChange}
+          rowsPerPage={size}
+          onRowsPerPageChange={handleSizeChange}
         />
-        <Fab variant="extended" color="primary" aria-label="add" onClick={handleAddOpen}>
+        <Fab
+          variant="extended"
+          color="primary"
+          aria-label="add"
+          onClick={handleAddOpen}
+        >
           <AddIcon />
           Add
         </Fab>
-        <AddTrainingModal 
-          open={isAddOpen}
-          handleAddClose={handleAddClose}
-        />
+        <AddTrainingModal open={isAddOpen} handleAddClose={handleAddClose} />
       </Stack>
     </>
   );

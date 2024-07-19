@@ -1,7 +1,7 @@
 import { createContext, useContext } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useCookies } from 'react-cookie';
-import { AuthContextType, AuthProviderProps } from '../interfaces/Interfaces';
+import { AuthContextType, AuthProviderProps } from 'src/interfaces/Interfaces';
 
 const AuthContext = createContext<AuthContextType>({
   token: null,

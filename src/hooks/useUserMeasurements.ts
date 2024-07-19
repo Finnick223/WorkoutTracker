@@ -1,8 +1,8 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { getUserMeasurement, updateUserMeasurement } from '../api/auth';
+import { getUserMeasurement, updateUserMeasurement } from 'src/api/auth';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
-import useAuthStatus from '../hooks/useAuth';
+import useAuthStatus from 'src/hooks/useAuth';
 import { useEffect } from 'react';
 
 export const useUserMeasurements = () => {
@@ -25,10 +25,10 @@ export const useUserMeasurements = () => {
     mutationFn: updateUserMeasurement,
     onSuccess: (data) => {
       queryClient.setQueryData(['Measurements'], data);
-      toast.success("Measurements updated successfully");
+      toast.success('Measurements updated successfully');
     },
     onError: (error) => {
-      toast.error("Error: " + error);
+      toast.error('Error: ' + error);
     },
   });
 

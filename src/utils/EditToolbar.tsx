@@ -1,7 +1,7 @@
 import { Button } from '@mui/material';
 import { GridToolbarContainer } from '@mui/x-data-grid';
 import useAuthStatus from 'src/hooks/useAuth';
-import { EditToolbarProps } from 'src/interfaces/Interfaces';
+import { EditToolbarProps } from 'src/interfaces/exercises.interfaces';
 import AddIcon from '@mui/icons-material/Add';
 import { Link } from 'react-router-dom';
 import { useAddExercise } from 'src/api/exerciseGridQueryHooks';

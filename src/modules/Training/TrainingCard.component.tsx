@@ -8,25 +8,24 @@ import { Paper } from '@mui/material';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import EditNoteOutlinedIcon from '@mui/icons-material/EditNoteOutlined';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { deleteTraining } from '../api/auth';
+import { deleteTraining } from 'src/api/auth';
 import toast from 'react-hot-toast';
-import useAuthStatus from '../hooks/useAuth';
-import { TrainingExtended } from '../interfaces/Interfaces';
+import useAuthStatus from 'src/hooks/useAuth';
+import { TrainingExtended } from 'src/interfaces/training.interfaces';
 
 export default function TrainingCard(props: TrainingExtended) {
   const { token } = useAuthStatus();
-  const queryClient =  useQueryClient();
+  const queryClient = useQueryClient();
 
-
-  const { mutate,  } = useMutation({
+  const { mutate } = useMutation({
     mutationFn: deleteTraining,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ["trainings", props.page, props.size]
-      })
-      toast.success('Training deleted')
-    }
-  })
+        queryKey: ['trainings', props.page, props.size],
+      });
+      toast.success('Training deleted');
+    },
+  });
   const handleClick = () => {
     const trainingId = props.id;
     if (trainingId) {
@@ -34,7 +33,7 @@ export default function TrainingCard(props: TrainingExtended) {
     } else {
       toast.error('Training ID is undefined');
     }
-  }
+  };
   return (
     <Paper elevation={4} sx={{ width: '16vw', m: 2 }}>
       <Card sx={{ width: '16vw' }}>
@@ -43,9 +42,13 @@ export default function TrainingCard(props: TrainingExtended) {
           style={{ textDecoration: 'none', color: 'inherit' }}
         >
           <CardContent>
-            <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-                {props.createdOn}
-              </Typography>
+            <Typography
+              sx={{ fontSize: 14 }}
+              color="text.secondary"
+              gutterBottom
+            >
+              {props.createdOn}
+            </Typography>
             <Typography variant="h5" component="div">
               {props.name}
             </Typography>

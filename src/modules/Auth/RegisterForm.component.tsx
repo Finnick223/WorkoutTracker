@@ -1,4 +1,4 @@
-import { FormDataType } from '../interfaces/Interfaces';
+import { FormDataType } from 'src/interfaces/auth.interfaces';
 import {
   Box,
   Radio,
@@ -18,18 +18,18 @@ import {
 } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { useForm, FormProvider, SubmitHandler } from 'react-hook-form';
-import InputFormPassword from './InputPassword.component';
+import InputFormPassword from 'src/components/InputPassword.component';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Input } from './CustomInput/InputForm.component';
+import { Input } from 'src/components/CustomInput/InputForm.component';
 import axios from 'axios';
 import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
-import { registerSchema } from '../validators/auth.validator';
+import { registerSchema } from 'src/validators/auth.validator';
 import toast from 'react-hot-toast';
 
 export default function RegisterForm() {
   const navigate = useNavigate();
-  
+
   const formMethods = useForm<FormDataType>({
     resolver: yupResolver(registerSchema),
     mode: 'onBlur',
@@ -45,21 +45,21 @@ export default function RegisterForm() {
         isTermsAndConditionsAccepted: data.termsAndConditions,
         genders: [data.gender],
       };
-      return axios.post('http://188.68.247.208:8080/auth/signup', payload)
-    }
-  })
+      return axios.post('http://188.68.247.208:8080/auth/signup', payload);
+    },
+  });
 
   const onSubmit: SubmitHandler<FormDataType> = (data) => {
     mutation.mutate(data, {
       onSuccess: () => {
-        toast.success('Account created! You can login now')        
+        toast.success('Account created! You can login now');
         navigate('/Login');
       },
       onError: (error) => {
-        console.log('Error: ', error)
-        toast.error('Something went wrong')
-      }
-    })
+        console.log('Error: ', error);
+        toast.error('Something went wrong');
+      },
+    });
   };
 
   return (

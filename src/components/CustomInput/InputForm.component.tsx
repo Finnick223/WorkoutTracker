@@ -32,7 +32,7 @@ export const Input = ({
         id={id}
         label={label}
         error={errors[name] ? true : false}
-        //@ts-ignore
+        // @ts-ignore
         helperText={errors[name] ? errors[name]?.message : undefined}
         {...register(name)}
       />

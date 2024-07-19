@@ -1,5 +1,5 @@
 import { CircularProgress, Typography } from '@mui/material';
-import useAuthStatus from '../hooks/useAuth';
+import useAuthStatus from 'src/hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import { CssBaseline } from '@mui/material';

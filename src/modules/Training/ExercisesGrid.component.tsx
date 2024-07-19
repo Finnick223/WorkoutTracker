@@ -16,7 +16,7 @@ import { useCallback, useEffect, useState } from 'react';
 import useAuthStatus from 'src/hooks/useAuth';
 import { useLocation } from 'react-router-dom';
 import toast from 'react-hot-toast';
-import { Rows } from 'src/interfaces/Interfaces';
+import { Rows } from 'src/interfaces/exercises.interfaces';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 import SaveIcon from '@mui/icons-material/Save';
@@ -87,7 +87,7 @@ export default function ExerciseGrid() {
 
   const processRowUpdate = (
     newRow: GridRowModel,
-    oldRow: GridRowModel,
+    _oldRow: GridRowModel,
   ): any => {
     const exerciseCreate = {
       name: newRow.name,

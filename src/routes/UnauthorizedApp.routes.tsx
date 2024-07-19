@@ -1,11 +1,11 @@
 import { Route, Routes } from 'react-router-dom';
-import { CommonRoutes, UnAuthorizedRoute } from '../enums/routes.enums.ts';
-import Layout from '../pages/layout.page.tsx';
-import Home from '../pages/home.page.tsx';
-import Login from '../pages/login.page.tsx';
-import Register from '../pages/register.page.tsx';
-import { ErrorPage } from '../pages/Error.page.tsx';
-import LogoutUser from '../pages/logout.page.tsx';
+import { CommonRoutes, UnAuthorizedRoute } from 'src/enums/routes.enums.ts';
+import Layout from 'src/pages/layout.page.tsx';
+import Home from 'src/pages/home.page.tsx';
+import Login from 'src/pages/login.page.tsx';
+import Register from 'src/pages/register.page.tsx';
+import { ErrorPage } from 'src/pages/Error.page.tsx';
+import LogoutUser from 'src/pages/logout.page.tsx';
 
 export const UnAuthorizedAppRoutes = () => {
   return (

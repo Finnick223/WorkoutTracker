@@ -11,7 +11,7 @@ import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { useFormContext } from 'react-hook-form';
 
 interface Input {
-  name: any;
+  name: string;
   label: string;
   type: 'password';
   required?: boolean;
