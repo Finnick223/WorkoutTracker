@@ -1,7 +1,10 @@
 import { createContext, useContext } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useCookies } from 'react-cookie';
-import { AuthContextType, AuthProviderProps } from 'src/interfaces/Interfaces';
+import {
+  AuthContextType,
+  AuthProviderProps,
+} from 'src/interfaces/auth.interfaces';
 
 const AuthContext = createContext<AuthContextType>({
   token: null,
@@ -21,6 +24,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     queryKey: ['authToken'],
     queryFn: fetchToken,
     initialData: null,
+    refetchInterval: 1000,
   });
 
   const login = useMutation<string, Error, string>({
