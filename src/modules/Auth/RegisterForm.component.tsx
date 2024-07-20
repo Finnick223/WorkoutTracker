@@ -43,7 +43,7 @@ export default function RegisterForm() {
         lastName: data.lastName,
         password: data.password,
         isTermsAndConditionsAccepted: data.termsAndConditions,
-        genders: [data.gender],
+        genders: data.gender,
       };
       return axios.post('http://188.68.247.208:8080/auth/signup', payload);
     },
