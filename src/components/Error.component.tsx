@@ -1,12 +1,20 @@
-export default function errorText(error: any) {
-  if (error) {
-    return (
-      <>
-        <h1>Error: {error.message}</h1>
-        <pre>
-          {error.status} - {error.statusText}
-        </pre>
-      </>
-    );
-  }
+import { Typography } from '@mui/material';
+
+export default function errorText({ message }: { message: string }) {
+  return (
+    <>
+      <Typography
+        color="red"
+        align="center"
+        sx={{
+          '&::first-letter': {
+            textTransform: 'uppercase',
+          },
+          mt: 2,
+        }}
+      >
+        {message}
+      </Typography>
+    </>
+  );
 }
