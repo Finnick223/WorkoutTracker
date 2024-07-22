@@ -6,7 +6,8 @@ import BodyDisplay from 'src/components/HumanBodyDisplay.component';
 
 function UserPage() {
   const [params, setParams] = useState<any>();
-  const { data, isSuccess, mutate, token } = useUserMeasurements();
+  const { data, isSuccess, mutate, token, ErrorModalComponent } =
+    useUserMeasurements();
 
   const handlePartChange = (part: string) => {
     setParams(null);
@@ -50,6 +51,7 @@ function UserPage() {
           <BodyDisplay params={params} />
         </Grid>
       </Grid>
+      <ErrorModalComponent />
     </>
   );
 }

@@ -12,15 +12,15 @@ import { getCurrentUser } from 'src/api/auth';
 import { User } from 'src/client/src';
 import { useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { useNavigate } from 'react-router-dom';
 import EditNoteIcon from '@mui/icons-material/EditNote';
 import EditUserModal from 'src/components/modals/EditProfile.modal.tsx';
+import { useModal } from 'src/components/modals/Error.modal';
 
 function Profile() {
   const { token } = useAuthStatus();
   const [user, setUser] = useState<User>();
   const [isEditOpen, setIsEditOpen] = useState<boolean>(false);
-  const navigate = useNavigate();
+  const { openModal, ErrorModalComponent } = useModal();
 
   const { data, isSuccess, isFetching, isError } = useQuery({
     queryKey: ['profile'],
@@ -32,7 +32,7 @@ function Profile() {
       setUser(data);
     }
     if (isError) {
-      navigate('/error');
+      openModal();
     }
   }, [isSuccess, isError, data]);
 
@@ -97,6 +97,7 @@ function Profile() {
         handleEditClose={handleEditClose}
         user={user}
       />
+      <ErrorModalComponent />
     </>
   );
 }
