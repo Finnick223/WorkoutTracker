@@ -1,25 +1,26 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { getUserMeasurement, updateUserMeasurement } from 'src/api/auth';
-import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import useAuthStatus from 'src/hooks/useAuth';
 import { useEffect } from 'react';
+import { useModal } from 'src/components/modals/Error.modal';
 
 export const useUserMeasurements = () => {
   const { token } = useAuthStatus();
-  const navigate = useNavigate();
+  const { openModal, ErrorModalComponent } = useModal();
   const queryClient = useQueryClient();
 
   const { data, isSuccess, isError } = useQuery({
     queryKey: ['Measurements'],
     queryFn: () => getUserMeasurement(token),
+    retry: 0,
   });
 
   useEffect(() => {
     if (isError) {
-      navigate('/error');
+      openModal();
     }
-  }, [isError, navigate]);
+  }, [isError, openModal]);
 
   const { mutate } = useMutation({
     mutationFn: updateUserMeasurement,
@@ -32,5 +33,5 @@ export const useUserMeasurements = () => {
     },
   });
 
-  return { data, isSuccess, mutate, token };
+  return { data, isSuccess, mutate, token, ErrorModalComponent };
 };

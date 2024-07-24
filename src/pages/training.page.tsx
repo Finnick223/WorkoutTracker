@@ -14,19 +14,19 @@ import {
 } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { Training } from '../client/src';
-import { useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { loadTrainings } from '../api/auth';
 import useAuthStatus from '../hooks/useAuth.ts';
 import AddTrainingModal from '../components/modals/AddTraining.modal.tsx';
+import { useModal } from 'src/components/modals/Error.modal.tsx';
 
 function TrainingPage() {
   const [trainings, setTrainings] = useState<Training[]>([]);
   const [page, setPage] = useState<number>(0);
   const [size, setSize] = useState<number>(10);
   const [isAddOpen, setIsAddOpen] = useState<boolean>(false);
-  const navigate = useNavigate();
   const { token } = useAuthStatus();
+  const { openModal, ErrorModalComponent } = useModal();
 
   const handleAddOpen = () => setIsAddOpen(true);
   const handleAddClose = () => setIsAddOpen(false);
@@ -41,7 +41,7 @@ function TrainingPage() {
       setTrainings(data);
     }
     if (isError) {
-      navigate('/error');
+      openModal();
     }
   }, [isSuccess, isError, data]);
 
@@ -116,6 +116,7 @@ function TrainingPage() {
         </Fab>
         <AddTrainingModal open={isAddOpen} handleAddClose={handleAddClose} />
       </Stack>
+      <ErrorModalComponent />
     </>
   );
 }
