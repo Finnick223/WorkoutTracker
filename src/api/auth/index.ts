@@ -42,6 +42,26 @@ export const addTraining = async (token: string, training: Training) => {
   return await trainingApi.createTraining(requestParameters, initOverrides);
 };
 
+export const updateTraining = async ({
+  token,
+  trainingId,
+  name,
+  description,
+}: {
+  token: string;
+  trainingId: string;
+  name: string;
+  description: string;
+}) => {
+  const initOverrides = createInitOverrides(token);
+
+  const requestParameters = {
+    trainingId: trainingId,
+    trainingCreate: { name, description },
+  };
+  return await trainingApi.updateTraining(requestParameters, initOverrides);
+};
+
 export const deleteTraining = async ({
   token,
   trainingId,

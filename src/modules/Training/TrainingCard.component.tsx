@@ -12,10 +12,15 @@ import { deleteTraining } from 'src/api/auth';
 import toast from 'react-hot-toast';
 import useAuthStatus from 'src/hooks/useAuth';
 import { TrainingExtended } from 'src/interfaces/training.interfaces';
+import { useState } from 'react';
+import UpdateTrainingModal from 'src/components/modals/UpdateTraining.modal';
 
 export default function TrainingCard(props: TrainingExtended) {
   const { token } = useAuthStatus();
   const queryClient = useQueryClient();
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const handleModalOpen = () => setIsModalOpen(true);
+  const handleModalClose = () => setIsModalOpen(false);
 
   const { mutate } = useMutation({
     mutationFn: deleteTraining,
@@ -26,7 +31,16 @@ export default function TrainingCard(props: TrainingExtended) {
       toast.success('Training deleted');
     },
   });
-  const handleClick = () => {
+
+  const handleUpdateClick = () => {
+    const trainingId = props.id;
+    if (trainingId) {
+      handleModalOpen();
+    } else {
+      toast.error('Training ID is undefined');
+    }
+  };
+  const handleDeleteClick = () => {
     const trainingId = props.id;
     if (trainingId) {
       mutate({ token, trainingId });
@@ -58,14 +72,25 @@ export default function TrainingCard(props: TrainingExtended) {
           </CardContent>
         </Link>
         <CardActions sx={{ justifyContent: 'center' }}>
-          <Button size="small" variant="contained">
+          <Button size="small" variant="contained" onClick={handleUpdateClick}>
             <EditNoteOutlinedIcon />
           </Button>
-          <Button size="small" variant="contained" onClick={handleClick}>
+          <Button size="small" variant="contained" onClick={handleDeleteClick}>
             <DeleteOutlineOutlinedIcon />
           </Button>
         </CardActions>
       </Card>
+      {props.id && (
+        <UpdateTrainingModal
+          open={isModalOpen}
+          handleModalClose={handleModalClose}
+          page={props.page}
+          size={props.size}
+          trainingId={props.id}
+          name={props.name}
+          description={props.description}
+        />
+      )}
     </Paper>
   );
 }
