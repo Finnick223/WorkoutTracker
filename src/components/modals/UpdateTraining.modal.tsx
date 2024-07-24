@@ -1,38 +1,45 @@
 import { Box, Button, Modal, TextField, Typography } from '@mui/material';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
+import { updateTraining } from 'src/api/auth';
 import useAuthStatus from 'src/hooks/useAuth';
-import { AddTrainingModalProps } from 'src/interfaces/training.interfaces';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { addTraining } from 'src/api/auth';
-import { Training } from 'src/client/src';
+import { UpdateTrainingModalProps } from 'src/interfaces/training.interfaces';
 
-const AddTrainingModal: React.FC<AddTrainingModalProps> = ({
+const UpdateTrainingModal: React.FC<UpdateTrainingModalProps> = ({
   open,
-  handleAddClose,
+  page,
+  size,
+  trainingId,
+  handleModalClose,
+  name,
+  description,
 }) => {
   const { register, handleSubmit } = useForm();
-  const { token } = useAuthStatus();
   const queryClient = useQueryClient();
+  const { token } = useAuthStatus();
 
-  const mutation = useMutation({
-    mutationFn: ({ token, training }: { token: string; training: Training }) =>
-      addTraining(token, training),
+  const { mutate } = useMutation({
+    mutationFn: updateTraining,
     onSuccess: () => {
-      queryClient.invalidateQueries();
-      toast.success('Training added successfully');
-      handleAddClose();
-    },
-    onError: (error) => {
-      toast.error('err : ' + error);
+      queryClient.invalidateQueries({
+        queryKey: ['trainings', page, size],
+      });
+      toast.success('Training updated successfully');
     },
   });
-  const onSubmit = handleSubmit((formData) => {
-    mutation.mutate({ token, training: { ...formData } });
+
+  const onSubmit = handleSubmit((FormData) => {
+    mutate({
+      token,
+      trainingId,
+      name: FormData.name,
+      description: FormData.description,
+    });
   });
   return (
     <>
-      <Modal open={open} onClose={handleAddClose}>
+      <Modal open={open} onClose={handleModalClose}>
         <form onSubmit={onSubmit}>
           <Box
             sx={{
@@ -47,7 +54,7 @@ const AddTrainingModal: React.FC<AddTrainingModalProps> = ({
             }}
           >
             <Typography variant="h6" component="h2">
-              Add training
+              Update training
             </Typography>
             <TextField
               {...register('name')}
@@ -55,6 +62,7 @@ const AddTrainingModal: React.FC<AddTrainingModalProps> = ({
               fullWidth
               label="Training name"
               variant="outlined"
+              defaultValue={name}
             />
             <TextField
               {...register('description')}
@@ -62,6 +70,7 @@ const AddTrainingModal: React.FC<AddTrainingModalProps> = ({
               fullWidth
               label="Training description"
               variant="outlined"
+              defaultValue={description}
             />
             <Button
               variant="contained"
@@ -70,7 +79,7 @@ const AddTrainingModal: React.FC<AddTrainingModalProps> = ({
               type="submit"
               fullWidth
             >
-              Add
+              Update
             </Button>
           </Box>
         </form>
@@ -79,4 +88,4 @@ const AddTrainingModal: React.FC<AddTrainingModalProps> = ({
   );
 };
 
-export default AddTrainingModal;
+export default UpdateTrainingModal;
