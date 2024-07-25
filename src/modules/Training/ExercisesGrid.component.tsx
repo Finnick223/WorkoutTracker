@@ -43,12 +43,15 @@ export default function ExerciseGrid() {
 
   useEffect(() => {
     if (isSuccess && data.exercises) {
-      const transformedRows = data.exercises.map((exercise) => {
-        const flattenedSets = exercise.sets?.reduce((acc: any, set, index) => {
-          acc[`weight${index + 1}`] = set.weight;
-          acc[`reps${index + 1}`] = set.reps;
-          return acc;
-        }, {});
+      const transformedRows: Rows[] = data.exercises.map((exercise) => {
+        const flattenedSets = exercise.sets?.reduce(
+          (acc, set, index) => {
+            acc[`weight${index + 1}`] = set.weight;
+            acc[`reps${index + 1}`] = set.reps;
+            return acc;
+          },
+          {} as Record<string, number | undefined>,
+        );
         return { ...exercise, ...flattenedSets };
       });
       setRows(transformedRows);
@@ -85,10 +88,7 @@ export default function ExerciseGrid() {
     });
   };
 
-  const processRowUpdate = (
-    newRow: GridRowModel,
-    _oldRow: GridRowModel,
-  ): any => {
+  const processRowUpdate = (newRow: GridRowModel) => {
     const exerciseCreate = {
       name: newRow.name,
       trainingId: trainingId,

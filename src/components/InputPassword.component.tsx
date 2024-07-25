@@ -29,16 +29,8 @@ const InputFormPassword = ({ label, name, type, required }: Input) => {
     setShowPassword(!showPassword);
   };
 
-  const handleMouseDownPassword = (event: any) => {
-    event.preventDefault();
-  };
-
   return (
-    <FormControl
-      fullWidth
-      variant="outlined"
-      error={errors[name] ? true : false}
-    >
+    <FormControl fullWidth variant="outlined" error={!!errors[name]}>
       <InputLabel htmlFor={name}>{label}</InputLabel>
       <OutlinedInput
         id={name}
@@ -49,7 +41,6 @@ const InputFormPassword = ({ label, name, type, required }: Input) => {
               <IconButton
                 aria-label="toggle password visibility"
                 onClick={handleClickShowPassword}
-                onMouseDown={handleMouseDownPassword}
                 edge="end"
               >
                 {showPassword ? <VisibilityOff /> : <Visibility />}
@@ -61,8 +52,9 @@ const InputFormPassword = ({ label, name, type, required }: Input) => {
         label={label}
         {...register(name, { required })}
       />
-      {/* @ts-ignore */}
-      {errors[name] && <FormHelperText>{errors[name]?.message}</FormHelperText>}
+      {errors[name] && (
+        <FormHelperText>{errors[name]?.message as string}</FormHelperText>
+      )}
     </FormControl>
   );
 };

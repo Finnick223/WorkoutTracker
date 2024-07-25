@@ -34,7 +34,7 @@ function Profile() {
     if (isError) {
       openModal();
     }
-  }, [isSuccess, isError, data]);
+  }, [isSuccess, isError, data, openModal]);
 
   const handleEditOpen = () => setIsEditOpen(true);
   const handleEditClose = () => setIsEditOpen(false);

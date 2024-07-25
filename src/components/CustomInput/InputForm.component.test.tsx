@@ -1,9 +1,10 @@
 import { render, screen } from '@utils/tests';
 import { Input } from './InputForm.component';
 import { FormProvider, useForm } from 'react-hook-form';
+import { ReactElement } from 'react';
 
 describe('InputForm component', () => {
-  const renderWithFormProvider = (Component: any) => {
+  const renderWithFormProvider = (Component: ReactElement) => {
     const FormWrapper = ({ children }: { children: React.ReactNode }) => {
       const methods = useForm();
       return <FormProvider {...methods}>{children}</FormProvider>;

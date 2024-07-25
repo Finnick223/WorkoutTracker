@@ -2,6 +2,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { addExercise, deleteExercise, updateExercise } from './exercise';
 import { getTrainingDetails } from './training';
 import toast from 'react-hot-toast';
+import { ExerciseCreate } from 'src/client/src';
 
 export const useGetTrainingDetails = (token: string, trainingId: string) => {
   return useQuery({
@@ -18,7 +19,7 @@ export const useAddExercise = () => {
       exerciseCreate,
     }: {
       token: string;
-      exerciseCreate: any;
+      exerciseCreate: ExerciseCreate;
     }) => addExercise({ token, exerciseCreate }),
     onSuccess: () => {
       queryClient.invalidateQueries();
@@ -53,7 +54,7 @@ export const useUpdateExercise = () => {
       exerciseId,
     }: {
       token: string;
-      exerciseCreate: any;
+      exerciseCreate: ExerciseCreate;
       exerciseId: string;
     }) => updateExercise({ token, exerciseCreate, exerciseId }),
     onSuccess: () => {

@@ -6,11 +6,7 @@ import {
   AuthProviderProps,
 } from 'src/interfaces/auth.interfaces';
 
-const AuthContext = createContext<AuthContextType>({
-  token: null,
-  login: () => {},
-  logout: () => {},
-});
+const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const queryClient = useQueryClient();
@@ -49,7 +45,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ token, login: login.mutate, logout: logout.mutate }}
+      value={{ token, login: login, logout: logout.mutate }}
     >
       {children}
     </AuthContext.Provider>
@@ -57,5 +53,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 };
 
 export const useAuth = () => {
-  return useContext(AuthContext);
+  const context = useContext(AuthContext);
+  if (context === undefined) {
+    throw new Error('useAuth must be used within an AuthProvider');
+  }
+  return context;
 };

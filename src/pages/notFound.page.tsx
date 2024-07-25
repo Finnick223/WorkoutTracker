@@ -9,7 +9,7 @@ export const NotFoundPage = () => {
 
   useEffect(() => {
     isLoggedIn ? navigate('/') : navigate('/Login');
-  }, []);
+  }, [isLoggedIn, navigate]);
 
   return (
     <>

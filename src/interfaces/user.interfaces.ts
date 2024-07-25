@@ -1,4 +1,6 @@
+import { FieldValues, SubmitHandler } from 'react-hook-form';
 import { User, UserMeasurement } from 'src/client/src';
+import { PartsInput } from 'reactjs-human-body/dist/components/BodyComponent/BodyComponent';
 
 export interface EditUserModalProps {
   id: string | undefined;
@@ -9,6 +11,6 @@ export interface EditUserModalProps {
 
 export interface MeasurementFormProps {
   measurements: UserMeasurement;
-  onSubmit: (userMeasurement: any) => void;
-  onPartChange: (part: string) => void;
+  onSubmit: SubmitHandler<FieldValues>;
+  onPartChange: (part: 'arms' | 'legs' | keyof PartsInput) => void;
 }

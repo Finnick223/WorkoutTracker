@@ -10,7 +10,7 @@ import { requestPasswordReset } from 'src/api/auth';
 import toast from 'react-hot-toast';
 
 const style = {
-  position: 'absolute' as 'absolute',
+  position: 'absolute',
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
@@ -81,8 +81,9 @@ export const ForgotPasswordModal = () => {
                   fullWidth
                   label="Email"
                   error={!!errors.email}
-                  // @ts-ignore
-                  helperText={errors.email ? errors.email.message : ''}
+                  helperText={
+                    errors.email ? (errors.email.message as string) : ''
+                  }
                   autoFocus
                   sx={{ my: 2 }}
                 />

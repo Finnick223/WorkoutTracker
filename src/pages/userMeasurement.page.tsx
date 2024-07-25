@@ -3,34 +3,48 @@ import { useState } from 'react';
 import { useUserMeasurements } from 'src/hooks/useUserMeasurements';
 import MeasurementForm from 'src/modules/User/MeasurementForm';
 import BodyDisplay from 'src/components/HumanBodyDisplay.component';
+import { UserMeasurement } from 'src/client/src';
+import { PartsInput } from 'reactjs-human-body/dist/components/BodyComponent/BodyComponent';
 
 function UserPage() {
-  const [params, setParams] = useState<any>();
+  const [params, setParams] = useState<PartsInput | undefined>(undefined);
   const { data, isSuccess, mutate, token, ErrorModalComponent } =
     useUserMeasurements();
 
-  const handlePartChange = (part: string) => {
-    setParams(null);
+  const handlePartChange = (part: 'arms' | 'legs' | keyof PartsInput) => {
+    setParams(undefined);
     setTimeout(() => {
+      const updatedParams: PartsInput = {
+        head: { selected: false },
+        leftShoulder: { selected: false },
+        rightShoulder: { selected: false },
+        leftArm: { selected: false },
+        rightArm: { selected: false },
+        chest: { selected: false },
+        stomach: { selected: false },
+        leftLeg: { selected: false },
+        rightLeg: { selected: false },
+        rightHand: { selected: false },
+        leftHand: { selected: false },
+        leftFoot: { selected: false },
+        rightFoot: { selected: false },
+      };
+
       if (part === 'arms') {
-        setParams({
-          leftArm: { selected: true },
-          rightArm: { selected: true },
-        });
+        updatedParams.leftArm.selected = true;
+        updatedParams.rightArm.selected = true;
       } else if (part === 'legs') {
-        setParams({
-          leftLeg: { selected: true },
-          rightLeg: { selected: true },
-        });
+        updatedParams.leftLeg.selected = true;
+        updatedParams.rightLeg.selected = true;
       } else {
-        setParams({
-          [part]: { selected: true },
-        });
+        updatedParams[part].selected = true;
       }
+
+      setParams(updatedParams);
     }, 0);
   };
 
-  const handleSubmit = (userMeasurement: any) => {
+  const handleSubmit = (userMeasurement: UserMeasurement) => {
     mutate({ token, userMeasurement });
   };
 
