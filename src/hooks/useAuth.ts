@@ -2,7 +2,13 @@ import { useQueryClient } from '@tanstack/react-query';
 import { useAuth } from 'src/providers/UserContext.provider';
 
 const useAuthStatus = () => {
-  const { token, login, logout }: any = useAuth();
+  const authContext = useAuth();
+
+  if (!authContext) {
+    throw new Error('useAuth must be used within an AuthProvider');
+  }
+
+  const { token, login, logout } = authContext;
   const queryClient = useQueryClient();
 
   const authToken = queryClient.getQueryData(['authToken']);

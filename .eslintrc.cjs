@@ -9,12 +9,21 @@ module.exports = {
   ],
   ignorePatterns: ['dist', '.eslintrc.cjs'],
   parser: '@typescript-eslint/parser',
-  plugins: ['react-refresh', '@typescript-eslint', 'import', 'prettier'],
+  plugins: ['@typescript-eslint', 'import', 'prettier'],
   rules: {
-    'react-refresh/only-export-components': [
-      'warn',
-      { allowConstantExport: true },
+    'import/no-extraneous-dependencies': [
+      'error',
+      {
+        devDependencies: true,
+      },
     ],
+    'react-hooks/exhaustive-deps': 'warn',
+    'no-trailing-spaces': [
+      1,
+      {
+        skipBlankLines: true,
+      },
+    ],
+    'default-case': 'warn',
   },
-}
-
+};

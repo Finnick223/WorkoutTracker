@@ -38,7 +38,7 @@ function LoginPage() {
   const mutation = useMutation({
     mutationFn: loginUser,
     onSuccess: (token) => {
-      login(token);
+      login.mutate(token);
       toast.success('Logged in successfully');
       navigate('/');
     },
@@ -88,8 +88,9 @@ function LoginPage() {
                       fullWidth
                       label="Email"
                       error={!!errors.email}
-                      // @ts-ignore
-                      helperText={errors.email ? errors.email.message : ''}
+                      helperText={
+                        errors.email ? (errors.email.message as string) : ''
+                      }
                       autoFocus
                     />
                   )}
@@ -136,8 +137,7 @@ function LoginPage() {
                   />
                   {errors.password && (
                     <Typography color="error" variant="body2">
-                      {/* @ts-ignore */}
-                      {errors.password.message}
+                      {errors.password.message as string}
                     </Typography>
                   )}
                 </FormControl>

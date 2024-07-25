@@ -1,7 +1,8 @@
 import { Grid } from '@mui/material';
 import { BodyComponent } from 'reactjs-human-body';
+import { PartsInput } from 'reactjs-human-body/dist/components/BodyComponent/BodyComponent';
 
-const BodyDisplay = ({ params }: { params: any }) => {
+const BodyDisplay = ({ params }: { params: PartsInput | undefined }) => {
   return (
     <Grid container justifyContent="center">
       {params ? (

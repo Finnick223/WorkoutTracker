@@ -43,7 +43,7 @@ function TrainingPage() {
     if (isError) {
       openModal();
     }
-  }, [isSuccess, isError, data]);
+  }, [isSuccess, isError, data, openModal]);
 
   const handlePageChange = (
     _event: React.MouseEvent<HTMLButtonElement> | null,

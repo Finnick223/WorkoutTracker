@@ -2,7 +2,7 @@ import { useFormContext } from 'react-hook-form';
 import { TextField } from '@mui/material';
 interface Input {
   id: string;
-  name: any;
+  name: string;
   label: string;
   type: 'email' | 'text';
   required?: boolean;
@@ -31,9 +31,10 @@ export const Input = ({
         fullWidth
         id={id}
         label={label}
-        error={errors[name] ? true : false}
-        // @ts-ignore
-        helperText={errors[name] ? errors[name]?.message : undefined}
+        error={!!errors[name]}
+        helperText={
+          errors[name] ? (errors[name]?.message as string) : undefined
+        }
         {...register(name)}
       />
     </>

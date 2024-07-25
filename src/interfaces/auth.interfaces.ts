@@ -1,8 +1,9 @@
+import { UseMutationResult } from '@tanstack/react-query';
 import { ReactNode } from 'react';
 
 export interface AuthContextType {
-  token: string | null;
-  login: (token: string) => void;
+  token: string;
+  login: UseMutationResult<string, Error, string, unknown>;
   logout: () => void;
 }
 

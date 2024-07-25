@@ -1,10 +1,13 @@
 import axios from 'axios';
 import { User, UserApi } from 'src/client/src';
 import { createInitOverrides } from '@utils/createInitOverrides';
+import { FieldValues } from 'react-hook-form';
 
 const userApi = new UserApi();
 
-export const loginUser = async (creds: any) => {
+export const loginUser = async (
+  creds: { email: string; password: string } | FieldValues,
+) => {
   const response = await axios.post('http://188.68.247.208:8080/auth/signin', {
     email: creds.email,
     password: creds.password,
