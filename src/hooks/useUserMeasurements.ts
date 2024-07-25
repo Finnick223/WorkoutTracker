@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { getUserMeasurement, updateUserMeasurement } from 'src/api/auth';
+import { getUserMeasurement, updateUserMeasurement } from 'src/api/userPage';
 import toast from 'react-hot-toast';
 import useAuthStatus from 'src/hooks/useAuth';
 import { useEffect } from 'react';

@@ -15,9 +15,9 @@ import {
 import AddIcon from '@mui/icons-material/Add';
 import { Training } from '../client/src';
 import { useQuery } from '@tanstack/react-query';
-import { loadTrainings } from '../api/auth';
-import useAuthStatus from '../hooks/useAuth.ts';
-import AddTrainingModal from '../components/modals/AddTraining.modal.tsx';
+import { loadTrainings } from 'src/api/training';
+import useAuthStatus from 'src/hooks/useAuth.ts';
+import AddTrainingModal from 'src/components/modals/AddTraining.modal.tsx';
 import { useModal } from 'src/components/modals/Error.modal.tsx';
 
 function TrainingPage() {

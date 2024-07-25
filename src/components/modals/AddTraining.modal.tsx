@@ -4,7 +4,7 @@ import toast from 'react-hot-toast';
 import useAuthStatus from 'src/hooks/useAuth';
 import { AddTrainingModalProps } from 'src/interfaces/training.interfaces';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { addTraining } from 'src/api/auth';
+import { addTraining } from 'src/api/training';
 import { Training } from 'src/client/src';
 
 const AddTrainingModal: React.FC<AddTrainingModalProps> = ({
