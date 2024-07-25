@@ -1,10 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import {
-  addExercise,
-  deleteExercise,
-  getTrainingDetails,
-  updateExercise,
-} from './auth';
+import { addExercise, deleteExercise, updateExercise } from './exercise';
+import { getTrainingDetails } from './training';
 import toast from 'react-hot-toast';
 
 export const useGetTrainingDetails = (token: string, trainingId: string) => {

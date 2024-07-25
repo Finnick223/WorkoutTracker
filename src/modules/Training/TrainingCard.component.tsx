@@ -8,7 +8,7 @@ import { Paper } from '@mui/material';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import EditNoteOutlinedIcon from '@mui/icons-material/EditNoteOutlined';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { deleteTraining } from 'src/api/auth';
+import { deleteTraining } from 'src/api/training';
 import toast from 'react-hot-toast';
 import useAuthStatus from 'src/hooks/useAuth';
 import { TrainingExtended } from 'src/interfaces/training.interfaces';

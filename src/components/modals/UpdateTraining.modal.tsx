@@ -2,7 +2,7 @@ import { Box, Button, Modal, TextField, Typography } from '@mui/material';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
-import { updateTraining } from 'src/api/auth';
+import { updateTraining } from 'src/api/training';
 import useAuthStatus from 'src/hooks/useAuth';
 import { UpdateTrainingModalProps } from 'src/interfaces/training.interfaces';
 
