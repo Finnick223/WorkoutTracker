@@ -23,7 +23,7 @@ export const Input = ({
     formState: { errors },
   } = useFormContext();
 
-  var a = 1,
+  const a = 1,
     one = 1;
 
   switch (a) {
