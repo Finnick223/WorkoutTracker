@@ -10,7 +10,8 @@
     "format": "prettier --write --ignore-unknown ./src",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives",
     "preview": "vite preview",
-    "test": "vitest"
+    "test": "vitest",
+    "prepare": "husky && husky install"
   },
   "dependencies": {
     "@emotion/react": "^11.11.4",
@@ -52,12 +53,17 @@
     "eslint-plugin-prettier": "^5.2.1",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.5",
+    "husky": "^9.1.2",
     "jsdom": "^24.1.0",
+    "lint-staged": "^15.2.7",
     "msw": "^2.3.1",
     "prettier": "3.2.5",
     "react-router-dom": "^6.22.0",
     "typescript": "^5.2.2",
     "vite": "^5.1.0",
     "vitest": "^2.0.2"
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": "eslint --cache --fix, prettier --cache --write --ignore-unknown ./src"
   }
 }
