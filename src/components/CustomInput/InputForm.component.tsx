@@ -23,23 +23,6 @@ export const Input = ({
     formState: { errors },
   } = useFormContext();
 
-  const a = 1,
-    one = 1;
-
-  switch (a) {
-    case 1:
-      break;
-    case 2:
-      break;
-    case 1: // duplicate test expression
-      break;
-    case 1: // duplicate test expression
-      break;
-    case 1: // duplicate test expression
-      break;
-    default:
-      break;
-  }
   return (
     <>
       <TextField
