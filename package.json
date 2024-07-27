@@ -65,6 +65,6 @@
     "vitest": "^2.0.2"
   },
   "lint-staged": {
-    "*.{ts,tsx}": "eslint --fix"
+    "**/*.{ts,tsx}": "eslint --fix"
   }
 }
