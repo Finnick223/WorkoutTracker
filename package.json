@@ -12,7 +12,7 @@
     "lint:fix": "eslint \"**/*.{ts,tsx}\" --fix",
     "preview": "vite preview",
     "test": "vitest",
-    "prepare": "husky && husky install"
+    "prepare": "husky"
   },
   "dependencies": {
     "@emotion/react": "^11.11.4",
