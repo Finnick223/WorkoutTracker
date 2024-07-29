@@ -1,4 +1,4 @@
-import { Button, CssBaseline, Grid } from '@mui/material';
+import { Button, Grid } from '@mui/material';
 import { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import useAuthStatus from 'src/hooks/useAuth';
@@ -13,7 +13,6 @@ export const NotFoundPage = () => {
 
   return (
     <>
-      <CssBaseline />
       <Grid container alignContent="center" direction="column">
         {isLoggedIn ? (
           <Link to="/">

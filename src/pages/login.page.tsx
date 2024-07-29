@@ -9,7 +9,6 @@ import {
   InputAdornment,
   IconButton,
   Container,
-  CssBaseline,
   Typography,
   Grid,
   Button,
@@ -60,7 +59,6 @@ function LoginPage() {
   return (
     <>
       <Container component="main" maxWidth="xs">
-        <CssBaseline />
         <Box
           sx={{
             display: 'flex',
