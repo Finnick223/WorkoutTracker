@@ -8,7 +8,6 @@ import {
   FormLabel,
   Avatar,
   Container,
-  CssBaseline,
   Typography,
   Grid,
   Checkbox,
@@ -66,7 +65,6 @@ export default function RegisterForm() {
     <>
       <FormProvider {...formMethods}>
         <Container component="main" maxWidth="xs">
-          <CssBaseline />
           <Box
             sx={{
               display: 'flex',

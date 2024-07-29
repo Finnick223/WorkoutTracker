@@ -1,10 +1,9 @@
-import { Box, Container, CssBaseline, Typography, Avatar } from '@mui/material';
+import { Box, Container, Typography, Avatar } from '@mui/material';
 import SportsGymnasticsSharpIcon from '@mui/icons-material/SportsGymnasticsSharp';
 function Home() {
   return (
     <>
       <Container maxWidth="lg">
-        <CssBaseline />
         <Box
           sx={{
             px: 10,

@@ -2,7 +2,6 @@ import { CircularProgress, Typography } from '@mui/material';
 import useAuthStatus from 'src/hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
-import { CssBaseline } from '@mui/material';
 
 const LogoutUser = () => {
   const { logout } = useAuthStatus();
@@ -14,7 +13,6 @@ const LogoutUser = () => {
   }, []);
   return (
     <>
-      <CssBaseline />
       <Typography>logging out....</Typography>
       <CircularProgress />
     </>

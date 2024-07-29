@@ -1,7 +1,6 @@
 import {
   Box,
   Container,
-  CssBaseline,
   Typography,
   Avatar,
   CircularProgress,
@@ -42,7 +41,6 @@ function Profile() {
   if (isFetching) {
     return (
       <Container maxWidth="lg">
-        <CssBaseline />
         <Box
           sx={{
             display: 'flex',
@@ -61,7 +59,6 @@ function Profile() {
   return (
     <>
       <Container maxWidth="lg">
-        <CssBaseline />
         <Box
           sx={{
             display: 'flex',

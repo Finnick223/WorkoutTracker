@@ -1,4 +1,4 @@
-import { CssBaseline, Grid } from '@mui/material';
+import { Grid } from '@mui/material';
 import { useState } from 'react';
 import { useUserMeasurements } from 'src/hooks/useUserMeasurements';
 import MeasurementForm from 'src/modules/User/MeasurementForm';
@@ -50,7 +50,6 @@ function UserPage() {
 
   return (
     <>
-      <CssBaseline />
       <Grid container sx={{ p: 10 }}>
         <Grid item direction={'column'} xs={4}>
           {isSuccess && data && (

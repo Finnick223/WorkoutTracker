@@ -5,7 +5,6 @@ import {
   Card,
   CardActions,
   CardContent,
-  CssBaseline,
   Fab,
   Paper,
   Skeleton,
@@ -59,7 +58,6 @@ function TrainingPage() {
 
   return (
     <>
-      <CssBaseline />
       <Box
         sx={{ display: 'inline-flex', textAlign: 'center', flexWrap: 'wrap' }}
       >
