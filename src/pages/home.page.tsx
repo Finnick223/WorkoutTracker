@@ -1,6 +1,10 @@
-import { Box, Container, Typography, Avatar } from '@mui/material';
+import { Box, Container, Typography, Avatar, Button } from '@mui/material';
 import SportsGymnasticsSharpIcon from '@mui/icons-material/SportsGymnasticsSharp';
+import { useContext } from 'react';
+import { ColorModeContext } from 'src/providers/MaterialUI.provider';
 function Home() {
+  const colorMode = useContext(ColorModeContext);
+
   return (
     <>
       <Container maxWidth="lg">
@@ -13,6 +17,9 @@ function Home() {
             justifyContent: 'center',
           }}
         >
+          <Button onClick={colorMode.toggleColorMode}>
+            DARK MODE *prototype*
+          </Button>
           <Avatar sx={{ m: 1 }}>
             <SportsGymnasticsSharpIcon fontSize="large" />
           </Avatar>

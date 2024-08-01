@@ -4,17 +4,20 @@ import { AuthProvider } from 'src/providers/UserContext.provider.tsx';
 import { ReactQueryProvider } from 'src/providers/ReactQuery.provider.tsx';
 import { Toaster } from 'react-hot-toast';
 import { CookiesProvider } from 'react-cookie';
+import { MaterialProvider } from './providers/MaterialUI.provider';
 
 function App() {
   return (
     <CookiesProvider defaultSetOptions={{ path: '/' }}>
       <ReactQueryProvider>
-        <AuthProvider>
-          <Router>
-            <Toaster />
-            <Routes />
-          </Router>
-        </AuthProvider>
+        <MaterialProvider>
+          <AuthProvider>
+            <Router>
+              <Toaster />
+              <Routes />
+            </Router>
+          </AuthProvider>
+        </MaterialProvider>
       </ReactQueryProvider>
     </CookiesProvider>
   );
