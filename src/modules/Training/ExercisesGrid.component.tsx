@@ -89,13 +89,24 @@ export default function ExerciseGrid() {
   };
 
   const processRowUpdate = (newRow: GridRowModel) => {
+    const checkIfUndefined = (value: undefined | number) =>
+      value === undefined ? undefined : value;
     const exerciseCreate = {
       name: newRow.name,
       trainingId: trainingId,
       sets: [
-        { reps: newRow?.reps1, weight: newRow?.weight1 },
-        { reps: newRow?.reps2, weight: newRow?.weight2 },
-        { reps: newRow?.reps3, weight: newRow?.weight3 },
+        {
+          reps: checkIfUndefined(newRow?.reps1),
+          weight: checkIfUndefined(newRow?.weight1),
+        },
+        {
+          reps: checkIfUndefined(newRow?.reps2),
+          weight: checkIfUndefined(newRow?.weight2),
+        },
+        {
+          reps: checkIfUndefined(newRow?.reps3),
+          weight: checkIfUndefined(newRow?.weight3),
+        },
       ],
     };
     const exerciseId = newRow.id;
