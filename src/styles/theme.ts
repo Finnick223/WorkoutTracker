@@ -54,8 +54,8 @@ export const getDesignThemes = (mode: PaletteMode) => ({
             disabled: 'rgba(255,255,255,0.5)',
           },
           background: {
-            default: '#181818',
-            paper: '#141414',
+            default: '#333333',
+            paper: '#181818',
           },
         }),
   },
