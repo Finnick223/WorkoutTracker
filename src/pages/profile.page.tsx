@@ -74,7 +74,7 @@ function Profile() {
             <Typography variant="h6">Email: {user?.email}</Typography>
             <Typography variant="h6">First Name: {user?.firstName}</Typography>
             <Typography variant="h6">Last Name: {user?.lastName}</Typography>
-            <Typography variant="h6">Gender: {user?.gender}</Typography>
+            <Typography variant="h6">Gender: {user?.genders}</Typography>
             <Button
               variant="contained"
               color="primary"
