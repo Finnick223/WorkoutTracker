@@ -65,6 +65,15 @@ function TrainingPage() {
           flexGrow: 1,
         }}
       >
+        <Fab
+          variant="extended"
+          color="primary"
+          aria-label="add"
+          onClick={handleAddOpen}
+        >
+          <AddIcon />
+          Add
+        </Fab>
         <Grid2 container spacing={2} margin={1} justifyContent="center">
           {isFetching
             ? Array.from(new Array(size)).map((_, index) => (
@@ -116,15 +125,6 @@ function TrainingPage() {
           rowsPerPage={size}
           onRowsPerPageChange={handleSizeChange}
         />
-        <Fab
-          variant="extended"
-          color="primary"
-          aria-label="add"
-          onClick={handleAddOpen}
-        >
-          <AddIcon />
-          Add
-        </Fab>
         <AddTrainingModal open={isAddOpen} handleAddClose={handleAddClose} />
       </Stack>
       <ErrorModalComponent />
