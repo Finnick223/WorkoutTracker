@@ -37,7 +37,7 @@ export const MaterialProvider = ({
 
   return (
     <ColorModeContext.Provider value={colorMode}>
-      <ThemeProvider theme={theme}>{children}</ThemeProvider>;
+      <ThemeProvider theme={theme}>{children}</ThemeProvider>
     </ColorModeContext.Provider>
   );
 };
