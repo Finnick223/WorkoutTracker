@@ -73,7 +73,7 @@ export interface UserDetails {
      * @type {string}
      * @memberof UserDetails
      */
-    gender?: UserDetailsGenderEnum;
+    genders?: string;
     /**
      * 
      * @type {Array<UserMeasurement>}
@@ -87,18 +87,6 @@ export interface UserDetails {
      */
     trainings?: Array<Training>;
 }
-
-
-/**
- * @export
- */
-export const UserDetailsGenderEnum = {
-    Male: 'MALE',
-    Female: 'FEMALE',
-    Other: 'OTHER'
-} as const;
-export type UserDetailsGenderEnum = typeof UserDetailsGenderEnum[keyof typeof UserDetailsGenderEnum];
-
 
 /**
  * Check if a given object implements the UserDetails interface.
@@ -125,7 +113,7 @@ export function UserDetailsFromJSONTyped(json: any, ignoreDiscriminator: boolean
         'email': !exists(json, 'email') ? undefined : json['email'],
         'firstName': !exists(json, 'firstName') ? undefined : json['firstName'],
         'lastName': !exists(json, 'lastName') ? undefined : json['lastName'],
-        'gender': !exists(json, 'gender') ? undefined : json['gender'],
+        'genders': !exists(json, 'genders') ? undefined : json['genders'],
         'userMeasurements': !exists(json, 'userMeasurements') ? undefined : ((json['userMeasurements'] as Array<any>).map(UserMeasurementFromJSON)),
         'trainings': !exists(json, 'trainings') ? undefined : ((json['trainings'] as Array<any>).map(TrainingFromJSON)),
     };
@@ -146,7 +134,7 @@ export function UserDetailsToJSON(value?: UserDetails | null): any {
         'email': value.email,
         'firstName': value.firstName,
         'lastName': value.lastName,
-        'gender': value.gender,
+        'genders': value.genders,
         'userMeasurements': value.userMeasurements === undefined ? undefined : ((value.userMeasurements as Array<any>).map(UserMeasurementToJSON)),
         'trainings': value.trainings === undefined ? undefined : ((value.trainings as Array<any>).map(TrainingToJSON)),
     };

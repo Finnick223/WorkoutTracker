@@ -48,20 +48,8 @@ export interface User {
      * @type {string}
      * @memberof User
      */
-    gender?: UserGenderEnum;
+    genders?: string;
 }
-
-
-/**
- * @export
- */
-export const UserGenderEnum = {
-    Male: 'MALE',
-    Female: 'FEMALE',
-    Other: 'OTHER'
-} as const;
-export type UserGenderEnum = typeof UserGenderEnum[keyof typeof UserGenderEnum];
-
 
 /**
  * Check if a given object implements the User interface.
@@ -86,7 +74,7 @@ export function UserFromJSONTyped(json: any, ignoreDiscriminator: boolean): User
         'email': !exists(json, 'email') ? undefined : json['email'],
         'firstName': !exists(json, 'firstName') ? undefined : json['firstName'],
         'lastName': !exists(json, 'lastName') ? undefined : json['lastName'],
-        'gender': !exists(json, 'gender') ? undefined : json['gender'],
+        'genders': !exists(json, 'genders') ? undefined : json['genders'],
     };
 }
 
@@ -103,7 +91,7 @@ export function UserToJSON(value?: User | null): any {
         'email': value.email,
         'firstName': value.firstName,
         'lastName': value.lastName,
-        'gender': value.gender,
+        'genders': value.genders,
     };
 }
 

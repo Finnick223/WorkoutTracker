@@ -69,14 +69,6 @@ export class UserMeasurementApi extends runtime.BaseAPI {
 
         headerParameters['Content-Type'] = 'application/json';
 
-        if (this.configuration && this.configuration.accessToken) {
-            const token = this.configuration.accessToken;
-            const tokenString = await token("bearerAuth", []);
-
-            if (tokenString) {
-                headerParameters["Authorization"] = `Bearer ${tokenString}`;
-            }
-        }
         const response = await this.request({
             path: `/usermeasurement`,
             method: 'POST',
@@ -108,14 +100,6 @@ export class UserMeasurementApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        if (this.configuration && this.configuration.accessToken) {
-            const token = this.configuration.accessToken;
-            const tokenString = await token("bearerAuth", []);
-
-            if (tokenString) {
-                headerParameters["Authorization"] = `Bearer ${tokenString}`;
-            }
-        }
         const response = await this.request({
             path: `/usermeasurement/{userMeasurementId}`.replace(`{${"userMeasurementId"}}`, encodeURIComponent(String(requestParameters.userMeasurementId))),
             method: 'DELETE',
@@ -145,14 +129,6 @@ export class UserMeasurementApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        if (this.configuration && this.configuration.accessToken) {
-            const token = this.configuration.accessToken;
-            const tokenString = await token("bearerAuth", []);
-
-            if (tokenString) {
-                headerParameters["Authorization"] = `Bearer ${tokenString}`;
-            }
-        }
         const response = await this.request({
             path: `/usermeasurement/{userMeasurementId}`.replace(`{${"userMeasurementId"}}`, encodeURIComponent(String(requestParameters.userMeasurementId))),
             method: 'GET',
@@ -187,14 +163,6 @@ export class UserMeasurementApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        if (this.configuration && this.configuration.accessToken) {
-            const token = this.configuration.accessToken;
-            const tokenString = await token("bearerAuth", []);
-
-            if (tokenString) {
-                headerParameters["Authorization"] = `Bearer ${tokenString}`;
-            }
-        }
         const response = await this.request({
             path: `/usermeasurement`,
             method: 'GET',
@@ -231,14 +199,6 @@ export class UserMeasurementApi extends runtime.BaseAPI {
 
         headerParameters['Content-Type'] = 'application/json';
 
-        if (this.configuration && this.configuration.accessToken) {
-            const token = this.configuration.accessToken;
-            const tokenString = await token("bearerAuth", []);
-
-            if (tokenString) {
-                headerParameters["Authorization"] = `Bearer ${tokenString}`;
-            }
-        }
         const response = await this.request({
             path: `/usermeasurement/{userMeasurementId}`.replace(`{${"userMeasurementId"}}`, encodeURIComponent(String(requestParameters.userMeasurementId))),
             method: 'PUT',

@@ -42,20 +42,8 @@ export interface UserCreate {
      * @type {string}
      * @memberof UserCreate
      */
-    gender?: UserCreateGenderEnum;
+    gender?: string;
 }
-
-
-/**
- * @export
- */
-export const UserCreateGenderEnum = {
-    Male: 'MALE',
-    Female: 'FEMALE',
-    Other: 'OTHER'
-} as const;
-export type UserCreateGenderEnum = typeof UserCreateGenderEnum[keyof typeof UserCreateGenderEnum];
-
 
 /**
  * Check if a given object implements the UserCreate interface.
