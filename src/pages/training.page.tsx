@@ -18,6 +18,7 @@ import { loadTrainings } from 'src/api/training';
 import useAuthStatus from 'src/hooks/useAuth.ts';
 import AddTrainingModal from 'src/components/modals/AddTraining.modal.tsx';
 import { useModal } from 'src/components/modals/Error.modal.tsx';
+import Grid2 from '@mui/material/Unstable_Grid2/Grid2';
 
 function TrainingPage() {
   const [trainings, setTrainings] = useState<Training[]>([]);
@@ -59,36 +60,57 @@ function TrainingPage() {
   return (
     <>
       <Box
-        sx={{ display: 'inline-flex', textAlign: 'center', flexWrap: 'wrap' }}
+        sx={{
+          textAlign: 'center',
+          flexGrow: 1,
+        }}
       >
-        {isFetching
-          ? Array.from(new Array(size)).map((_, index) => (
-              <Paper elevation={4} sx={{ width: '16vw', m: 2 }} key={index}>
-                <Card sx={{ width: '16vw' }}>
-                  <CardContent>
-                    <Skeleton variant="text" sx={{ fontSize: 14 }} />
-                    <Skeleton variant="text" sx={{ fontSize: '0.83em' }} />
-                    <Skeleton variant="text" sx={{ fontSize: '0.83em' }} />
-                    <Skeleton variant="text" sx={{ fontSize: 14, mb: 1.5 }} />
-                  </CardContent>
-                  <CardActions sx={{ justifyContent: 'center' }}>
-                    <Skeleton variant="rounded" width={40} height={40} />
-                    <Skeleton variant="rounded" width={40} height={40} />
-                  </CardActions>
-                </Card>
-              </Paper>
-            ))
-          : trainings.map((training) => (
-              <TrainingCard
-                id={training.id}
-                createdOn={training.createdOn?.slice(0, 10)}
-                name={training.name}
-                description={training.description}
-                key={training.id}
-                page={page}
-                size={size}
-              />
-            ))}
+        <Fab
+          variant="extended"
+          color="primary"
+          aria-label="add"
+          onClick={handleAddOpen}
+        >
+          <AddIcon />
+          Add
+        </Fab>
+        <Grid2 container spacing={2} margin={1} justifyContent="center">
+          {isFetching
+            ? Array.from(new Array(size)).map((_, index) => (
+                <Grid2>
+                  <Paper elevation={4} sx={{ width: '16em' }} key={index}>
+                    <Card sx={{ width: '16em' }}>
+                      <CardContent>
+                        <Skeleton variant="text" sx={{ fontSize: 14 }} />
+                        <Skeleton variant="text" sx={{ fontSize: '0.83em' }} />
+                        <Skeleton variant="text" sx={{ fontSize: '0.83em' }} />
+                        <Skeleton
+                          variant="text"
+                          sx={{ fontSize: 14, mb: 1.5 }}
+                        />
+                      </CardContent>
+                      <CardActions sx={{ justifyContent: 'center' }}>
+                        <Skeleton variant="rounded" width={40} height={40} />
+                        <Skeleton variant="rounded" width={40} height={40} />
+                      </CardActions>
+                    </Card>
+                  </Paper>
+                </Grid2>
+              ))
+            : trainings.map((training) => (
+                <Grid2>
+                  <TrainingCard
+                    id={training.id}
+                    createdOn={training.createdOn?.slice(0, 10)}
+                    name={training.name}
+                    description={training.description}
+                    key={training.id}
+                    page={page}
+                    size={size}
+                  />
+                </Grid2>
+              ))}
+        </Grid2>
       </Box>
       <Stack
         spacing={2}
@@ -103,15 +125,6 @@ function TrainingPage() {
           rowsPerPage={size}
           onRowsPerPageChange={handleSizeChange}
         />
-        <Fab
-          variant="extended"
-          color="primary"
-          aria-label="add"
-          onClick={handleAddOpen}
-        >
-          <AddIcon />
-          Add
-        </Fab>
         <AddTrainingModal open={isAddOpen} handleAddClose={handleAddClose} />
       </Stack>
       <ErrorModalComponent />

@@ -1,4 +1,4 @@
-import { Grid } from '@mui/material';
+import Grid2 from '@mui/material/Unstable_Grid2/Grid2';
 import { useState } from 'react';
 import { useUserMeasurements } from 'src/hooks/useUserMeasurements';
 import MeasurementForm from 'src/modules/User/MeasurementForm';
@@ -50,8 +50,8 @@ function UserPage() {
 
   return (
     <>
-      <Grid container sx={{ p: 10 }}>
-        <Grid item direction={'column'} xs={4}>
+      <Grid2 container sx={{ p: { xs: 2, sm: 8 } }}>
+        <Grid2 direction={'column'} xs={12} sm={4}>
           {isSuccess && data && (
             <MeasurementForm
               measurements={data}
@@ -59,11 +59,11 @@ function UserPage() {
               onPartChange={handlePartChange}
             />
           )}
-        </Grid>
-        <Grid item xs={8}>
+        </Grid2>
+        <Grid2 xs={12} sm={8}>
           <BodyDisplay params={params} />
-        </Grid>
-      </Grid>
+        </Grid2>
+      </Grid2>
       <ErrorModalComponent />
     </>
   );

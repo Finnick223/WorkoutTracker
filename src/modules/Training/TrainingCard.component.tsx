@@ -49,8 +49,8 @@ export default function TrainingCard(props: TrainingExtended) {
     }
   };
   return (
-    <Paper elevation={4} sx={{ width: '16vw', m: 2 }}>
-      <Card sx={{ width: '16vw' }}>
+    <Paper elevation={4} sx={{ width: '16em' }}>
+      <Card sx={{ width: '16em' }}>
         <Link
           to={props.id as To}
           style={{ textDecoration: 'none', color: 'inherit' }}
