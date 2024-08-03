@@ -77,7 +77,7 @@ function TrainingPage() {
         <Grid2 container spacing={2} margin={1} justifyContent="center">
           {isFetching
             ? Array.from(new Array(size)).map((_, index) => (
-                <Grid2>
+                <Grid2 key={index}>
                   <Paper elevation={4} sx={{ width: '16em' }} key={index}>
                     <Card sx={{ width: '16em' }}>
                       <CardContent>
@@ -98,7 +98,7 @@ function TrainingPage() {
                 </Grid2>
               ))
             : trainings.map((training) => (
-                <Grid2>
+                <Grid2 key={training.id}>
                   <TrainingCard
                     id={training.id}
                     createdOn={training.createdOn?.slice(0, 10)}
@@ -111,22 +111,22 @@ function TrainingPage() {
                 </Grid2>
               ))}
         </Grid2>
+        <Stack
+          spacing={2}
+          direction="column"
+          sx={{ display: 'flex', alignItems: 'center', mt: 4 }}
+        >
+          <TablePagination
+            component="div"
+            count={-1}
+            page={page}
+            onPageChange={handlePageChange}
+            rowsPerPage={size}
+            onRowsPerPageChange={handleSizeChange}
+          />
+          <AddTrainingModal open={isAddOpen} handleAddClose={handleAddClose} />
+        </Stack>
       </Box>
-      <Stack
-        spacing={2}
-        direction="column"
-        sx={{ display: 'flex', alignItems: 'center', mt: 4 }}
-      >
-        <TablePagination
-          component="div"
-          count={-1}
-          page={page}
-          onPageChange={handlePageChange}
-          rowsPerPage={size}
-          onRowsPerPageChange={handleSizeChange}
-        />
-        <AddTrainingModal open={isAddOpen} handleAddClose={handleAddClose} />
-      </Stack>
       <ErrorModalComponent />
     </>
   );
