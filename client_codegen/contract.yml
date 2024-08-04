@@ -3,13 +3,10 @@ info:
     title: WorkoutTracker
     version: 1.0.0
 
-
 servers:
     - url: http://188.68.247.208:8080
       description: Local server
 
-security:
-    - bearerAuth: []
 
 tags:
     - name: user
@@ -18,8 +15,6 @@ tags:
       description: Training operations
     - name: exercise
       description: Exercise operations
-
-
 
 paths:
     /user:
@@ -699,6 +694,229 @@ paths:
                             schema:
                                 $ref: '#/components/schemas/ErrorResponse'
 
+    /exercises/{exerciseId}/sets:
+        get:
+            tags:
+                - ExerciseSet
+            summary: Get all exercise sets for a specific exercise
+            operationId: getExerciseSets
+            parameters:
+                - name: exerciseId
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                '200':
+                    description: A list of exercise sets
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: '#/components/schemas/ExerciseSet'
+                '400':
+                    description: Bad request
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ErrorResponse'
+                '401':
+                    description: Unauthorized
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ErrorResponse'
+                '403':
+                    description: Forbidden
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ErrorResponse'
+                '404':
+                    description: Not found
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ErrorResponse'
+        post:
+            tags:
+                - ExerciseSet
+            summary: Create a new exercise set
+            operationId: createExerciseSet
+            parameters:
+                - name: exerciseId
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/ExerciseSet'
+            responses:
+                '201':
+                    description: Exercise set created
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ExerciseSet'
+                '400':
+                    description: Bad request
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ErrorResponse'
+                '401':
+                    description: Unauthorized
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ErrorResponse'
+                '403':
+                    description: Forbidden
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ErrorResponse'
+                '404':
+                    description: Not found
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ErrorResponse'
+    /exercises/sets/{setId}:
+        get:
+            tags:
+                - ExerciseSet
+            summary: Get an exercise set by ID
+            operationId: getExerciseSet
+            parameters:
+                - name: setId
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                '200':
+                    description: An exercise set
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ExerciseSet'
+                '400':
+                    description: Bad request
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ErrorResponse'
+                '401':
+                    description: Unauthorized
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ErrorResponse'
+                '403':
+                    description: Forbidden
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ErrorResponse'
+                '404':
+                    description: Not found
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ErrorResponse'
+        put:
+            tags:
+                - ExerciseSet
+            summary: Update an exercise set
+            operationId: updateExerciseSet
+            parameters:
+                - name: setId
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/ExerciseSet'
+            responses:
+                '200':
+                    description: Exercise set updated
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ExerciseSet'
+                '400':
+                    description: Bad request
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ErrorResponse'
+                '401':
+                    description: Unauthorized
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ErrorResponse'
+                '403':
+                    description: Forbidden
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ErrorResponse'
+                '404':
+                    description: Not found
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ErrorResponse'
+        delete:
+            tags:
+                - ExerciseSet
+            summary: Delete an exercise set
+            operationId: deleteExerciseSet
+            parameters:
+                - name: setId
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                '204':
+                    description: Exercise set deleted
+                '400':
+                    description: Bad request
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ErrorResponse'
+                '401':
+                    description: Unauthorized
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ErrorResponse'
+                '403':
+                    description: Forbidden
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ErrorResponse'
+                '404':
+                    description: Not found
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ErrorResponse'
+
     /usermeasurement:
         get:
             tags:
@@ -936,12 +1154,8 @@ components:
                     type: string
                 lastName:
                     type: string
-                gender:
+                genders:
                     type: string
-                    enum:
-                        - MALE
-                        - FEMALE
-                        - OTHER
                 userMeasurements:
                     type: array
                     items:
@@ -961,12 +1175,9 @@ components:
                     type: string
                 lastName:
                     type: string
-                gender:
+                genders:
                     type: string
-                    enum:
-                        - MALE
-                        - FEMALE
-                        - OTHER
+
         UserCreate:
             type: object
             properties:
@@ -978,10 +1189,6 @@ components:
                     type: string
                 gender:
                     type: string
-                    enum:
-                        - MALE
-                        - FEMALE
-                        - OTHER
         UserMeasurement:
             type: object
             properties:
@@ -1106,6 +1313,9 @@ components:
             properties:
                 reps:
                     type: integer
+                weight:
+                    type: number
+                    format: double
         ErrorResponse:
           type: object
           properties:

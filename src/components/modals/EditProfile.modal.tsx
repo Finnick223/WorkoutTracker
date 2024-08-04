@@ -16,7 +16,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
 import { updateUser } from 'src/api/auth';
 import useAuthStatus from 'src/hooks/useAuth';
-import { User, UserGenderEnum } from 'src/client/src';
+import { User } from 'src/client/src';
 import { useNavigate } from 'react-router-dom';
 
 const EditUserModal: React.FC<EditUserModalProps> = ({
@@ -31,8 +31,9 @@ const EditUserModal: React.FC<EditUserModalProps> = ({
   const navigate = useNavigate();
   const initialEmail = user?.email;
 
-  const handleGenderChange = (event: SelectChangeEvent<UserGenderEnum>) => {
+  const handleGenderChange = (event: SelectChangeEvent<string>) => {
     const value = event.target.value;
+    console.log(value);
     setValue('gender', value);
   };
   const { mutate } = useMutation({
@@ -104,17 +105,17 @@ const EditUserModal: React.FC<EditUserModalProps> = ({
               variant="outlined"
             />
             <FormControl fullWidth>
-              <InputLabel id="gender">Gender</InputLabel>
+              <InputLabel id="genders">Gender</InputLabel>
               <Select
-                id="gender"
-                value={user?.gender}
+                id="genders"
+                defaultValue={user?.genders}
                 label="Gender"
                 fullWidth
                 onChange={handleGenderChange}
               >
-                <MenuItem value={'MALE'}>Male</MenuItem>
-                <MenuItem value={'FEMALE'}>Female</MenuItem>
-                <MenuItem value={'OTHER'}>Other</MenuItem>
+                <MenuItem value={'MALE'}>MALE</MenuItem>
+                <MenuItem value={'FEMALE'}>FEMALE</MenuItem>
+                <MenuItem value={'OTHER'}>OTHER</MenuItem>
               </Select>
             </FormControl>
             <Button
