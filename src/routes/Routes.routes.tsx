@@ -3,10 +3,11 @@ import { AuthorizedAppRoutes } from './AuthorizedApp.routes';
 import useAuthStatus from 'src/hooks/useAuth';
 
 export const Routes = () => {
-  const { isLoggedIn } = useAuthStatus();
+  const { isLoggedIn, isLoading } = useAuthStatus();
 
-  if (isLoggedIn) {
-    return <AuthorizedAppRoutes />;
-  }
-  return <UnAuthorizedAppRoutes />;
+  return !isLoading && isLoggedIn ? (
+    <AuthorizedAppRoutes />
+  ) : (
+    <UnAuthorizedAppRoutes />
+  );
 };

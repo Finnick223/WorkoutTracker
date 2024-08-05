@@ -3,6 +3,7 @@ import { ReactNode } from 'react';
 
 export interface AuthContextType {
   token: string;
+  isLoading: boolean;
   login: UseMutationResult<string, Error, string, unknown>;
   logout: () => void;
 }
