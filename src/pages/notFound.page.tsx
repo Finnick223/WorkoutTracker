@@ -1,29 +1,28 @@
-import { Button, Grid } from '@mui/material';
+import { Box, CircularProgress, Grid } from '@mui/material';
 import { useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import useAuthStatus from 'src/hooks/useAuth';
 
 export const NotFoundPage = () => {
-  const { isLoggedIn } = useAuthStatus();
+  const { isLoggedIn, isLoading } = useAuthStatus();
   const navigate = useNavigate();
 
   useEffect(() => {
-    isLoggedIn ? navigate('/') : navigate('/Login');
-  }, [isLoggedIn, navigate]);
+    if (!isLoading) {
+      isLoggedIn ? navigate('/') : navigate('/Login');
+    }
+  }, [isLoggedIn, isLoading, navigate]);
 
   return (
-    <>
-      <Grid container alignContent="center" direction="column">
-        {isLoggedIn ? (
-          <Link to="/">
-            <Button variant="contained">Powrót do strony głównej</Button>
-          </Link>
-        ) : (
-          <Link to="/Login">
-            <Button variant="contained">Zaloguj się</Button>
-          </Link>
-        )}
-      </Grid>
-    </>
+    <Grid container alignContent="center" direction="column">
+      <Box
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        height="100vh"
+      >
+        <CircularProgress />
+      </Box>
+    </Grid>
   );
 };

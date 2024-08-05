@@ -8,7 +8,7 @@ const useAuthStatus = () => {
     throw new Error('useAuth must be used within an AuthProvider');
   }
 
-  const { token, login, logout } = authContext;
+  const { token, isLoading, login, logout } = authContext;
   const queryClient = useQueryClient();
 
   const authToken = queryClient.getQueryData(['authToken']);
@@ -16,6 +16,7 @@ const useAuthStatus = () => {
 
   return {
     isLoggedIn,
+    isLoading,
     token,
     login,
     logout,

@@ -16,10 +16,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     return cookies.token || null;
   };
 
-  const { data: token } = useQuery({
+  const { data: token, isLoading } = useQuery({
     queryKey: ['authToken'],
     queryFn: fetchToken,
-    initialData: null,
     refetchInterval: 1000,
   });
 
@@ -45,7 +44,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ token, login: login, logout: logout.mutate }}
+      value={{ token, isLoading, login: login, logout: logout.mutate }}
     >
       {children}
     </AuthContext.Provider>
