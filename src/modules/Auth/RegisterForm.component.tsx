@@ -12,7 +12,6 @@ import {
   Grid,
   Checkbox,
   Button,
-  Link,
   FormHelperText,
 } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
@@ -25,6 +24,7 @@ import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { registerSchema } from 'src/validators/auth.validator';
 import toast from 'react-hot-toast';
+import CustomLink from 'src/components/Link/Link.component';
 
 export default function RegisterForm() {
   const navigate = useNavigate();
@@ -177,10 +177,10 @@ export default function RegisterForm() {
                 {mutation.isPending ? 'Signing Up...' : 'Sign Up'}
               </Button>
               <Grid container justifyContent="flex-end">
-                <Grid item>
-                  <Link href="/Login" variant="body2">
+                <Grid item mb={4}>
+                  <CustomLink href="/Login" color="inherit" variant="body2">
                     Already have an account? Sign in
-                  </Link>
+                  </CustomLink>
                 </Grid>
               </Grid>
             </Box>

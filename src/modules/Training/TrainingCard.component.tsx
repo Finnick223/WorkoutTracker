@@ -1,4 +1,3 @@
-import { Link, To } from 'react-router-dom';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
@@ -14,6 +13,7 @@ import useAuthStatus from 'src/hooks/useAuth';
 import { TrainingExtended } from 'src/interfaces/training.interfaces';
 import { useState } from 'react';
 import UpdateTrainingModal from 'src/components/modals/UpdateTraining.modal';
+import CustomLink from 'src/components/Link/Link.component';
 
 export default function TrainingCard(props: TrainingExtended) {
   const { token } = useAuthStatus();
@@ -51,26 +51,17 @@ export default function TrainingCard(props: TrainingExtended) {
   return (
     <Paper elevation={4} sx={{ width: '16em' }}>
       <Card sx={{ width: '16em' }}>
-        <Link
-          to={props.id as To}
-          style={{ textDecoration: 'none', color: 'inherit' }}
-        >
+        <CustomLink href={`/training/${props.id}`} color="inherit">
           <CardContent>
-            <Typography
-              sx={{ fontSize: 14 }}
-              color="text.secondary"
-              gutterBottom
-            >
+            <Typography sx={{ fontSize: 14 }} gutterBottom>
               {props.createdOn}
             </Typography>
             <Typography variant="h5" component="div">
               {props.name}
             </Typography>
-            <Typography sx={{ mb: 1.5 }} color="text.secondary">
-              {props.description}
-            </Typography>
+            <Typography sx={{ mb: 1.5 }}>{props.description}</Typography>
           </CardContent>
-        </Link>
+        </CustomLink>
         <CardActions sx={{ justifyContent: 'center' }}>
           <Button size="small" variant="contained" onClick={handleUpdateClick}>
             <EditNoteOutlinedIcon />

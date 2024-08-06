@@ -11,7 +11,7 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import { Link } from 'react-router-dom';
+import CustomLink from 'src/components/Link/Link.component';
 
 function ResponsiveAppBar() {
   const { isLoggedIn } = useAuthStatus();
@@ -51,15 +51,11 @@ function ResponsiveAppBar() {
           </Typography>
           <Box sx={{ flexGrow: 1, display: { md: 'flex' } }}>
             {pages.map((page) => (
-              <Link
-                key={page}
-                style={{ textDecoration: 'none', color: 'inherit' }}
-                to={`/${page}`}
-              >
+              <CustomLink key={page} href={`/${page}`} color="inherit">
                 <Button sx={{ my: 2, color: 'white', display: 'block' }}>
                   <Typography textAlign="center">{page}</Typography>
                 </Button>
-              </Link>
+              </CustomLink>
             ))}
           </Box>
 
@@ -86,29 +82,25 @@ function ResponsiveAppBar() {
                   onClose={handleCloseUserMenu}
                 >
                   {settings.map((setting) => (
-                    <Link
+                    <CustomLink
                       key={setting}
-                      style={{ textDecoration: 'none', color: 'inherit' }}
-                      to={`/${setting}`}
+                      color="inherit"
+                      href={`/${setting}`}
                     >
                       <MenuItem onClick={handleCloseUserMenu}>
                         <Typography textAlign="center">{setting}</Typography>
                       </MenuItem>
-                    </Link>
+                    </CustomLink>
                   ))}
                 </Menu>
               </>
             ) : (
               settings.map((page) => (
-                <Link
-                  key={page}
-                  style={{ textDecoration: 'none', color: 'inherit' }}
-                  to={`/${page}`}
-                >
+                <CustomLink key={page} color="inherit" href={`/${page}`}>
                   <Button sx={{ my: 2, color: 'white', display: 'block' }}>
                     <Typography textAlign="center">{page}</Typography>
                   </Button>
-                </Link>
+                </CustomLink>
               ))
             )}
           </Box>

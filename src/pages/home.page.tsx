@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import { Box, Container, Typography, Avatar, Button } from '@mui/material';
 import SportsGymnasticsSharpIcon from '@mui/icons-material/SportsGymnasticsSharp';
 import { useContext } from 'react';
@@ -17,7 +18,15 @@ function Home() {
             justifyContent: 'center',
           }}
         >
-          <Button onClick={colorMode.toggleColorMode}>
+          <Button
+            onClick={colorMode.toggleColorMode}
+            component={motion.div}
+            whileHover={{
+              scale: 1.2,
+              transition: { duration: 0.3 },
+            }}
+            whileTap={{ scale: 0.9 }}
+          >
             DARK MODE *prototype*
           </Button>
           <Avatar sx={{ m: 1 }}>

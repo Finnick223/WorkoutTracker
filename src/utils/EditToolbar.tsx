@@ -3,8 +3,9 @@ import { GridToolbarContainer } from '@mui/x-data-grid';
 import useAuthStatus from 'src/hooks/useAuth';
 import { EditToolbarProps } from 'src/interfaces/exercises.interfaces';
 import AddIcon from '@mui/icons-material/Add';
-import { Link } from 'react-router-dom';
 import { useAddExercise } from 'src/api/exerciseGridQueryHooks';
+import CustomLink from 'src/components/Link/Link.component';
+import { motion } from 'framer-motion';
 
 export default function EditToolbar(props: EditToolbarProps) {
   const { token } = useAuthStatus();
@@ -20,19 +21,22 @@ export default function EditToolbar(props: EditToolbarProps) {
   };
   return (
     <GridToolbarContainer>
-      <Button variant="text">
-        <Link
-          to=".."
-          relative="path"
-          style={{
-            color: 'inherit',
-            textDecoration: 'inherit',
-          }}
-        >
+      <CustomLink href="./" color="inherit">
+        <Button>
           &larr; <span>Back to all trainings</span>
-        </Link>
-      </Button>
-      <Button color="primary" startIcon={<AddIcon />} onClick={handleClick}>
+        </Button>
+      </CustomLink>
+      <Button
+        color="primary"
+        startIcon={<AddIcon />}
+        onClick={handleClick}
+        component={motion.div}
+        whileHover={{
+          scale: 1.2,
+          transition: { duration: 0.3 },
+        }}
+        whileTap={{ scale: 0.9 }}
+      >
         Add Exercise
       </Button>
     </GridToolbarContainer>
