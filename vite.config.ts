@@ -7,7 +7,12 @@ import viteTsconfigPaths from 'vite-tsconfig-paths';
 export default defineConfig({
   plugins: [react(), viteTsconfigPaths()],
   optimizeDeps: {
-    include: ['@emotion/react', '@emotion/styled', '@mui/material'],
+    include: [
+      '@emotion/react',
+      '@emotion/styled',
+      '@mui/material',
+      '@mui/material/Unstable_Grid2',
+    ],
   },
   test: {
     globals: true,

@@ -2,9 +2,16 @@ import { LinkProps, Link as MuiLink } from '@mui/material';
 import { Variant } from '@mui/material/styles/createTypography';
 import { motion } from 'framer-motion';
 import { forwardRef, ReactNode } from 'react';
+import { Link as ReactRouterLink } from 'react-router-dom';
 
 const LinkComponent = forwardRef<HTMLAnchorElement, LinkProps>((props, ref) => (
-  <MuiLink {...props} ref={ref} />
+  <MuiLink
+    {...props}
+    component={ReactRouterLink}
+    to={props.href ?? '#'}
+    relative="path"
+    ref={ref}
+  />
 ));
 
 const MotionLink = motion(LinkComponent);

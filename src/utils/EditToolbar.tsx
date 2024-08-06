@@ -21,7 +21,7 @@ export default function EditToolbar(props: EditToolbarProps) {
   };
   return (
     <GridToolbarContainer>
-      <CustomLink href="./" color="inherit">
+      <CustomLink href=".." color="inherit">
         <Button>
           &larr; <span>Back to all trainings</span>
         </Button>

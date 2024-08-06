@@ -1,16 +1,20 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import useAuthStatus from 'src/hooks/useAuth';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import Menu from '@mui/material/Menu';
-import Container from '@mui/material/Container';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
-import MenuItem from '@mui/material/MenuItem';
+import {
+  AppBar,
+  Box,
+  Toolbar,
+  IconButton,
+  Typography,
+  Menu,
+  Container,
+  Avatar,
+  Button,
+  Tooltip,
+  MenuItem,
+} from '@mui/material';
+
+import { Link } from 'react-router-dom';
 import CustomLink from 'src/components/Link/Link.component';
 
 function ResponsiveAppBar() {
@@ -21,13 +25,16 @@ function ResponsiveAppBar() {
 
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
 
-  const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElUser(event.currentTarget);
-  };
+  const handleOpenUserMenu = useCallback(
+    (event: React.MouseEvent<HTMLElement>) => {
+      setAnchorElUser(event.currentTarget);
+    },
+    [],
+  );
 
-  const handleCloseUserMenu = () => {
+  const handleCloseUserMenu = useCallback(() => {
     setAnchorElUser(null);
-  };
+  }, []);
 
   return (
     <AppBar position="relative" sx={{ marginBottom: '5vh' }}>
@@ -36,20 +43,19 @@ function ResponsiveAppBar() {
           <Typography
             variant="h6"
             noWrap
-            component="a"
-            href="/"
+            component={Link}
+            to="/"
             sx={{
               mr: 6,
-              display: { md: 'flex' },
-              fontWeight: 700,
-              letterSpacing: '.1rem',
+              fontWeight: 600,
+              letterSpacing: '.05rem',
               color: 'inherit',
               textDecoration: 'none',
             }}
           >
             WorkoutTracker
           </Typography>
-          <Box sx={{ flexGrow: 1, display: { md: 'flex' } }}>
+          <Box sx={{ flexGrow: 1, display: { sm: 'flex' } }}>
             {pages.map((page) => (
               <CustomLink key={page} href={`/${page}`} color="inherit">
                 <Button sx={{ my: 2, color: 'white', display: 'block' }}>
