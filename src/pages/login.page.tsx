@@ -23,6 +23,7 @@ import useAuthStatus from 'src/hooks/useAuth';
 import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
+import { AnimatePage } from 'src/animations/AnimatePage';
 
 function LoginPage() {
   const { login } = useAuthStatus();
@@ -58,107 +59,109 @@ function LoginPage() {
 
   return (
     <>
-      <Container component="main" maxWidth="xs">
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-          }}
-        >
-          <Avatar sx={{ m: 1 }}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5" sx={{ mb: 4 }}>
-            Sign in
-          </Typography>
-          <form onSubmit={submit}>
-            <Grid container spacing={2}>
-              <Grid item xs={12}>
-                <Controller
-                  name="email"
-                  control={control}
-                  defaultValue=""
-                  rules={{ required: 'Email is required' }}
-                  render={({ field }) => (
-                    <TextField
-                      {...field}
-                      fullWidth
-                      label="Email"
-                      error={!!errors.email}
-                      helperText={
-                        errors.email ? (errors.email.message as string) : ''
-                      }
-                      autoFocus
-                    />
-                  )}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <FormControl
-                  fullWidth
-                  variant="outlined"
-                  error={!!errors.password}
-                >
-                  <InputLabel htmlFor="outlined-adornment-password">
-                    Password
-                  </InputLabel>
+      <AnimatePage>
+        <Container component="main" maxWidth="xs">
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+            }}
+          >
+            <Avatar sx={{ m: 1 }}>
+              <LockOutlinedIcon />
+            </Avatar>
+            <Typography component="h1" variant="h5" sx={{ mb: 4 }}>
+              Sign in
+            </Typography>
+            <form onSubmit={submit}>
+              <Grid container spacing={2}>
+                <Grid item xs={12}>
                   <Controller
-                    name="password"
+                    name="email"
                     control={control}
                     defaultValue=""
-                    rules={{ required: 'Password is required' }}
+                    rules={{ required: 'Email is required' }}
                     render={({ field }) => (
-                      <OutlinedInput
+                      <TextField
                         {...field}
-                        id="password"
-                        type={showPassword ? 'text' : 'password'}
-                        endAdornment={
-                          <InputAdornment position="end">
-                            <IconButton
-                              aria-label="toggle password visibility"
-                              onClick={handleClickShowPassword}
-                              onMouseDown={handleMouseDownPassword}
-                              edge="end"
-                            >
-                              {showPassword ? (
-                                <VisibilityOff />
-                              ) : (
-                                <Visibility />
-                              )}
-                            </IconButton>
-                          </InputAdornment>
+                        fullWidth
+                        label="Email"
+                        error={!!errors.email}
+                        helperText={
+                          errors.email ? (errors.email.message as string) : ''
                         }
-                        label="Password"
+                        autoFocus
                       />
                     )}
                   />
-                  {errors.password && (
-                    <Typography color="error" variant="body2">
-                      {errors.password.message as string}
-                    </Typography>
-                  )}
-                </FormControl>
+                </Grid>
+                <Grid item xs={12}>
+                  <FormControl
+                    fullWidth
+                    variant="outlined"
+                    error={!!errors.password}
+                  >
+                    <InputLabel htmlFor="outlined-adornment-password">
+                      Password
+                    </InputLabel>
+                    <Controller
+                      name="password"
+                      control={control}
+                      defaultValue=""
+                      rules={{ required: 'Password is required' }}
+                      render={({ field }) => (
+                        <OutlinedInput
+                          {...field}
+                          id="password"
+                          type={showPassword ? 'text' : 'password'}
+                          endAdornment={
+                            <InputAdornment position="end">
+                              <IconButton
+                                aria-label="toggle password visibility"
+                                onClick={handleClickShowPassword}
+                                onMouseDown={handleMouseDownPassword}
+                                edge="end"
+                              >
+                                {showPassword ? (
+                                  <VisibilityOff />
+                                ) : (
+                                  <Visibility />
+                                )}
+                              </IconButton>
+                            </InputAdornment>
+                          }
+                          label="Password"
+                        />
+                      )}
+                    />
+                    {errors.password && (
+                      <Typography color="error" variant="body2">
+                        {errors.password.message as string}
+                      </Typography>
+                    )}
+                  </FormControl>
+                </Grid>
               </Grid>
-            </Grid>
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-              disabled={login.isPending}
-            >
-              {login.isPending ? 'Logging in...' : 'Log in'}
-            </Button>
-            {login.isError && (
-              <Typography color="error" variant="body2" align="center">
-                {login.error.message}
-              </Typography>
-            )}
-            <ForgotPasswordModal />
-          </form>
-        </Box>
-      </Container>
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{ mt: 3, mb: 2 }}
+                disabled={login.isPending}
+              >
+                {login.isPending ? 'Logging in...' : 'Log in'}
+              </Button>
+              {login.isError && (
+                <Typography color="error" variant="body2" align="center">
+                  {login.error.message}
+                </Typography>
+              )}
+              <ForgotPasswordModal />
+            </form>
+          </Box>
+        </Container>
+      </AnimatePage>
     </>
   );
 }

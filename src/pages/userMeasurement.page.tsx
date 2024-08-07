@@ -5,6 +5,7 @@ import MeasurementForm from 'src/modules/User/MeasurementForm';
 import BodyDisplay from 'src/components/HumanBodyDisplay.component';
 import { UserMeasurement } from 'src/client/src';
 import { PartsInput } from 'reactjs-human-body/dist/components/BodyComponent/BodyComponent';
+import { AnimatePage } from 'src/animations/AnimatePage';
 
 function UserPage() {
   const [params, setParams] = useState<PartsInput | undefined>(undefined);
@@ -50,20 +51,22 @@ function UserPage() {
 
   return (
     <>
-      <Grid2 container sx={{ p: { xs: 2, sm: 8 } }}>
-        <Grid2 direction={'column'} xs={12} sm={4}>
-          {isSuccess && data && (
-            <MeasurementForm
-              measurements={data}
-              onSubmit={handleSubmit}
-              onPartChange={handlePartChange}
-            />
-          )}
+      <AnimatePage>
+        <Grid2 container sx={{ p: { xs: 2, sm: 8 } }}>
+          <Grid2 direction={'column'} xs={12} sm={4}>
+            {isSuccess && data && (
+              <MeasurementForm
+                measurements={data}
+                onSubmit={handleSubmit}
+                onPartChange={handlePartChange}
+              />
+            )}
+          </Grid2>
+          <Grid2 xs={12} sm={8}>
+            <BodyDisplay params={params} />
+          </Grid2>
         </Grid2>
-        <Grid2 xs={12} sm={8}>
-          <BodyDisplay params={params} />
-        </Grid2>
-      </Grid2>
+      </AnimatePage>
       <ErrorModalComponent />
     </>
   );

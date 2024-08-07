@@ -19,6 +19,7 @@ import useAuthStatus from 'src/hooks/useAuth.ts';
 import AddTrainingModal from 'src/components/modals/AddTraining.modal.tsx';
 import { useModal } from 'src/components/modals/Error.modal.tsx';
 import Grid2 from '@mui/material/Unstable_Grid2/Grid2';
+import { AnimatePage } from 'src/animations/AnimatePage';
 
 function TrainingPage() {
   const [trainings, setTrainings] = useState<Training[]>([]);
@@ -59,74 +60,85 @@ function TrainingPage() {
 
   return (
     <>
-      <Box
-        sx={{
-          textAlign: 'center',
-          flexGrow: 1,
-        }}
-      >
-        <Fab
-          variant="extended"
-          color="primary"
-          aria-label="add"
-          onClick={handleAddOpen}
+      <AnimatePage>
+        <Box
+          sx={{
+            textAlign: 'center',
+            flexGrow: 1,
+          }}
         >
-          <AddIcon />
-          Add
-        </Fab>
-        <Grid2 container spacing={2} margin={1} justifyContent="center">
-          {isFetching
-            ? Array.from(new Array(size)).map((_, index) => (
-                <Grid2 key={index}>
-                  <Paper elevation={4} sx={{ width: '16em' }} key={index}>
-                    <Card sx={{ width: '16em' }}>
-                      <CardContent>
-                        <Skeleton variant="text" sx={{ fontSize: 14 }} />
-                        <Skeleton variant="text" sx={{ fontSize: '0.83em' }} />
-                        <Skeleton variant="text" sx={{ fontSize: '0.83em' }} />
-                        <Skeleton
-                          variant="text"
-                          sx={{ fontSize: 14, mb: 1.5 }}
-                        />
-                      </CardContent>
-                      <CardActions sx={{ justifyContent: 'center' }}>
-                        <Skeleton variant="rounded" width={40} height={40} />
-                        <Skeleton variant="rounded" width={40} height={40} />
-                      </CardActions>
-                    </Card>
-                  </Paper>
-                </Grid2>
-              ))
-            : trainings.map((training) => (
-                <Grid2 key={training.id}>
-                  <TrainingCard
-                    id={training.id}
-                    createdOn={training.createdOn?.slice(0, 10)}
-                    name={training.name}
-                    description={training.description}
-                    key={training.id}
-                    page={page}
-                    size={size}
-                  />
-                </Grid2>
-              ))}
-        </Grid2>
-        <Stack
-          spacing={2}
-          direction="column"
-          sx={{ display: 'flex', alignItems: 'center', mt: 4 }}
-        >
-          <TablePagination
-            component="div"
-            count={-1}
-            page={page}
-            onPageChange={handlePageChange}
-            rowsPerPage={size}
-            onRowsPerPageChange={handleSizeChange}
-          />
-          <AddTrainingModal open={isAddOpen} handleAddClose={handleAddClose} />
-        </Stack>
-      </Box>
+          <Fab
+            variant="extended"
+            color="primary"
+            aria-label="add"
+            onClick={handleAddOpen}
+          >
+            <AddIcon />
+            Add
+          </Fab>
+          <Grid2 container spacing={2} margin={1} justifyContent="center">
+            {isFetching
+              ? Array.from(new Array(size)).map((_, index) => (
+                  <Grid2 key={index}>
+                    <Paper elevation={4} sx={{ width: '16em' }} key={index}>
+                      <Card sx={{ width: '16em' }}>
+                        <CardContent>
+                          <Skeleton variant="text" sx={{ fontSize: 14 }} />
+                          <Skeleton
+                            variant="text"
+                            sx={{ fontSize: '0.83em' }}
+                          />
+                          <Skeleton
+                            variant="text"
+                            sx={{ fontSize: '0.83em' }}
+                          />
+                          <Skeleton
+                            variant="text"
+                            sx={{ fontSize: 14, mb: 1.5 }}
+                          />
+                        </CardContent>
+                        <CardActions sx={{ justifyContent: 'center' }}>
+                          <Skeleton variant="rounded" width={40} height={40} />
+                          <Skeleton variant="rounded" width={40} height={40} />
+                        </CardActions>
+                      </Card>
+                    </Paper>
+                  </Grid2>
+                ))
+              : trainings.map((training) => (
+                  <Grid2 key={training.id}>
+                    <TrainingCard
+                      id={training.id}
+                      createdOn={training.createdOn?.slice(0, 10)}
+                      name={training.name}
+                      description={training.description}
+                      key={training.id}
+                      page={page}
+                      size={size}
+                    />
+                  </Grid2>
+                ))}
+          </Grid2>
+          <Stack
+            spacing={2}
+            direction="column"
+            sx={{ display: 'flex', alignItems: 'center', mt: 4 }}
+          >
+            <TablePagination
+              component="div"
+              count={-1}
+              page={page}
+              onPageChange={handlePageChange}
+              rowsPerPage={size}
+              onRowsPerPageChange={handleSizeChange}
+            />
+            <AddTrainingModal
+              open={isAddOpen}
+              handleAddClose={handleAddClose}
+            />
+          </Stack>
+        </Box>
+      </AnimatePage>
       <ErrorModalComponent />
     </>
   );
