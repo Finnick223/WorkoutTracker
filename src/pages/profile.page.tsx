@@ -14,6 +14,7 @@ import { useQuery } from '@tanstack/react-query';
 import EditNoteIcon from '@mui/icons-material/EditNote';
 import EditUserModal from 'src/components/modals/EditProfile.modal.tsx';
 import { useModal } from 'src/components/modals/Error.modal';
+import { AnimatePage } from 'src/animations/AnimatePage';
 
 function Profile() {
   const { token } = useAuthStatus();
@@ -58,36 +59,40 @@ function Profile() {
 
   return (
     <>
-      <Container maxWidth="lg">
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-          }}
-        >
-          <Avatar sx={{ m: 1 }}></Avatar>
-          <Typography variant="h2" sx={{ mb: 4 }}>
-            {user?.firstName}'s Profile
-          </Typography>
-          <Box sx={{ alignItems: 'flex-start' }}>
-            <Typography variant="h6">Email: {user?.email}</Typography>
-            <Typography variant="h6">First Name: {user?.firstName}</Typography>
-            <Typography variant="h6">Last Name: {user?.lastName}</Typography>
-            <Typography variant="h6">Gender: {user?.genders}</Typography>
-            <Button
-              variant="contained"
-              color="primary"
-              startIcon={<EditNoteIcon />}
-              fullWidth
-              onClick={handleEditOpen}
-              sx={{ my: 2 }}
-            >
-              Edit
-            </Button>
+      <AnimatePage>
+        <Container maxWidth="lg">
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+            }}
+          >
+            <Avatar sx={{ m: 1 }}></Avatar>
+            <Typography variant="h2" sx={{ mb: 4 }}>
+              {user?.firstName}'s Profile
+            </Typography>
+            <Box sx={{ alignItems: 'flex-start' }}>
+              <Typography variant="h6">Email: {user?.email}</Typography>
+              <Typography variant="h6">
+                First Name: {user?.firstName}
+              </Typography>
+              <Typography variant="h6">Last Name: {user?.lastName}</Typography>
+              <Typography variant="h6">Gender: {user?.genders}</Typography>
+              <Button
+                variant="contained"
+                color="primary"
+                startIcon={<EditNoteIcon />}
+                fullWidth
+                onClick={handleEditOpen}
+                sx={{ my: 2 }}
+              >
+                Edit
+              </Button>
+            </Box>
           </Box>
-        </Box>
-      </Container>
+        </Container>
+      </AnimatePage>
       <EditUserModal
         id={user?.id}
         open={isEditOpen}

@@ -1,9 +1,12 @@
+import { AnimatePage } from 'src/animations/AnimatePage';
 import ExerciseGrid from 'src/modules/Training/ExercisesGrid.component';
 
 function App() {
   return (
     <>
-      <ExerciseGrid />
+      <AnimatePage>
+        <ExerciseGrid />
+      </AnimatePage>
     </>
   );
 }

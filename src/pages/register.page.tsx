@@ -1,9 +1,12 @@
+import { AnimatePage } from 'src/animations/AnimatePage';
 import RegisterForm from 'src/modules/Auth/RegisterForm.component';
 
 function Register() {
   return (
     <>
-      <RegisterForm />
+      <AnimatePage>
+        <RegisterForm />
+      </AnimatePage>
     </>
   );
 }
