@@ -5,6 +5,7 @@ import { ReactQueryProvider } from 'src/providers/ReactQuery.provider.tsx';
 import { Toaster } from 'react-hot-toast';
 import { CookiesProvider } from 'react-cookie';
 import { MaterialProvider } from './providers/MaterialUI.provider';
+import { HealthBanner } from './components/HealthBanner/HealthBanner.component';
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <MaterialProvider>
           <AuthProvider>
             <Router>
+              <HealthBanner />
               <Toaster />
               <Routes />
             </Router>
