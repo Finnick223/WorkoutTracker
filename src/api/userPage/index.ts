@@ -3,6 +3,15 @@ import { createInitOverrides } from '@utils/createInitOverrides';
 
 const MeasApi = new UserMeasurementApi();
 
+export const getAllUserMeasurements = async (token: string) => {
+  const initOverrides = createInitOverrides(token);
+
+  const requestParameters = {
+    page: 0,
+    size: 10,
+  };
+  return await MeasApi.getUserMeasurements(requestParameters, initOverrides);
+};
 export const getUserMeasurement = async (token: string) => {
   const initOverrides = createInitOverrides(token);
 
