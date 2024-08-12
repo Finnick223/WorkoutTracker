@@ -9,6 +9,8 @@ import { NotFoundPage } from 'src/pages/notFound.page';
 import LogoutUser from 'src/pages/logout.page.tsx';
 import Profile from 'src/pages/profile.page.tsx';
 import { AnimatePresence } from 'framer-motion';
+import UserCharts from 'src/pages/User/userCharts.page';
+import UserHistory from 'src/pages/User/userHistory.page';
 
 export const AuthorizedAppRoutes = () => {
   const location = useLocation();
@@ -17,7 +19,11 @@ export const AuthorizedAppRoutes = () => {
       <Routes location={location} key={location.pathname}>
         <Route path={CommonRoutes.Home} element={<Layout />}>
           <Route index element={<Home />} />
-          <Route path={AuthorizedRoute.User} element={<User />} />
+          <Route path={AuthorizedRoute.User}>
+            <Route index element={<User />} />
+            <Route path={AuthorizedRoute.Charts} element={<UserCharts />} />
+            <Route path={AuthorizedRoute.History} element={<UserHistory />} />
+          </Route>
           <Route path={AuthorizedRoute.Training} element={<Training />} />
           <Route
             path={AuthorizedRoute.TrainingDetail}

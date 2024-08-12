@@ -6,6 +6,9 @@ import BodyDisplay from 'src/components/HumanBodyDisplay.component';
 import { UserMeasurement } from 'src/client/src';
 import { PartsInput } from 'reactjs-human-body/dist/components/BodyComponent/BodyComponent';
 import { AnimatePage } from 'src/animations/AnimatePage';
+import CustomLink from 'src/components/Link/Link.component';
+import { Stack } from '@mui/material';
+import { AuthorizedRoute } from 'src/enums/routes.enums';
 
 function UserPage() {
   const [params, setParams] = useState<PartsInput | undefined>(undefined);
@@ -52,18 +55,45 @@ function UserPage() {
   return (
     <>
       <AnimatePage>
-        <Grid2 container sx={{ p: { xs: 2, sm: 8 } }}>
-          <Grid2 direction={'column'} xs={12} sm={4}>
-            {isSuccess && data && (
-              <MeasurementForm
-                measurements={data}
-                onSubmit={handleSubmit}
-                onPartChange={handlePartChange}
-              />
-            )}
+        <Grid2 container direction={'column'} sx={{ px: { xs: 2, sm: 8 } }}>
+          <Grid2>
+            <Stack
+              direction="row"
+              justifyContent="center"
+              alignItems="center"
+              spacing={10}
+              sx={{ pb: { xs: 2, sm: 2 } }}
+            >
+              <CustomLink href={AuthorizedRoute.User} color="inherit">
+                New Measurement
+              </CustomLink>
+              <CustomLink href={AuthorizedRoute.History} color="inherit">
+                History
+              </CustomLink>
+              <CustomLink href={AuthorizedRoute.Charts} color="inherit">
+                Wykresy
+              </CustomLink>
+            </Stack>
           </Grid2>
-          <Grid2 xs={12} sm={8}>
-            <BodyDisplay params={params} />
+          <Grid2
+            container
+            direction={'row'}
+            justifyContent={'center'}
+            alignContent={'center'}
+            alignItems={'center'}
+          >
+            <Grid2 xs={12} sm={5}>
+              {isSuccess && data && (
+                <MeasurementForm
+                  measurements={data}
+                  onSubmit={handleSubmit}
+                  onPartChange={handlePartChange}
+                />
+              )}
+            </Grid2>
+            <Grid2 xs={12} sm={7}>
+              <BodyDisplay params={params} />
+            </Grid2>
           </Grid2>
         </Grid2>
       </AnimatePage>
