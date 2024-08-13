@@ -1,28 +1,25 @@
-import { Box, CircularProgress } from '@mui/material';
+import { Box, Button, CircularProgress } from '@mui/material';
 import Grid2 from '@mui/material/Unstable_Grid2';
-import { useQuery } from '@tanstack/react-query';
-import { useEffect, useState } from 'react';
+import { useInfiniteQuery } from '@tanstack/react-query';
+import { motion } from 'framer-motion';
+import { Fragment } from 'react';
 import { getAllUserMeasurements } from 'src/api/userPage';
-import { UserMeasurement } from 'src/client/src';
 import MeasurementCard from 'src/modules/User/MeasurementAccordion.component';
 import { useAuth } from 'src/providers/UserContext.provider';
 
 function UserHistory() {
-  const [Measurements, setMeasurements] = useState<UserMeasurement[]>([]);
   const { token } = useAuth();
-  const { data, isSuccess, isError } = useQuery({
-    queryFn: () => getAllUserMeasurements(token),
-    queryKey: ['measurements'],
-  });
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } =
+    useInfiniteQuery({
+      queryKey: ['measurements'],
+      queryFn: ({ pageParam }) => getAllUserMeasurements({ token, pageParam }),
+      initialPageParam: 0,
+      getNextPageParam: (lastPage, pages) => {
+        if (lastPage.length < 10) return undefined;
+        return pages.length;
+      },
+    });
 
-  useEffect(() => {
-    if (isSuccess) {
-      setMeasurements(data);
-    }
-    if (isError) {
-      console.log('dupa');
-    }
-  }, [isSuccess, isError, data]);
   return (
     <>
       <Grid2>
@@ -35,19 +32,23 @@ function UserHistory() {
             justifyContent: 'center',
           }}
         >
-          {isSuccess ? (
-            Measurements.map((measurement) => (
-              <MeasurementCard
-                key={measurement.id}
-                createdOn={measurement.createdOn}
-                age={measurement.age}
-                height={measurement.height}
-                weight={measurement.weight}
-                arms={measurement.arms}
-                chest={measurement.chest}
-                belly={measurement.belly}
-                legs={measurement.legs}
-              />
+          {status === 'success' ? (
+            data.pages.map((group, i) => (
+              <Fragment key={i}>
+                {group.map((measurement) => (
+                  <MeasurementCard
+                    key={measurement.id}
+                    createdOn={measurement.createdOn}
+                    age={measurement.age}
+                    height={measurement.height}
+                    weight={measurement.weight}
+                    arms={measurement.arms}
+                    chest={measurement.chest}
+                    belly={measurement.belly}
+                    legs={measurement.legs}
+                  />
+                ))}
+              </Fragment>
             ))
           ) : (
             <Box
@@ -61,6 +62,21 @@ function UserHistory() {
             >
               <CircularProgress />
             </Box>
+          )}
+          {hasNextPage && (
+            <Button
+              onClick={() => fetchNextPage()}
+              disabled={isFetchingNextPage}
+              sx={{ my: 2 }}
+              component={motion.div}
+              whileHover={{
+                scale: 1.2,
+                transition: { duration: 0.3 },
+              }}
+              whileTap={{ scale: 0.9 }}
+            >
+              {isFetchingNextPage ? 'Loading more...' : 'Load More'}
+            </Button>
           )}
         </Box>
       </Grid2>
