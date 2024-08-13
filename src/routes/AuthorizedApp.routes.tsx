@@ -1,7 +1,7 @@
 import { Route, Routes, useLocation } from 'react-router-dom';
 import { CommonRoutes, AuthorizedRoute } from 'src/enums/routes.enums.ts';
 import Layout from 'src/pages/layout.page.tsx';
-import User from 'src/pages/userMeasurement.page.tsx';
+import UserMeasurement from 'src/pages/User/userMeasurement.page';
 import Training from 'src/pages/training.page.tsx';
 import Home from 'src/pages/home.page.tsx';
 import TrainingDetail from 'src/pages/Training/trainingDetail.page.tsx';
@@ -11,6 +11,7 @@ import Profile from 'src/pages/profile.page.tsx';
 import { AnimatePresence } from 'framer-motion';
 import UserCharts from 'src/pages/User/userCharts.page';
 import UserHistory from 'src/pages/User/userHistory.page';
+import { UserPageLayout } from 'src/pages/user.page';
 
 export const AuthorizedAppRoutes = () => {
   const location = useLocation();
@@ -19,8 +20,8 @@ export const AuthorizedAppRoutes = () => {
       <Routes location={location} key={location.pathname}>
         <Route path={CommonRoutes.Home} element={<Layout />}>
           <Route index element={<Home />} />
-          <Route path={AuthorizedRoute.User}>
-            <Route index element={<User />} />
+          <Route path={AuthorizedRoute.User} element={<UserPageLayout />}>
+            <Route index element={<UserMeasurement />} />
             <Route path={AuthorizedRoute.Charts} element={<UserCharts />} />
             <Route path={AuthorizedRoute.History} element={<UserHistory />} />
           </Route>
