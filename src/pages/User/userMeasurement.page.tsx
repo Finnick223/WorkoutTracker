@@ -5,6 +5,7 @@ import MeasurementForm from 'src/modules/User/MeasurementForm';
 import BodyDisplay from 'src/components/HumanBodyDisplay.component';
 import { UserMeasurement } from 'src/client/src';
 import { PartsInput } from 'reactjs-human-body/dist/components/BodyComponent/BodyComponent';
+import { Skeleton, Stack } from '@mui/material';
 
 export default function UserMeasurementPage() {
   const [params, setParams] = useState<PartsInput | undefined>(undefined);
@@ -58,12 +59,21 @@ export default function UserMeasurementPage() {
         alignItems={'center'}
       >
         <Grid2 xs={12} sm={5}>
-          {isSuccess && data && (
+          {isSuccess && data ? (
             <MeasurementForm
-              measurements={data}
+              measurements={data[0]}
               onSubmit={handleSubmit}
               onPartChange={handlePartChange}
             />
+          ) : (
+            <Stack direction={'column'} spacing={4}>
+              <Skeleton variant="rounded" width={'100%'} height={'50px'} />
+              <Skeleton variant="rounded" width={'100%'} height={'50px'} />
+              <Skeleton variant="rounded" width={'100%'} height={'50px'} />
+              <Skeleton variant="rounded" width={'100%'} height={'50px'} />
+              <Skeleton variant="rounded" width={'100%'} height={'50px'} />
+              <Skeleton variant="rounded" width={'100%'} height={'50px'} />
+            </Stack>
           )}
         </Grid2>
         <Grid2 xs={12} sm={7}>

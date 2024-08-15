@@ -1,9 +1,7 @@
-import { Box, Typography } from '@mui/material';
+import { Box, CircularProgress } from '@mui/material';
 import { LineChart } from '@mui/x-charts';
-import { useQuery } from '@tanstack/react-query';
-import { getAllUserMeasurements } from 'src/api/userPage';
 import { UserMeasurement } from 'src/client/src';
-import useAuthStatus from 'src/hooks/useAuth';
+import { useUserMeasurements } from 'src/hooks/useUserMeasurements';
 
 interface MeasurementChartProps {
   dataKey: keyof UserMeasurement;
@@ -12,14 +10,20 @@ interface MeasurementChartProps {
 export const MeasurementChart: React.FC<MeasurementChartProps> = ({
   dataKey,
 }) => {
-  const { token } = useAuthStatus();
-  const { data, status } = useQuery({
-    queryKey: ['WeightChart', dataKey],
-    queryFn: () => getAllUserMeasurements({ token, pageParam: 0 }),
-  });
+  const { data, status } = useUserMeasurements();
 
-  if (status !== 'success') {
-    return <Typography>Loading...</Typography>;
+  if (status !== 'success' || !data) {
+    return (
+      <Box
+        width={{ xs: '360px', sm: '500px', md: '600px', lg: '700px' }}
+        height={'300px'}
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+      >
+        <CircularProgress />
+      </Box>
+    );
   }
 
   const filteredData = data.filter(

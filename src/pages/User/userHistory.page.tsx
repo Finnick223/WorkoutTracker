@@ -1,4 +1,4 @@
-import { Box, Button, CircularProgress } from '@mui/material';
+import { Box, Button, Skeleton, Stack } from '@mui/material';
 import Grid2 from '@mui/material/Unstable_Grid2';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
@@ -51,17 +51,16 @@ function UserHistory() {
               </Fragment>
             ))
           ) : (
-            <Box
-              sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                justifyContent: 'center',
-                height: '100vh',
-              }}
-            >
-              <CircularProgress />
-            </Box>
+            <Stack direction="column" width={'80%'} height={'60vh'} spacing={1}>
+              {Array.from({ length: 10 }).map((_, index) => (
+                <Skeleton
+                  key={index}
+                  variant="rectangular"
+                  width={'100%'}
+                  height={'70px'}
+                />
+              ))}
+            </Stack>
           )}
           {hasNextPage && (
             <Button
