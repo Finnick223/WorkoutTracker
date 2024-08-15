@@ -18,15 +18,6 @@ export const getAllUserMeasurements = async ({
   };
   return await MeasApi.getUserMeasurements(requestParameters, initOverrides);
 };
-export const getUserMeasurement = async (token: string) => {
-  const initOverrides = createInitOverrides(token);
-
-  const requestParameters = {
-    userMeasurementId: 'b7393418-f187-4ada-999e-2158a2e8ae02',
-  };
-
-  return await MeasApi.getUserMeasurementById(requestParameters, initOverrides);
-};
 
 export const addUserMeasurement = async ({
   token,

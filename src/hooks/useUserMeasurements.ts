@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { getUserMeasurement, addUserMeasurement } from 'src/api/userPage';
+import { addUserMeasurement, getAllUserMeasurements } from 'src/api/userPage';
 import toast from 'react-hot-toast';
 import useAuthStatus from 'src/hooks/useAuth';
 import { useEffect } from 'react';
@@ -10,9 +10,9 @@ export const useUserMeasurements = () => {
   const { openModal, ErrorModalComponent } = useModal();
   const queryClient = useQueryClient();
 
-  const { data, isSuccess, isError } = useQuery({
+  const { data, isSuccess, isError, status } = useQuery({
     queryKey: ['Measurements'],
-    queryFn: () => getUserMeasurement(token),
+    queryFn: () => getAllUserMeasurements({ token, pageParam: 0 }),
     retry: 0,
   });
 
@@ -33,5 +33,5 @@ export const useUserMeasurements = () => {
     },
   });
 
-  return { data, isSuccess, mutate, token, ErrorModalComponent };
+  return { data, isSuccess, status, mutate, token, ErrorModalComponent };
 };
