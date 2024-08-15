@@ -30,7 +30,6 @@ const MeasurementForm: React.FC<MeasurementFormProps> = ({
           label="Weight"
           variant="outlined"
           margin="normal"
-          defaultValue={measurements.weight}
           {...register('weight')}
         />
       </Box>
@@ -40,7 +39,6 @@ const MeasurementForm: React.FC<MeasurementFormProps> = ({
           variant="outlined"
           margin="normal"
           onClick={() => onPartChange('arms')}
-          defaultValue={measurements.arms}
           {...register('arms')}
         />
         <TextField
@@ -48,7 +46,6 @@ const MeasurementForm: React.FC<MeasurementFormProps> = ({
           variant="outlined"
           margin="normal"
           onClick={() => onPartChange('chest')}
-          defaultValue={measurements.chest}
           {...register('chest')}
         />
         <TextField
@@ -56,7 +53,6 @@ const MeasurementForm: React.FC<MeasurementFormProps> = ({
           variant="outlined"
           margin="normal"
           onClick={() => onPartChange('stomach')}
-          defaultValue={measurements.belly}
           {...register('belly')}
         />
         <TextField
@@ -64,11 +60,10 @@ const MeasurementForm: React.FC<MeasurementFormProps> = ({
           variant="outlined"
           margin="normal"
           onClick={() => onPartChange('legs')}
-          defaultValue={measurements.legs}
           {...register('legs')}
         />
         <Button variant="contained" type="submit" sx={{ mt: 4 }} fullWidth>
-          Update
+          Add new Measurement
         </Button>
       </Box>
     </form>

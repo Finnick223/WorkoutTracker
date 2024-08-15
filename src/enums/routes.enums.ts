@@ -8,6 +8,8 @@ export enum AuthorizedRoute {
   TrainingDetail = '/training/:id',
   Training = '/training',
   User = '/user',
+  History = '/user/history',
+  Charts = '/user/charts',
 }
 export enum CommonRoutes {
   Home = '/',
