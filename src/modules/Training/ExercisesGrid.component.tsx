@@ -25,7 +25,7 @@ import EditToolbar from '@utils/EditToolbar';
 import {
   useDeleteExercise,
   useGetTrainingDetails,
-  useUpdateExercise,
+  usePatchExercise,
 } from 'src/api/exerciseGridQueryHooks';
 
 export default function ExerciseGrid() {
@@ -39,7 +39,7 @@ export default function ExerciseGrid() {
 
   const { data, isSuccess } = useGetTrainingDetails(token, trainingId);
   const MutationDelete = useDeleteExercise();
-  const MutationUpdate = useUpdateExercise();
+  const MutationUpdate = usePatchExercise();
 
   useEffect(() => {
     if (isSuccess && data.exercises) {
@@ -78,7 +78,7 @@ export default function ExerciseGrid() {
   const handleDeleteClick = (id: GridRowId) => () => {
     const exerciseId = id as string;
     setRows(rows.filter((row) => row.id !== id));
-    MutationDelete.mutate({ token, exerciseId });
+    MutationDelete.mutate({ token, trainingId, exerciseId });
   };
 
   const handleCancelClick = (id: GridRowId) => () => {
@@ -89,40 +89,40 @@ export default function ExerciseGrid() {
   };
 
   const processRowUpdate = (newRow: GridRowModel) => {
-    const checkIfUndefined = (value: undefined | number) =>
-      value === undefined ? undefined : value;
-    const exerciseCreate = {
-      name: newRow.name,
-      trainingId: trainingId,
-      sets: [
-        {
-          reps: checkIfUndefined(newRow?.reps1),
-          weight: checkIfUndefined(newRow?.weight1),
-        },
-        {
-          reps: checkIfUndefined(newRow?.reps2),
-          weight: checkIfUndefined(newRow?.weight2),
-        },
-        {
-          reps: checkIfUndefined(newRow?.reps3),
-          weight: checkIfUndefined(newRow?.weight3),
-        },
-      ],
+    const shouldIncludeSet = (
+      reps: number | undefined,
+      weight: number | undefined,
+    ) => {
+      return reps !== undefined && weight !== undefined;
     };
-    const exerciseId = newRow.id;
+    const exerciseUpdate = {
+      id: newRow.id,
+      name: newRow.name,
+      sets: [
+        shouldIncludeSet(newRow?.reps1, newRow?.weight1)
+          ? { reps: newRow?.reps1, weight: newRow?.weight1 }
+          : undefined,
+        shouldIncludeSet(newRow?.reps2, newRow?.weight2)
+          ? { reps: newRow?.reps2, weight: newRow?.weight2 }
+          : undefined,
+        shouldIncludeSet(newRow?.reps3, newRow?.weight3)
+          ? { reps: newRow?.reps3, weight: newRow?.weight3 }
+          : undefined,
+      ].filter((set) => set !== undefined),
+    };
     MutationUpdate.mutate(
-      { token, exerciseCreate, exerciseId },
+      { token, exerciseUpdate: [exerciseUpdate], trainingId },
       {
         onSuccess: () => {
           setRows((prevRows) =>
             prevRows.map((row) =>
-              row.id === exerciseId ? { ...row, ...newRow } : row,
+              row.id === newRow.id ? { ...row, ...newRow } : row,
             ),
           );
         },
       },
     );
-    return { ...newRow, id: exerciseId };
+    return { ...newRow, id: newRow.id };
   };
 
   const handleRowModesModelChange = (newRowModesModel: GridRowModesModel) => {

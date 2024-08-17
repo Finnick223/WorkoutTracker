@@ -33,7 +33,7 @@ export const useDeleteExercise = () => {
   });
 };
 
-export const useUpdateExercise = () => {
+export const usePatchExercise = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: ({
