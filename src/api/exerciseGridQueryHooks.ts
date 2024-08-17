@@ -1,8 +1,11 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { addExercise, deleteExercise, updateExercise } from './exercise';
-import { getTrainingDetails } from './training';
+import {
+  deleteExercise,
+  getTrainingDetails,
+  updateExercises,
+} from './training';
 import toast from 'react-hot-toast';
-import { ExerciseCreate } from 'src/client/src';
+import { ExerciseUpdate } from 'src/client/src';
 
 export const useGetTrainingDetails = (token: string, trainingId: string) => {
   return useQuery({
@@ -11,33 +14,18 @@ export const useGetTrainingDetails = (token: string, trainingId: string) => {
   });
 };
 
-export const useAddExercise = () => {
-  const queryClient = useQueryClient();
-  return useMutation({
-    mutationFn: ({
-      token,
-      exerciseCreate,
-    }: {
-      token: string;
-      exerciseCreate: ExerciseCreate;
-    }) => addExercise({ token, exerciseCreate }),
-    onSuccess: () => {
-      queryClient.invalidateQueries();
-      toast.success('Exercise created successfully');
-    },
-  });
-};
-
 export const useDeleteExercise = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: ({
       token,
+      trainingId,
       exerciseId,
     }: {
       token: string;
+      trainingId: string;
       exerciseId: string;
-    }) => deleteExercise({ token, exerciseId }),
+    }) => deleteExercise({ token, trainingId, exerciseId }),
     onSuccess: () => {
       queryClient.invalidateQueries();
       toast.success('Exercise deleted successfully');
@@ -45,18 +33,18 @@ export const useDeleteExercise = () => {
   });
 };
 
-export const useUpdateExercise = () => {
+export const usePatchExercise = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: ({
       token,
-      exerciseCreate,
-      exerciseId,
+      exerciseUpdate,
+      trainingId,
     }: {
       token: string;
-      exerciseCreate: ExerciseCreate;
-      exerciseId: string;
-    }) => updateExercise({ token, exerciseCreate, exerciseId }),
+      exerciseUpdate: Array<ExerciseUpdate>;
+      trainingId: string;
+    }) => updateExercises({ token, exerciseUpdate, trainingId }),
     onSuccess: () => {
       queryClient.invalidateQueries();
       toast.success('Exercise updated successfully');

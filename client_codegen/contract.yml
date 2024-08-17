@@ -479,141 +479,14 @@ paths:
                             schema:
                                 $ref: '#/components/schemas/ErrorResponse'
 
-    /exercise:
-        get:
+    /training/{trainingId}/exercises:
+        patch:
             tags:
-                - exercise
-            summary: Get all exercises
-            operationId: getExercises
+                - training
+            summary: Patch exercises in training
+            operationId: patchTrainingExercises
             parameters:
-                - name: page
-                  in: query
-                  description: "Page number"
-                  required: false
-                  schema:
-                      type: integer
-                      default: 0
-                - name: size
-                  in: query
-                  description: "Number of items per page"
-                  required: false
-                  schema:
-                      type: integer
-                      default: 10
-            responses:
-                '200':
-                    description: A list of exercises
-                    content:
-                        application/json:
-                            schema:
-                                type: array
-                                items:
-                                    $ref: '#/components/schemas/Exercise'
-                '400':
-                    description: Bad request
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/ErrorResponse'
-                '401':
-                    description: Unauthorized
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/ErrorResponse'
-                '403':
-                    description: Forbidden
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/ErrorResponse'
-        post:
-            tags:
-                - exercise
-            summary: Create exercise
-            operationId: createExercise
-            requestBody:
-                required: true
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/ExerciseCreate'
-            responses:
-                '200':
-                    description: Exercise created
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/Exercise'
-                '400':
-                    description: Bad request
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/ErrorResponse'
-                '401':
-                    description: Unauthorized
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/ErrorResponse'
-                '403':
-                    description: Forbidden
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/ErrorResponse'
-
-    /exercise/{exerciseId}:
-        get:
-            tags:
-                - exercise
-            summary: Get exercise by id
-            operationId: getExerciseById
-            parameters:
-                - name: exerciseId
-                  in: path
-                  required: true
-                  schema:
-                      type: string
-            responses:
-                '200':
-                    description: An exercise
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/Exercise'
-                '400':
-                    description: Bad request
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/ErrorResponse'
-                '401':
-                    description: Unauthorized
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/ErrorResponse'
-                '403':
-                    description: Forbidden
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/ErrorResponse'
-                '404':
-                    description: Not found
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/ErrorResponse'
-        put:
-            tags:
-                - exercise
-            summary: Update exercise
-            operationId: updateExercise
-            parameters:
-                - name: exerciseId
+                - name: trainingId
                   in: path
                   required: true
                   schema:
@@ -623,52 +496,16 @@ paths:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/ExerciseCreate'
+                            type: array
+                            items:
+                                $ref: '#/components/schemas/ExerciseUpdate'
             responses:
                 '200':
-                    description: Exercise updated
+                    description: Exercises updated
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/Exercise'
-                '400':
-                    description: Bad request
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/ErrorResponse'
-                '401':
-                    description: Unauthorized
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/ErrorResponse'
-                '403':
-                    description: Forbidden
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/ErrorResponse'
-                '404':
-                    description: Not found
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/ErrorResponse'
-        delete:
-            tags:
-                - exercise
-            summary: Delete exercise
-            operationId: deleteExercise
-            parameters:
-                - name: exerciseId
-                  in: path
-                  required: true
-                  schema:
-                      type: string
-            responses:
-                '200':
-                    description: Exercise deleted
+                                $ref: '#/components/schemas/TrainingDetails'
                 '400':
                     description: Bad request
                     content:
@@ -694,204 +531,26 @@ paths:
                             schema:
                                 $ref: '#/components/schemas/ErrorResponse'
 
-    /exercises/{exerciseId}/sets:
-        get:
-            tags:
-                - ExerciseSet
-            summary: Get all exercise sets for a specific exercise
-            operationId: getExerciseSets
-            parameters:
-                - name: exerciseId
-                  in: path
-                  required: true
-                  schema:
-                      type: string
-            responses:
-                '200':
-                    description: A list of exercise sets
-                    content:
-                        application/json:
-                            schema:
-                                type: array
-                                items:
-                                    $ref: '#/components/schemas/ExerciseSet'
-                '400':
-                    description: Bad request
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/ErrorResponse'
-                '401':
-                    description: Unauthorized
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/ErrorResponse'
-                '403':
-                    description: Forbidden
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/ErrorResponse'
-                '404':
-                    description: Not found
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/ErrorResponse'
-        post:
-            tags:
-                - ExerciseSet
-            summary: Create a new exercise set
-            operationId: createExerciseSet
-            parameters:
-                - name: exerciseId
-                  in: path
-                  required: true
-                  schema:
-                      type: string
-            requestBody:
-                required: true
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/ExerciseSet'
-            responses:
-                '201':
-                    description: Exercise set created
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/ExerciseSet'
-                '400':
-                    description: Bad request
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/ErrorResponse'
-                '401':
-                    description: Unauthorized
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/ErrorResponse'
-                '403':
-                    description: Forbidden
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/ErrorResponse'
-                '404':
-                    description: Not found
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/ErrorResponse'
-    /exercises/sets/{setId}:
-        get:
-            tags:
-                - ExerciseSet
-            summary: Get an exercise set by ID
-            operationId: getExerciseSet
-            parameters:
-                - name: setId
-                  in: path
-                  required: true
-                  schema:
-                      type: string
-            responses:
-                '200':
-                    description: An exercise set
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/ExerciseSet'
-                '400':
-                    description: Bad request
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/ErrorResponse'
-                '401':
-                    description: Unauthorized
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/ErrorResponse'
-                '403':
-                    description: Forbidden
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/ErrorResponse'
-                '404':
-                    description: Not found
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/ErrorResponse'
-        put:
-            tags:
-                - ExerciseSet
-            summary: Update an exercise set
-            operationId: updateExerciseSet
-            parameters:
-                - name: setId
-                  in: path
-                  required: true
-                  schema:
-                      type: string
-            requestBody:
-                required: true
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/ExerciseSet'
-            responses:
-                '200':
-                    description: Exercise set updated
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/ExerciseSet'
-                '400':
-                    description: Bad request
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/ErrorResponse'
-                '401':
-                    description: Unauthorized
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/ErrorResponse'
-                '403':
-                    description: Forbidden
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/ErrorResponse'
-                '404':
-                    description: Not found
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/ErrorResponse'
+    /training/{trainingId}/exercises/{exerciseId}:
         delete:
             tags:
-                - ExerciseSet
-            summary: Delete an exercise set
-            operationId: deleteExerciseSet
+                - training
+            summary: Delete an exercise from a training
+            operationId: deleteExerciseFromTraining
             parameters:
-                - name: setId
+                - name: trainingId
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                - name: exerciseId
                   in: path
                   required: true
                   schema:
                       type: string
             responses:
-                '204':
-                    description: Exercise set deleted
+                '200':
+                    description: Exercise deleted successfully
                 '400':
                     description: Bad request
                     content:
@@ -911,7 +570,7 @@ paths:
                             schema:
                                 $ref: '#/components/schemas/ErrorResponse'
                 '404':
-                    description: Not found
+                    description: Training or Exercise not found
                     content:
                         application/json:
                             schema:
@@ -1316,6 +975,17 @@ components:
                 weight:
                     type: number
                     format: double
+        ExerciseUpdate:
+            type: object
+            properties:
+                id:
+                    type: string
+                name:
+                    type: string
+                sets:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/ExerciseSet'
         ErrorResponse:
           type: object
           properties:

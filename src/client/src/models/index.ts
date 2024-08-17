@@ -2,6 +2,7 @@ export * from './ErrorResponse';
 export * from './Exercise';
 export * from './ExerciseCreate';
 export * from './ExerciseSet';
+export * from './ExerciseUpdate';
 export * from './Training';
 export * from './TrainingCategory';
 export * from './TrainingCreate';

@@ -1,24 +1,56 @@
 import { Button } from '@mui/material';
-import { GridToolbarContainer } from '@mui/x-data-grid';
-import useAuthStatus from 'src/hooks/useAuth';
+import { GridRowModes, GridToolbarContainer } from '@mui/x-data-grid';
 import { EditToolbarProps } from 'src/interfaces/exercises.interfaces';
 import AddIcon from '@mui/icons-material/Add';
-import { useAddExercise } from 'src/api/exerciseGridQueryHooks';
 import CustomLink from 'src/components/Link/Link.component';
 import { motion } from 'framer-motion';
+import { usePatchExercise } from 'src/api/exerciseGridQueryHooks';
+import useAuthStatus from 'src/hooks/useAuth';
+import { useCallback, useState } from 'react';
 
 export default function EditToolbar(props: EditToolbarProps) {
+  const [intervalId, setIntervalId] = useState<NodeJS.Timeout | null>(null);
   const { token } = useAuthStatus();
-  const { mutate } = useAddExercise();
+  const { mutate } = usePatchExercise();
+  const trainingId = props.trainingId;
 
-  const handleClick = () => {
-    const exerciseCreate = {
-      name: '',
-      trainingId: props.trainingId,
-      sets: [],
-    };
-    mutate({ token, exerciseCreate });
-  };
+  const handleClick = useCallback(() => {
+    const exerciseUpdate = [
+      {
+        name: '',
+        sets: [],
+      },
+    ];
+
+    mutate(
+      { token, trainingId, exerciseUpdate },
+      {
+        onSuccess: (response) => {
+          const exercises = response.exercises || [];
+          if (exercises.length > 0) {
+            const lastExercise = exercises[exercises.length - 1];
+            const newId = lastExercise.id;
+
+            const id = setInterval(() => {
+              if (newId) {
+                props.setRowModesModel((oldModel) => ({
+                  ...oldModel,
+                  [newId]: { mode: GridRowModes.Edit, fieldToFocus: 'name' },
+                }));
+                clearInterval(id);
+                setIntervalId(null);
+              }
+            }, 100);
+            setIntervalId(id);
+          }
+        },
+        onError: (error) => {
+          console.error('Update failed:', error);
+        },
+      },
+    );
+  }, [mutate, token, trainingId, props]);
+
   return (
     <GridToolbarContainer>
       <CustomLink href=".." color="inherit">
@@ -36,6 +68,7 @@ export default function EditToolbar(props: EditToolbarProps) {
           transition: { duration: 0.3 },
         }}
         whileTap={{ scale: 0.9 }}
+        disabled={!!intervalId}
       >
         Add Exercise
       </Button>

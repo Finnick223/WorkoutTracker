@@ -1,3 +1,4 @@
+import { GridRowModesModel } from '@mui/x-data-grid';
 import { ExerciseSet } from 'src/client/src';
 
 export interface Rows {
@@ -16,5 +17,8 @@ export interface Rows {
   reps3?: number;
 }
 export interface EditToolbarProps {
+  setRowModesModel: (
+    model: (oldModel: GridRowModesModel) => GridRowModesModel,
+  ) => void;
   trainingId: string;
 }
