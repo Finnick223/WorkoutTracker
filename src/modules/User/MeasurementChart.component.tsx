@@ -29,9 +29,12 @@ export const MeasurementChart: React.FC<MeasurementChartProps> = ({
   const filteredData = data.filter(
     (item) => item.createdOn && item[dataKey] !== undefined,
   );
-  const xAxisData = filteredData.map(
-    (item) => Date.parse(item.createdOn ?? '') || null,
-  );
+  const xAxisData = filteredData.map((item) => {
+    const timestamp = Date.parse(item.createdOn ?? '');
+    const date = new Date(timestamp);
+    date.setHours(0, 0, 0, 0);
+    return date.getTime();
+  });
   const seriesData = filteredData.map((item) => item[dataKey] as number);
 
   const formatDate = (timestamp: number) => {
@@ -45,12 +48,12 @@ export const MeasurementChart: React.FC<MeasurementChartProps> = ({
       <LineChart
         xAxis={[
           {
-            data: xAxisData,
+            data: xAxisData.reverse(),
             scaleType: 'time',
             valueFormatter: (value: number) => formatDate(value),
           },
         ]}
-        series={[{ data: seriesData }]}
+        series={[{ data: seriesData.reverse() }]}
         height={350}
       />
     </Box>
