@@ -19,7 +19,7 @@ const AddTrainingModal: React.FC<AddTrainingModalProps> = ({
     mutationFn: ({ token, training }: { token: string; training: Training }) =>
       addTraining(token, training),
     onSuccess: () => {
-      queryClient.invalidateQueries();
+      queryClient.invalidateQueries({ queryKey: ['trainings'] });
       toast.success('Training added successfully');
       handleAddClose();
     },

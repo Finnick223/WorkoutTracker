@@ -11,7 +11,7 @@ export const useUserMeasurements = () => {
   const queryClient = useQueryClient();
 
   const { data, isSuccess, isError, status } = useQuery({
-    queryKey: ['Measurements'],
+    queryKey: ['Measurements', 'firstPage'],
     queryFn: () => getAllUserMeasurements({ token, pageParam: 0 }),
     retry: 0,
   });
@@ -24,8 +24,11 @@ export const useUserMeasurements = () => {
 
   const { mutate } = useMutation({
     mutationFn: addUserMeasurement,
-    onSuccess: (data) => {
-      queryClient.setQueryData(['Measurements'], data);
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['Measurements'],
+        refetchType: 'all',
+      });
       toast.success('Measurement added successfully');
     },
     onError: (error) => {
