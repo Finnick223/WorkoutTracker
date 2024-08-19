@@ -11,7 +11,7 @@ function UserHistory() {
   const { token } = useAuth();
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } =
     useInfiniteQuery({
-      queryKey: ['measurements'],
+      queryKey: ['Measurements', 'infinite'],
       queryFn: ({ pageParam }) => getAllUserMeasurements({ token, pageParam }),
       initialPageParam: 0,
       getNextPageParam: (lastPage, pages) => {

@@ -3,7 +3,7 @@ import {
   deleteExercise,
   getTrainingDetails,
   updateExercises,
-} from './training';
+} from '../api/training';
 import toast from 'react-hot-toast';
 import { ExerciseUpdate } from 'src/client/src';
 
@@ -27,7 +27,7 @@ export const useDeleteExercise = () => {
       exerciseId: string;
     }) => deleteExercise({ token, trainingId, exerciseId }),
     onSuccess: () => {
-      queryClient.invalidateQueries();
+      queryClient.invalidateQueries({ queryKey: ['exercises'] });
       toast.success('Exercise deleted successfully');
     },
   });
@@ -46,7 +46,7 @@ export const usePatchExercise = () => {
       trainingId: string;
     }) => updateExercises({ token, exerciseUpdate, trainingId }),
     onSuccess: () => {
-      queryClient.invalidateQueries();
+      queryClient.invalidateQueries({ queryKey: ['exercises'] });
       toast.success('Exercise updated successfully');
     },
   });

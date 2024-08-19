@@ -26,7 +26,7 @@ import {
   useDeleteExercise,
   useGetTrainingDetails,
   usePatchExercise,
-} from 'src/api/exerciseGridQueryHooks';
+} from 'src/hooks/useExerciseGridQueryHooks';
 
 export default function ExerciseGrid() {
   const [rows, setRows] = useState<Rows[]>([]);

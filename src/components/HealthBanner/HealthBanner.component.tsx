@@ -1,24 +1,18 @@
 import { Box } from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
-import { memo, useEffect, useState } from 'react';
+import { memo } from 'react';
 import { checkHealth } from 'src/api/health';
 
 export const HealthBanner = memo(() => {
-  const [isHealthy, setIsHealthy] = useState(true);
-
-  const { data, isSuccess, isError } = useQuery({
+  const { data, isSuccess } = useQuery({
     queryKey: ['health'],
     queryFn: checkHealth,
-    retryDelay: 1000,
-    refetchInterval: 60000,
+    retry: true,
+    retryDelay: (attempt) => Math.min(1000 * 2 ** attempt, 30000), // Exponential backoff
+    staleTime: 60000,
   });
-  useEffect(() => {
-    if (isSuccess && data.status === 'UP') {
-      setIsHealthy(true);
-    } else setIsHealthy(false);
-  }, [isSuccess, data, isError]);
 
-  if (isHealthy) return null;
+  if (isSuccess && data?.status === 'UP') return null;
 
   return (
     <Box

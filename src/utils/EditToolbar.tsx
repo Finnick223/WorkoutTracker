@@ -4,7 +4,7 @@ import { EditToolbarProps } from 'src/interfaces/exercises.interfaces';
 import AddIcon from '@mui/icons-material/Add';
 import CustomLink from 'src/components/Link/Link.component';
 import { motion } from 'framer-motion';
-import { usePatchExercise } from 'src/api/exerciseGridQueryHooks';
+import { usePatchExercise } from 'src/hooks/useExerciseGridQueryHooks';
 import useAuthStatus from 'src/hooks/useAuth';
 import { useCallback, useState } from 'react';
 

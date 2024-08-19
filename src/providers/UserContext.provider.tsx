@@ -20,6 +20,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     queryKey: ['authToken'],
     queryFn: fetchToken,
     refetchInterval: 1000,
+    staleTime: 0,
+    notifyOnChangeProps: ['data'],
   });
 
   const login = useMutation<string, Error, string>({
