@@ -19,14 +19,13 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const { data: token, isLoading } = useQuery({
     queryKey: ['authToken'],
     queryFn: fetchToken,
-    refetchInterval: 1000,
-    staleTime: 0,
-    notifyOnChangeProps: ['data'],
+    staleTime: Infinity,
+    gcTime: 3600000,
   });
 
   const login = useMutation<string, Error, string>({
     mutationFn: async (newToken: string) => {
-      setCookie('token', newToken, { maxAge: 3600, sameSite: true });
+      setCookie('token', newToken, { maxAge: 3600, sameSite: 'strict' });
       return newToken;
     },
     onSuccess: (newToken) => {

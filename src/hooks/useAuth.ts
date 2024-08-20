@@ -1,5 +1,19 @@
-import { useQueryClient } from '@tanstack/react-query';
 import { useAuth } from 'src/providers/UserContext.provider';
+import { jwtDecode } from 'jwt-decode';
+import { useEffect, useMemo } from 'react';
+
+const validateToken = (token: string | null): boolean => {
+  if (!token) return false;
+
+  try {
+    const decoded: { exp: number } = jwtDecode(token);
+    const currentTime = Date.now() / 1000;
+    return decoded.exp > currentTime;
+  } catch (error) {
+    console.error('Invalid token:', error);
+    return false;
+  }
+};
 
 const useAuthStatus = () => {
   const authContext = useAuth();
@@ -9,18 +23,24 @@ const useAuthStatus = () => {
   }
 
   const { token, isLoading, login, logout } = authContext;
-  const queryClient = useQueryClient();
 
-  const authToken = queryClient.getQueryData(['authToken']);
-  const isLoggedIn = !!(token || authToken);
+  const isLoggedIn = !!token && validateToken(token);
+  useEffect(() => {
+    if (!isLoggedIn) {
+      logout();
+    }
+  }, [isLoggedIn, logout]);
 
-  return {
-    isLoggedIn,
-    isLoading,
-    token,
-    login,
-    logout,
-  };
+  return useMemo(
+    () => ({
+      isLoggedIn,
+      isLoading,
+      token,
+      login,
+      logout,
+    }),
+    [isLoggedIn, isLoading, token, login, logout],
+  );
 };
 
 export default useAuthStatus;
