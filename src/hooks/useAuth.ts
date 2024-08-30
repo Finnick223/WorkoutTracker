@@ -26,10 +26,10 @@ const useAuthStatus = () => {
 
   const isLoggedIn = !!token && validateToken(token);
   useEffect(() => {
-    if (!isLoggedIn) {
+    if (!isLoggedIn && !isLoading) {
       logout();
     }
-  }, [isLoggedIn, logout]);
+  }, [isLoading, isLoggedIn, logout]);
 
   return useMemo(
     () => ({
