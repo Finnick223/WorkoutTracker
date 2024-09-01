@@ -8,7 +8,10 @@ import {
 } from 'react';
 import { getDesignThemes } from 'src/styles/theme';
 
-export const ColorModeContext = createContext({ toggleColorMode: () => {} });
+export const ColorModeContext = createContext({
+  toggleColorMode: () => {},
+  mode: 'light' as PaletteMode,
+});
 
 export const MaterialProvider = ({
   children,
@@ -29,6 +32,7 @@ export const MaterialProvider = ({
         localStorage.setItem('theme', newMode);
         setMode(newMode);
       },
+      mode,
     }),
     [mode],
   );
