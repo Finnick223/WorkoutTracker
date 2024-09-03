@@ -10,10 +10,9 @@ export const useUserMeasurements = () => {
   const { openModal, ErrorModalComponent } = useModal();
   const queryClient = useQueryClient();
 
-  const { data, isSuccess, isError, status } = useQuery({
+  const { data, isSuccess, isLoading, isError, status, error } = useQuery({
     queryKey: ['Measurements', 'firstPage'],
     queryFn: () => getAllUserMeasurements({ token, pageParam: 0 }),
-    retry: 0,
   });
 
   useEffect(() => {
@@ -36,5 +35,14 @@ export const useUserMeasurements = () => {
     },
   });
 
-  return { data, isSuccess, status, mutate, token, ErrorModalComponent };
+  return {
+    data,
+    isLoading,
+    isSuccess,
+    error,
+    status,
+    mutate,
+    token,
+    ErrorModalComponent,
+  };
 };
