@@ -1,0 +1,50 @@
+import { Box, Paper, Stack, Typography } from '@mui/material';
+import { UserMeasurement } from 'src/client/src';
+
+interface LastMeasurementCardProps {
+  measurementData: UserMeasurement[];
+}
+
+export const LastMeasurementCard: React.FC<LastMeasurementCardProps> = ({
+  measurementData,
+}) => (
+  <Paper component={Box} p={{ sm: 2, md: 1 }}>
+    <Typography color={'text.secondary'}>Last measurement</Typography>
+    <Box p={2}>
+      <Stack direction="row" spacing={3} pb={2}>
+        <Typography variant="h6" sx={{ wordSpacing: 20 }}>
+          Date: {measurementData[0].createdOn?.split('T')[0]}
+        </Typography>
+        <Typography variant="h6" sx={{ wordSpacing: 20 }}>
+          Weight: {measurementData[0].weight}kg
+        </Typography>
+      </Stack>
+      <Stack direction="row" spacing={4}>
+        <Typography
+          variant="h6"
+          sx={{ display: 'flex', flexDirection: 'column' }}
+        >
+          Arms: <span>{measurementData[0].arms}cm</span>
+        </Typography>
+        <Typography
+          variant="h6"
+          sx={{ display: 'flex', flexDirection: 'column' }}
+        >
+          Chest: <span>{measurementData[0].chest}cm</span>
+        </Typography>
+        <Typography
+          variant="h6"
+          sx={{ display: 'flex', flexDirection: 'column' }}
+        >
+          Belly: <span>{measurementData[0].belly}cm</span>
+        </Typography>
+        <Typography
+          variant="h6"
+          sx={{ display: 'flex', flexDirection: 'column' }}
+        >
+          Legs: <span>{measurementData[0].legs}cm</span>
+        </Typography>
+      </Stack>
+    </Box>
+  </Paper>
+);
