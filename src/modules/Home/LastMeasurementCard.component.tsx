@@ -8,7 +8,7 @@ interface LastMeasurementCardProps {
 export const LastMeasurementCard: React.FC<LastMeasurementCardProps> = ({
   measurementData,
 }) => (
-  <Paper component={Box} p={{ sm: 2, md: 1 }}>
+  <Paper component={Box} p={{ xs: 2, sm: 2, md: 1 }}>
     <Typography color={'text.secondary'}>Last measurement</Typography>
     <Box p={2}>
       <Stack direction="row" spacing={3} pb={2}>
