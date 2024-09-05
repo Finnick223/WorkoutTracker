@@ -8,10 +8,10 @@ interface LastMeasurementCardProps {
 export const LastMeasurementCard: React.FC<LastMeasurementCardProps> = ({
   measurementData,
 }) => (
-  <Paper component={Box} p={{ xs: 2, sm: 2, md: 1 }}>
+  <Paper component={Box} p={2} sx={{ height: '100%' }}>
     <Typography color={'text.secondary'}>Last measurement</Typography>
     <Box p={2}>
-      <Stack direction="row" spacing={3} pb={2}>
+      <Stack direction="row" spacing={2} pb={2}>
         <Typography variant="h6" sx={{ wordSpacing: 20 }}>
           Date: {measurementData[0].createdOn?.split('T')[0]}
         </Typography>
@@ -19,7 +19,7 @@ export const LastMeasurementCard: React.FC<LastMeasurementCardProps> = ({
           Weight: {measurementData[0].weight}kg
         </Typography>
       </Stack>
-      <Stack direction="row" spacing={4}>
+      <Stack direction="row" spacing={3}>
         <Typography
           variant="h6"
           sx={{ display: 'flex', flexDirection: 'column' }}

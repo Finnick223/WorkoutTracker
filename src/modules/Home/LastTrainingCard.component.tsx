@@ -10,7 +10,7 @@ interface LastTrainingCardProps {
 export const LastTrainingCard: React.FC<LastTrainingCardProps> = ({
   trainingData,
 }) => (
-  <Paper component={Box} p={2}>
+  <Paper component={Box} p={2} sx={{ height: '100%' }}>
     <Typography gutterBottom color={'text.secondary'}>
       Last training at {trainingData[0].createdOn?.slice(0, 10)}
     </Typography>

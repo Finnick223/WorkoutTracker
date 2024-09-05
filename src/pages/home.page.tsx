@@ -60,13 +60,14 @@ function Home() {
       <Container maxWidth="lg">
         <Grid2
           container
-          alignItems="center"
+          // alignItems="center"
           justifyContent="center"
+          alignItems="stretch"
           spacing={2}
           mb={2}
         >
           <Grid2 xs={12} sm={4}>
-            <Paper component={Box} p={2}>
+            <Paper component={Box} p={2} sx={{ height: '100%' }}>
               <Typography color="text.secondary" gutterBottom>
                 Hi {profileData?.firstName}, welcome back!
               </Typography>
@@ -88,7 +89,7 @@ function Home() {
             <LastMeasurementCard measurementData={measurementData ?? []} />
           </Grid2>
           <Grid2 xs={12}>
-            <Paper component={Box} p={2}>
+            <Paper component={Box} p={2} sx={{ height: '100%' }}>
               <Typography color="text.secondary" gutterBottom>
                 Weight progress
               </Typography>
@@ -122,7 +123,7 @@ function Home() {
             </Paper>
           </Grid2>
           <Grid2 xs={12} sm={8}>
-            <Paper component={Box} p={2}>
+            <Paper component={Box} p={2} sx={{ height: '100%' }}>
               <Typography gutterBottom color="text.secondary">
                 Workout stats
               </Typography>
