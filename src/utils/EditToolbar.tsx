@@ -1,4 +1,11 @@
-import { Button } from '@mui/material';
+import {
+  Button,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+  FormControl,
+  InputLabel,
+} from '@mui/material';
 import { GridRowModes, GridToolbarContainer } from '@mui/x-data-grid';
 import { EditToolbarProps } from 'src/interfaces/exercises.interfaces';
 import AddIcon from '@mui/icons-material/Add';
@@ -9,12 +16,13 @@ import useAuthStatus from 'src/hooks/useAuth';
 import { useCallback, useState } from 'react';
 
 export default function EditToolbar(props: EditToolbarProps) {
-  const [intervalId, setIntervalId] = useState<NodeJS.Timeout | null>(null);
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
   const { token } = useAuthStatus();
   const { mutate } = usePatchExercise();
-  const trainingId = props.trainingId;
+  const { numSets, setNumSets, setRows, setRowModesModel, trainingId } = props;
 
   const handleClick = useCallback(() => {
+    setIsButtonDisabled(true);
     const exerciseUpdate = [
       {
         name: '',
@@ -31,25 +39,30 @@ export default function EditToolbar(props: EditToolbarProps) {
             const lastExercise = exercises[exercises.length - 1];
             const newId = lastExercise.id;
 
-            const id = setInterval(() => {
-              if (newId) {
-                props.setRowModesModel((oldModel) => ({
-                  ...oldModel,
-                  [newId]: { mode: GridRowModes.Edit, fieldToFocus: 'name' },
-                }));
-                clearInterval(id);
-                setIntervalId(null);
-              }
-            }, 100);
-            setIntervalId(id);
+            if (newId) {
+              setRows((prevRows) => [...prevRows, lastExercise]);
+              setRowModesModel((oldModel) => ({
+                ...oldModel,
+                [newId]: { mode: GridRowModes.Edit, fieldToFocus: 'name' },
+              }));
+            }
           }
+        },
+        onSettled: () => {
+          setTimeout(() => {
+            setIsButtonDisabled(false);
+          }, 600);
         },
         onError: (error) => {
           console.error('Update failed:', error);
         },
       },
     );
-  }, [mutate, token, trainingId, props]);
+  }, [mutate, token, trainingId, setRows, setRowModesModel]);
+
+  const handleNumSetsChange = (event: SelectChangeEvent<number>) => {
+    setNumSets(Number(event.target.value));
+  };
 
   return (
     <GridToolbarContainer>
@@ -68,10 +81,28 @@ export default function EditToolbar(props: EditToolbarProps) {
           transition: { duration: 0.3 },
         }}
         whileTap={{ scale: 0.9 }}
-        disabled={!!intervalId}
+        disabled={isButtonDisabled}
       >
         Add Exercise
       </Button>
+      <FormControl
+        size="small"
+        sx={{ width: { xs: '100%', sm: 'auto' }, minWidth: 120, m: 1 }}
+      >
+        <InputLabel id="num-sets-label">Sets</InputLabel>
+        <Select
+          labelId="num-sets-label"
+          value={numSets}
+          onChange={handleNumSetsChange}
+          label="Sets"
+        >
+          {[1, 2, 3, 4, 5].map((num) => (
+            <MenuItem key={num} value={num}>
+              {num}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
     </GridToolbarContainer>
   );
 }

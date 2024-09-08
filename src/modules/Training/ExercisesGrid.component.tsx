@@ -5,14 +5,20 @@ import {
   GridRowModes,
   GridRowModesModel,
   GridSlots,
-  GridColumnGroupingModel,
   GridRowModel,
   GridEventListener,
   GridRowEditStopReasons,
   GridRowId,
   GridActionsCellItem,
+  GridEditInputCell,
 } from '@mui/x-data-grid';
-import { useCallback, useEffect, useState } from 'react';
+import {
+  MouseEventHandler,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 import useAuthStatus from 'src/hooks/useAuth';
 import { useLocation } from 'react-router-dom';
 import toast from 'react-hot-toast';
@@ -27,11 +33,16 @@ import {
   useGetTrainingDetails,
   usePatchExercise,
 } from 'src/hooks/useExerciseGridQueryHooks';
-import { ExerciseUpdate } from 'src/client/src';
+import {
+  columnGroupingModel,
+  exerciseNames,
+} from 'src/client/src/constants/exerciseGrid.constants';
+import { createExerciseUpdate } from '@utils/createExerciseUpdate';
 
 export default function ExerciseGrid() {
   const [rows, setRows] = useState<Rows[]>([]);
   const [rowModesModel, setRowModesModel] = useState<GridRowModesModel>({});
+  const [numSets, setNumSets] = useState<number>(3);
   const { token } = useAuthStatus();
   const location = useLocation();
 
@@ -56,8 +67,13 @@ export default function ExerciseGrid() {
         return { ...exercise, ...flattenedSets };
       });
       setRows(transformedRows);
+
+      const maxSets = data.exercises.reduce((max, exercise) => {
+        return Math.max(max, exercise.sets?.length || 0);
+      }, 0);
+      setNumSets(maxSets > 0 ? maxSets : 3);
     }
-  }, [isSuccess, data]);
+  }, [isSuccess, data?.exercises]);
 
   const handleRowEditStop: GridEventListener<'rowEditStop'> = (
     params,
@@ -68,49 +84,68 @@ export default function ExerciseGrid() {
     }
   };
 
-  const handleEditClick = (id: GridRowId) => () => {
-    setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.Edit } });
-  };
+  const handleEditClick = useCallback(
+    (id: GridRowId) => () => {
+      setRowModesModel((prevModel) => ({
+        ...prevModel,
+        [id]: { mode: GridRowModes.Edit },
+      }));
+    },
+    [],
+  );
 
-  const handleSaveClick = (id: GridRowId) => () => {
-    setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.View } });
-  };
+  const handleSaveClick = useCallback(
+    (id: GridRowId) => () => {
+      setRowModesModel((prev) => ({
+        ...prev,
+        [id]: { mode: GridRowModes.View },
+      }));
+    },
+    [],
+  );
 
-  const handleDeleteClick = (id: GridRowId) => () => {
-    const exerciseId = id as string;
-    setRows(rows.filter((row) => row.id !== id));
-    MutationDelete.mutate({ token, trainingId, exerciseId });
-  };
+  const handleDeleteClick = useCallback(
+    (id: GridRowId) => () => {
+      const exerciseId = id as string;
+      MutationDelete.mutate(
+        { token, trainingId, exerciseId },
+        {
+          onSuccess: () => {
+            setRows(rows.filter((row) => row.id !== id));
+          },
+          onError: (error) => {
+            toast.error(`Deletion failed: ${error.message}`);
+          },
+        },
+      );
+    },
+    [MutationDelete, rows, token, trainingId],
+  );
 
-  const handleCancelClick = (id: GridRowId) => () => {
-    setRowModesModel({
-      ...rowModesModel,
-      [id]: { mode: GridRowModes.View, ignoreModifications: true },
-    });
-  };
+  const handleCancelClick = useCallback(
+    (id: GridRowId) => () => {
+      setRowModesModel((prev) => ({
+        ...prev,
+        [id]: { mode: GridRowModes.View, ignoreModifications: true },
+      }));
+    },
+    [],
+  );
 
   const processRowUpdate = (newRow: GridRowModel) => {
-    const shouldIncludeSet = (
-      reps: number | undefined,
-      weight: number | undefined,
-    ) => {
-      return reps !== undefined && weight !== undefined;
-    };
-    const exerciseUpdate: ExerciseUpdate = {
-      id: newRow.id,
-      name: newRow.name,
-      sets: [
-        shouldIncludeSet(newRow?.reps1, newRow?.weight1)
-          ? { reps: newRow?.reps1, weight: newRow?.weight1 }
-          : undefined,
-        shouldIncludeSet(newRow?.reps2, newRow?.weight2)
-          ? { reps: newRow?.reps2, weight: newRow?.weight2 }
-          : undefined,
-        shouldIncludeSet(newRow?.reps3, newRow?.weight3)
-          ? { reps: newRow?.reps3, weight: newRow?.weight3 }
-          : undefined,
-      ].filter((set) => set !== undefined),
-    };
+    const valid = Object.keys(newRow).every((key) => {
+      if (key.startsWith('weight') || key.startsWith('reps')) {
+        return newRow[key] >= 0 || newRow[key] === undefined;
+      }
+      return true;
+    });
+
+    if (!valid) {
+      throw new Error('Weight and Reps must be positive numbers');
+    }
+
+    const exerciseUpdate = createExerciseUpdate(newRow);
+
     MutationUpdate.mutate(
       { token, exerciseUpdate: [exerciseUpdate], trainingId },
       {
@@ -121,11 +156,13 @@ export default function ExerciseGrid() {
             ),
           );
         },
+        onError: (error) => {
+          toast.error(`Update failed: ${error.message}`);
+        },
       },
     );
     return { ...newRow, id: newRow.id };
   };
-
   const handleRowModesModelChange = (newRowModesModel: GridRowModesModel) => {
     setRowModesModel(newRowModesModel);
   };
@@ -134,105 +171,65 @@ export default function ExerciseGrid() {
     toast.error(error.message);
   }, []);
 
-  const columns: GridColDef[] = [
-    {
-      field: 'name',
-      headerName: 'Name',
-      width: 190,
-      editable: true,
-      type: 'singleSelect',
-      valueOptions: [
-        'Arnold Press',
-        'Barbell Row',
-        'Bench Press',
-        'Bicep Curl',
-        'Bulgarian Split Squat',
-        'Calf Raise',
-        'Cable Cross',
-        'Chest Fly',
-        'Chin-up',
-        'Deadlift',
-        'Dip',
-        'Dumbbell Row',
-        'Face Pull',
-        'Farmers Carry',
-        'Front Squat',
-        'Goblet Squat',
-        'Glute Bridge',
-        'Hammer Curl',
-        'Hip Thrust',
-        'Incline Bench Press',
-        'Lateral Raise',
-        'Leg Press',
-        'Lunges',
-        'Overhead Press',
-        'Pull-up',
-        'Romanian Deadlift',
-        'Shoulder Press',
-        'Shrug',
-        'Skull Crusher',
-        'Squat',
-        'Sumo Deadlift',
-        'Tricep Extension',
-        'Upright Row',
-        'Reverse Fly',
-      ],
-    },
-    {
-      field: 'weight1',
-      headerName: 'Weight',
-      type: 'number',
-      width: 120,
-      align: 'left',
-      headerAlign: 'left',
-      editable: true,
-    },
-    {
-      field: 'reps1',
-      headerName: 'Reps',
-      type: 'number',
-      width: 110,
-      align: 'left',
-      headerAlign: 'left',
-      editable: true,
-    },
-    {
-      field: 'weight2',
-      headerName: 'Weight',
-      type: 'number',
-      width: 120,
-      align: 'left',
-      headerAlign: 'left',
-      editable: true,
-    },
-    {
-      field: 'reps2',
-      headerName: 'Reps',
-      type: 'number',
-      width: 110,
-      align: 'left',
-      headerAlign: 'left',
-      editable: true,
-    },
-    {
-      field: 'weight3',
-      headerName: 'Weight',
-      type: 'number',
-      width: 120,
-      align: 'left',
-      headerAlign: 'left',
-      editable: true,
-    },
-    {
-      field: 'reps3',
-      headerName: 'Reps',
-      type: 'number',
-      width: 110,
-      align: 'left',
-      headerAlign: 'left',
-      editable: true,
-    },
-    {
+  const generateColumns = (
+    numSets: number,
+    rowModesModel: GridRowModesModel,
+    handleSaveClick: (id: GridRowId) => MouseEventHandler<HTMLButtonElement>,
+    handleCancelClick: (id: GridRowId) => MouseEventHandler<HTMLButtonElement>,
+    handleEditClick: (id: GridRowId) => MouseEventHandler<HTMLButtonElement>,
+    handleDeleteClick: (id: GridRowId) => MouseEventHandler<HTMLButtonElement>,
+  ): GridColDef[] => {
+    const columns: GridColDef[] = [
+      {
+        field: 'name',
+        headerName: 'Name',
+        width: 190,
+        editable: true,
+        type: 'singleSelect',
+        valueOptions: exerciseNames,
+      },
+    ];
+
+    for (let i = 1; i <= numSets; i++) {
+      columns.push(
+        {
+          field: `weight${i}`,
+          headerName: 'Weight',
+          type: 'number',
+          width: 120,
+          align: 'left',
+          headerAlign: 'left',
+          editable: true,
+          renderEditCell: (params) => (
+            <GridEditInputCell
+              {...params}
+              inputProps={{
+                min: 0,
+              }}
+            />
+          ),
+        },
+        {
+          field: `reps${i}`,
+          headerName: 'Reps',
+          type: 'number',
+          width: 110,
+          align: 'left',
+          headerAlign: 'left',
+          editable: true,
+          renderEditCell: (params) => (
+            <GridEditInputCell
+              {...params}
+              inputProps={{
+                min: 0,
+              }}
+            />
+          ),
+        },
+      );
+    }
+
+    columns.push({
       field: 'actions',
       type: 'actions',
       headerName: 'Actions',
@@ -270,31 +267,30 @@ export default function ExerciseGrid() {
           />,
         ];
       },
-    },
-  ];
+    });
 
-  const ColumnGroupingModel: GridColumnGroupingModel = [
-    {
-      groupId: 'exercise',
-      headerName: 'Exercise',
-      children: [{ field: 'name' }],
-    },
-    {
-      groupId: 'set1',
-      headerName: 'set1',
-      children: [{ field: 'weight1' }, { field: 'reps1' }],
-    },
-    {
-      groupId: 'set2',
-      headerName: 'set2',
-      children: [{ field: 'weight2' }, { field: 'reps2' }],
-    },
-    {
-      groupId: 'set3',
-      headerName: 'set3',
-      children: [{ field: 'weight3' }, { field: 'reps3' }],
-    },
-  ];
+    return columns;
+  };
+
+  const columns = useMemo(
+    () =>
+      generateColumns(
+        numSets,
+        rowModesModel,
+        handleSaveClick,
+        handleCancelClick,
+        handleEditClick,
+        handleDeleteClick,
+      ),
+    [
+      numSets,
+      rowModesModel,
+      handleSaveClick,
+      handleCancelClick,
+      handleEditClick,
+      handleDeleteClick,
+    ],
+  );
 
   return (
     <Box
@@ -310,11 +306,11 @@ export default function ExerciseGrid() {
     >
       <DataGrid
         rows={rows}
-        getRowId={(row) => row.id as string}
+        getRowId={(row) => row.id}
         columns={columns}
         editMode="row"
         rowModesModel={rowModesModel}
-        columnGroupingModel={ColumnGroupingModel}
+        columnGroupingModel={columnGroupingModel}
         onRowModesModelChange={handleRowModesModelChange}
         onRowEditStop={handleRowEditStop}
         processRowUpdate={processRowUpdate}
@@ -323,7 +319,13 @@ export default function ExerciseGrid() {
           toolbar: EditToolbar as GridSlots['toolbar'],
         }}
         slotProps={{
-          toolbar: { setRows, setRowModesModel, trainingId },
+          toolbar: {
+            setRows,
+            setRowModesModel,
+            trainingId,
+            numSets,
+            setNumSets,
+          },
         }}
       />
     </Box>

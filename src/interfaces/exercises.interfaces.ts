@@ -20,5 +20,8 @@ export interface EditToolbarProps {
   setRowModesModel: (
     model: (oldModel: GridRowModesModel) => GridRowModesModel,
   ) => void;
+  setRows: (prevRows: React.SetStateAction<Rows[]>) => void;
   trainingId: string;
+  numSets: number;
+  setNumSets: React.Dispatch<React.SetStateAction<number>>;
 }
