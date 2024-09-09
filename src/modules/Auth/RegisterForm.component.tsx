@@ -176,12 +176,10 @@ export default function RegisterForm() {
               >
                 {mutation.isPending ? 'Signing Up...' : 'Sign Up'}
               </Button>
-              <Grid container justifyContent="flex-end">
-                <Grid item mb={4}>
-                  <CustomLink href="/Login" color="inherit" variant="body2">
-                    Already have an account? Sign in
-                  </CustomLink>
-                </Grid>
+              <Grid container justifyContent="flex-end" mb={6}>
+                <CustomLink href="/Login" color="inherit" variant="body2">
+                  Already have an account? Sign in
+                </CustomLink>
               </Grid>
             </Box>
           </Box>
