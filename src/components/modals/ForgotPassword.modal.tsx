@@ -8,6 +8,7 @@ import { useMutation } from '@tanstack/react-query';
 import { Controller, useForm } from 'react-hook-form';
 import { requestPasswordReset } from 'src/api/auth';
 import toast from 'react-hot-toast';
+import { motion } from 'framer-motion';
 
 const style = {
   position: 'absolute',
@@ -50,7 +51,22 @@ export const ForgotPasswordModal = () => {
 
   return (
     <>
-      <Button onClick={handleOpen} variant="text">
+      <Button
+        onClick={handleOpen}
+        component={motion.div}
+        variant="text"
+        color="inherit"
+        size="small"
+        sx={{
+          textTransform: 'none',
+          ':hover': { color: 'gray', backgroundColor: 'transparent' },
+        }}
+        whileHover={{
+          scale: 1.2,
+          transition: { duration: 0.3 },
+        }}
+        whileTap={{ scale: 0.9 }}
+      >
         Forgot password?
       </Button>
       <Modal

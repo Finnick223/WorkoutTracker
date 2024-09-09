@@ -24,6 +24,7 @@ import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { AnimatePage } from 'src/animations/AnimatePage';
+import CustomLink from 'src/components/Link/Link.component';
 
 function LoginPage() {
   const { login } = useAuthStatus();
@@ -141,13 +142,21 @@ function LoginPage() {
                       </Typography>
                     )}
                   </FormControl>
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      justifyContent: 'flex-end',
+                    }}
+                  >
+                    <ForgotPasswordModal />
+                  </Box>
                 </Grid>
               </Grid>
               <Button
                 type="submit"
                 fullWidth
                 variant="contained"
-                sx={{ mt: 3, mb: 2 }}
+                sx={{ mt: 2, mb: 1 }}
                 disabled={login.isPending}
               >
                 {login.isPending ? 'Logging in...' : 'Log in'}
@@ -157,7 +166,11 @@ function LoginPage() {
                   {login.error.message}
                 </Typography>
               )}
-              <ForgotPasswordModal />
+              <Grid container justifyContent="flex-end">
+                <CustomLink href="/Register" color="inherit" variant="body2">
+                  Don't have an account? Register
+                </CustomLink>
+              </Grid>
             </form>
           </Box>
         </Container>
