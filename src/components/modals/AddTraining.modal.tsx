@@ -11,7 +11,12 @@ const AddTrainingModal: React.FC<AddTrainingModalProps> = ({
   open,
   handleAddClose,
 }) => {
-  const { register, handleSubmit } = useForm();
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { isValid, isSubmitting },
+  } = useForm();
   const { token } = useAuthStatus();
   const queryClient = useQueryClient();
 
@@ -27,9 +32,12 @@ const AddTrainingModal: React.FC<AddTrainingModalProps> = ({
       toast.error('err : ' + error);
     },
   });
+
   const onSubmit = handleSubmit((formData) => {
     mutation.mutate({ token, training: { ...formData } });
+    reset();
   });
+
   return (
     <>
       <Modal open={open} onClose={handleAddClose}>
@@ -50,14 +58,14 @@ const AddTrainingModal: React.FC<AddTrainingModalProps> = ({
               Add training
             </Typography>
             <TextField
-              {...register('name')}
+              {...register('name', { required: true })}
               margin="normal"
               fullWidth
               label="Training name"
               variant="outlined"
             />
             <TextField
-              {...register('description')}
+              {...register('description', { required: true })}
               margin="normal"
               fullWidth
               label="Training description"
@@ -69,8 +77,9 @@ const AddTrainingModal: React.FC<AddTrainingModalProps> = ({
               sx={{ my: 2 }}
               type="submit"
               fullWidth
+              disabled={!isValid || isSubmitting}
             >
-              Add
+              {isSubmitting ? 'Adding...' : 'Add'}
             </Button>
           </Box>
         </form>
