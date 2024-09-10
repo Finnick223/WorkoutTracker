@@ -18,6 +18,8 @@ import { updateUser } from 'src/api/auth';
 import useAuthStatus from 'src/hooks/useAuth';
 import { User } from 'src/client/src';
 import { useNavigate } from 'react-router-dom';
+import { profileSchema } from 'src/validators/profile.validator';
+import { yupResolver } from '@hookform/resolvers/yup';
 
 const EditUserModal: React.FC<EditUserModalProps> = ({
   open,
@@ -25,7 +27,17 @@ const EditUserModal: React.FC<EditUserModalProps> = ({
   user,
   id,
 }) => {
-  const { register, handleSubmit, setValue } = useForm();
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors, isSubmitting },
+  } = useForm({
+    resolver: yupResolver(profileSchema),
+    defaultValues: {
+      gender: user?.genders || '',
+    },
+  });
   const { token, logout } = useAuthStatus();
   const queryClient = useQueryClient();
   const navigate = useNavigate();
@@ -33,7 +45,6 @@ const EditUserModal: React.FC<EditUserModalProps> = ({
 
   const handleGenderChange = (event: SelectChangeEvent<string>) => {
     const value = event.target.value;
-    console.log(value);
     setValue('gender', value);
   };
   const { mutate } = useMutation({
@@ -87,6 +98,8 @@ const EditUserModal: React.FC<EditUserModalProps> = ({
               label="First Name"
               defaultValue={user?.firstName}
               variant="outlined"
+              error={!!errors.firstName}
+              helperText={errors.firstName?.message}
             />
             <TextField
               {...register('lastName')}
@@ -95,6 +108,8 @@ const EditUserModal: React.FC<EditUserModalProps> = ({
               label="Last Name"
               defaultValue={user?.lastName}
               variant="outlined"
+              error={!!errors.lastName}
+              helperText={errors.lastName?.message}
             />
             <TextField
               {...register('email')}
@@ -103,8 +118,10 @@ const EditUserModal: React.FC<EditUserModalProps> = ({
               label="Email"
               defaultValue={user?.email}
               variant="outlined"
+              error={!!errors.email}
+              helperText={errors.email?.message}
             />
-            <FormControl fullWidth>
+            <FormControl fullWidth sx={{ my: 2 }}>
               <InputLabel id="genders">Gender</InputLabel>
               <Select
                 id="genders"
@@ -117,15 +134,19 @@ const EditUserModal: React.FC<EditUserModalProps> = ({
                 <MenuItem value={'FEMALE'}>FEMALE</MenuItem>
                 <MenuItem value={'OTHER'}>OTHER</MenuItem>
               </Select>
+              {errors.gender && (
+                <Typography color="error">{errors.gender.message}</Typography>
+              )}
             </FormControl>
             <Button
               variant="contained"
               color="primary"
-              sx={{ my: 2 }}
+              sx={{ mt: 2 }}
               type="submit"
               fullWidth
+              disabled={isSubmitting}
             >
-              Save
+              {isSubmitting ? 'Saving...' : 'Save'}
             </Button>
           </Box>
         </form>
