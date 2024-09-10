@@ -1,16 +1,29 @@
+import { yupResolver } from '@hookform/resolvers/yup';
 import { TextField, Button, Box } from '@mui/material';
 import { useForm } from 'react-hook-form';
+import { UserMeasurement } from 'src/client/src';
 import { MeasurementFormProps } from 'src/interfaces/user.interfaces';
+import { measurementSchema } from 'src/validators/measurementForm.validator';
 
 const MeasurementForm: React.FC<MeasurementFormProps> = ({
   measurements,
   onSubmit,
   onPartChange,
 }) => {
-  const { register, handleSubmit } = useForm();
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { isValid, isSubmitting },
+  } = useForm({ resolver: yupResolver(measurementSchema) });
+
+  const handleFormSubmit = (data: UserMeasurement) => {
+    onSubmit(data);
+    reset();
+  };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={handleSubmit(handleFormSubmit)}>
       <Box display={'flex'} flexDirection={'row'}>
         <TextField
           label="Age"
@@ -62,8 +75,14 @@ const MeasurementForm: React.FC<MeasurementFormProps> = ({
           onClick={() => onPartChange('legs')}
           {...register('legs')}
         />
-        <Button variant="contained" type="submit" sx={{ mt: 4 }} fullWidth>
-          Add new Measurement
+        <Button
+          variant="contained"
+          type="submit"
+          sx={{ mt: 4 }}
+          fullWidth
+          disabled={!isValid || isSubmitting}
+        >
+          {isSubmitting ? 'Submitting...' : 'Add new Measurement'}
         </Button>
       </Box>
     </form>
