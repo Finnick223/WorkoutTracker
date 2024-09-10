@@ -58,6 +58,13 @@ function TrainingPage() {
     setPage(0);
   };
 
+  const skeletonCount = () => {
+    if (isFetching && trainings.length === 0) {
+      return size;
+    }
+    return trainings.length;
+  };
+
   return (
     <>
       <AnimatePage>
@@ -78,7 +85,7 @@ function TrainingPage() {
           </Fab>
           <Grid2 container spacing={2} margin={1} justifyContent="center">
             {isFetching
-              ? Array.from(new Array(size)).map((_, index) => (
+              ? Array.from(new Array(skeletonCount())).map((_, index) => (
                   <Grid2 key={index}>
                     <Paper elevation={4} sx={{ width: '16em' }} key={index}>
                       <Card sx={{ width: '16em' }}>
@@ -126,11 +133,20 @@ function TrainingPage() {
           >
             <TablePagination
               component="div"
-              count={-1}
+              count={
+                trainings.length < size ? page * size + trainings.length : -1
+              }
               page={page}
               onPageChange={handlePageChange}
               rowsPerPage={size}
               onRowsPerPageChange={handleSizeChange}
+              slotProps={{
+                actions: {
+                  nextButton: {
+                    disabled: trainings.length - 1 < size,
+                  },
+                },
+              }}
             />
             <AddTrainingModal
               open={isAddOpen}

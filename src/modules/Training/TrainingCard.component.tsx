@@ -26,7 +26,7 @@ export default function TrainingCard(props: TrainingExtended) {
     mutationFn: deleteTraining,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ['trainings', props.page, props.size],
+        queryKey: ['trainings'],
       });
       toast.success('Training deleted');
     },
