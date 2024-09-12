@@ -7,6 +7,7 @@ interface Input {
   type: 'email' | 'text';
   required?: boolean;
   autoComplete: string;
+  autoFocus?: boolean | undefined;
   isError?: boolean;
 }
 
@@ -17,6 +18,7 @@ export const Input = ({
   type,
   required,
   autoComplete,
+  autoFocus,
 }: Input) => {
   const {
     register,
@@ -26,6 +28,7 @@ export const Input = ({
     <>
       <TextField
         autoComplete={autoComplete}
+        autoFocus={autoFocus}
         required={required}
         type={type}
         fullWidth

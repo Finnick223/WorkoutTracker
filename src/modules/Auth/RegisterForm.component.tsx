@@ -16,7 +16,7 @@ import {
 } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { useForm, FormProvider, SubmitHandler } from 'react-hook-form';
-import InputFormPassword from 'src/components/InputPassword.component';
+import InputFormPassword from 'src/components/CustomPasswordInput/InputPassword.component';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Input } from 'src/components/CustomInput/InputForm.component';
 import axios from 'axios';
@@ -92,6 +92,7 @@ export default function RegisterForm() {
                     id="firstName"
                     label="First Name"
                     type="text"
+                    autoFocus
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
