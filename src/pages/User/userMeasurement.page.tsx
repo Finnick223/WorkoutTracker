@@ -2,7 +2,7 @@ import Grid2 from '@mui/material/Unstable_Grid2/Grid2';
 import { useState } from 'react';
 import { useUserMeasurements } from 'src/hooks/useUserMeasurements';
 import MeasurementForm from 'src/modules/User/MeasurementForm';
-import BodyDisplay from 'src/components/HumanBodyDisplay.component';
+import BodyDisplay from 'src/modules/User/HumanBodyDisplay.component';
 import { UserMeasurement } from 'src/client/src';
 import { PartsInput } from 'reactjs-human-body/dist/components/BodyComponent/BodyComponent';
 import { Skeleton, Stack } from '@mui/material';
