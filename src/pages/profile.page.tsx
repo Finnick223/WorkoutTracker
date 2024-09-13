@@ -3,13 +3,13 @@ import {
   Container,
   Typography,
   Avatar,
-  CircularProgress,
   Button,
   Paper,
   Stack,
   IconButton,
   Switch,
   FormControlLabel,
+  Skeleton,
 } from '@mui/material';
 import { useContext } from 'react';
 import { ColorModeContext } from 'src/providers/MaterialUI.provider';
@@ -52,18 +52,111 @@ function Profile() {
 
   if (isFetching) {
     return (
-      <Container maxWidth="lg">
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            height: '100vh',
-          }}
-        >
-          <CircularProgress />
-        </Box>
+      <Container maxWidth="md">
+        <Grid2 container spacing={2}>
+          <Grid2 xs={12}>
+            <Typography variant="h3" align="center" mb={2}>
+              <Skeleton width={'100%'} />
+            </Typography>
+            <Paper
+              component={Box}
+              width={'100%'}
+              sx={{ px: 4, py: 2, borderRadius: 2 }}
+            >
+              <Typography mb={1} variant="body2" color={'text.secondary'}>
+                Profile picture
+              </Typography>
+              <Stack direction={'row'} spacing={2}>
+                <Skeleton variant="circular" width={80} height={40} />
+                <Skeleton variant="rectangular" height={40} width="100%" />
+                <Skeleton variant="rectangular" height={40} width="100%" />
+              </Stack>
+            </Paper>
+          </Grid2>
+          <Grid2 xs={12} sm={6}>
+            <Paper
+              sx={{
+                p: 4,
+                borderRadius: 2,
+              }}
+            >
+              <Box
+                display="flex"
+                justifyContent="space-between"
+                alignItems="center"
+              >
+                <Typography
+                  variant="h6"
+                  sx={{ color: 'primary.main', fontWeight: 'bold' }}
+                >
+                  Personal Information
+                </Typography>
+                <Skeleton variant="circular" width={40} height={40} />
+              </Box>
+              <Stack spacing={2} mt={2}>
+                <Box>
+                  <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                    First Name
+                  </Typography>
+                  <Skeleton
+                    width={120}
+                    variant="text"
+                    sx={{ fontSize: '1.3rem' }}
+                  />
+                </Box>
+                <Box>
+                  <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                    Last Name
+                  </Typography>
+                  <Skeleton
+                    width={120}
+                    variant="text"
+                    sx={{ fontSize: '1.3rem' }}
+                  />
+                </Box>
+                <Box>
+                  <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                    Email address
+                  </Typography>
+                  <Skeleton
+                    width={180}
+                    variant="text"
+                    sx={{ fontSize: '1.3rem' }}
+                  />
+                </Box>
+                <Box>
+                  <Typography variant="body2" color={'text.secondary'}>
+                    Gender
+                  </Typography>
+                  <Skeleton
+                    width={100}
+                    variant="text"
+                    sx={{ fontSize: '1.5rem' }}
+                  />
+                </Box>
+              </Stack>
+            </Paper>
+          </Grid2>
+          <Grid2 xs={12} sm={6}>
+            <Paper
+              sx={{
+                p: 4,
+                borderRadius: 2,
+                mb: 8,
+              }}
+            >
+              <Typography
+                variant="h6"
+                sx={{ color: 'primary.main', fontWeight: 'bold' }}
+              >
+                Settings
+              </Typography>
+              <Stack spacing={2} mt={2}>
+                <Skeleton width={150} height={40} />
+              </Stack>
+            </Paper>
+          </Grid2>
+        </Grid2>
       </Container>
     );
   }
