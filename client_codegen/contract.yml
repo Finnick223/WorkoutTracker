@@ -791,6 +791,53 @@ paths:
                             schema:
                                 $ref: '#/components/schemas/ErrorResponse'
 
+    /exercise/{exerciseName}:
+        get:
+            tags:
+                - exercise
+            summary: Get exercises by name
+            operationId: getExercisesByName
+            parameters:
+                - name: exerciseName
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                '200':
+                    description: A list of exercises
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: '#/components/schemas/Exercise'
+                '400':
+                    description: Bad request
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ErrorResponse'
+                '401':
+                    description: Unauthorized
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ErrorResponse'
+                '403':
+                    description: Forbidden
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ErrorResponse'
+                '404':
+                    description: Exercises not found
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ErrorResponse'
+
+
 components:
     securitySchemes:
         bearerAuth:
@@ -815,6 +862,10 @@ components:
                     type: string
                 genders:
                     type: string
+                age:
+                    type: integer
+                height:
+                    type: integer
                 userMeasurements:
                     type: array
                     items:
@@ -836,6 +887,10 @@ components:
                     type: string
                 genders:
                     type: string
+                age:
+                    type: integer
+                height:
+                    type: integer
 
         UserCreate:
             type: object
@@ -848,6 +903,10 @@ components:
                     type: string
                 gender:
                     type: string
+                age:
+                    type: integer
+                height:
+                    type: integer
         UserMeasurement:
             type: object
             properties:
@@ -858,10 +917,6 @@ components:
                 modifiedOn:
                     type: string
                 weight:
-                    type: number
-                height:
-                    type: number
-                age:
                     type: number
                 arms:
                     type: number
@@ -875,10 +930,6 @@ components:
             type: object
             properties:
                 weight:
-                    type: number
-                height:
-                    type: number
-                age:
                     type: number
                 arms:
                     type: number
