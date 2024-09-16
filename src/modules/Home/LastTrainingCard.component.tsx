@@ -14,11 +14,13 @@ export const LastTrainingCard: React.FC<LastTrainingCardProps> = ({
     <Typography gutterBottom color={'text.secondary'}>
       Last training at {trainingData[0].createdOn?.slice(0, 10)}
     </Typography>
-    <CustomLink href={`/training/${trainingData[0].id}`} color="inherit">
-      <Button>
-        {trainingData[0].name} {trainingData[0].description}{' '}
-        <ArrowForwardIcon />
-      </Button>
-    </CustomLink>
+    <Box display="flex" alignItems="center" mt={{ xs: 4, sm: 2, md: 4 }}>
+      <CustomLink href={`/training/${trainingData[0].id}`} color="inherit">
+        <Button>
+          {trainingData[0].name} {trainingData[0].description}{' '}
+          <ArrowForwardIcon />
+        </Button>
+      </CustomLink>
+    </Box>
   </Paper>
 );

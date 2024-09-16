@@ -10,7 +10,7 @@ const LogoutUser = () => {
   useEffect(() => {
     logout();
     navigate('/');
-  }, []);
+  }, [logout, navigate]);
   return (
     <>
       <Typography>logging out....</Typography>

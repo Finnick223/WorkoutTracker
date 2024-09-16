@@ -5,6 +5,11 @@ import {
   Paper,
   Button,
   Stack,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  SelectChangeEvent,
 } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { AnimatePage } from 'src/animations/AnimatePage';
@@ -22,9 +27,14 @@ import { LoadingScreen } from 'src/modules/Home/LoadingScreen.component';
 import { ErrorScreen } from 'src/modules/Home/ErrorScreen.component';
 import { LastMeasurementCard } from 'src/modules/Home/LastMeasurementCard.component';
 import { LastTrainingCard } from 'src/modules/Home/LastTrainingCard.component';
+import { exerciseNames } from 'src/constants/exerciseGrid.constants';
+import { getExercisesByName } from 'src/api/exercise';
+import { useState } from 'react';
 
 function Home() {
   const { isLoggedIn, token } = useAuthStatus();
+  const [selectedExercise, setSelectedExercise] = useState('Bench Press');
+
   const {
     data: measurementData,
     isLoading: isMeasurementsLoading,
@@ -49,18 +59,45 @@ function Home() {
     queryFn: () => getCurrentUser(token),
   });
 
+  const { data: exerciseData } = useQuery({
+    queryKey: ['Exercise', selectedExercise],
+    queryFn: () => getExercisesByName(selectedExercise, token),
+  });
+
   if (!isLoggedIn) return <WelcomeScreen />;
   if (isTrainingLoading || isMeasurementsLoading || isProfileLoading)
     return <LoadingScreen />;
   if (trainingError || measurementsError || profileError)
     return <ErrorScreen />;
 
+  const chartData = exerciseData
+    ? exerciseData.map((exercise) => {
+        const maxWeight = exercise.sets
+          ? Math.max(
+              ...exercise.sets
+                .map((set) => set.weight)
+                .filter((weight): weight is number => weight !== undefined),
+            )
+          : 0;
+
+        return {
+          weight: maxWeight,
+          date: new Date(Date.parse(exercise.createdOn ?? '')),
+        };
+      })
+    : [];
+
+  const weights = chartData.map((data) => data.weight);
+  const dates = chartData.map((data) => data.date);
+  const handleExerciseChange = (event: SelectChangeEvent<string>) => {
+    setSelectedExercise(event.target.value as string);
+  };
+
   return (
     <AnimatePage>
       <Container maxWidth="lg">
         <Grid2
           container
-          // alignItems="center"
           justifyContent="center"
           alignItems="stretch"
           spacing={2}
@@ -127,10 +164,37 @@ function Home() {
               <Typography gutterBottom color="text.secondary">
                 Workout stats
               </Typography>
-              <Button>
-                Add statistics with SPARK LINE! *first need to change exercises
-                name to select*
-              </Button>
+              <Box sx={{ width: '100%' }}>
+                <Stack direction="row" alignItems="center">
+                  <FormControl>
+                    <InputLabel id="exercise">Exercise</InputLabel>
+                    <Select
+                      id="exercise"
+                      defaultValue={'Bench Press'}
+                      label="Exercise"
+                      onChange={handleExerciseChange}
+                    >
+                      {exerciseNames.map((name) => (
+                        <MenuItem key={name} value={name}>
+                          {name}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                  {exerciseData && (
+                    <SparkLineChart
+                      data={weights}
+                      xAxis={{
+                        scaleType: 'time',
+                        data: dates,
+                      }}
+                      height={100}
+                      showTooltip
+                      showHighlight
+                    />
+                  )}
+                </Stack>
+              </Box>
             </Paper>
           </Grid2>
           <Grid2 xs={12} sm={4}>
