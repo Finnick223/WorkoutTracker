@@ -11,13 +11,13 @@ export function LoadingScreen() {
         spacing={2}
         mb={2}
       >
-        {/* skeleton for profile */}
+        {/* skeleton for new buttons */}
         <Grid2 xs={12} sm={4}>
           <Paper component={Box} p={2} sx={{ height: '100%' }}>
             <Skeleton variant="text" width="60%" />
-            <Stack direction="column" spacing={2} p={2}>
-              <Skeleton variant="rectangular" height={40} />
-              <Skeleton variant="rectangular" height={40} />
+            <Stack direction="column" spacing={{ sm: 4, md: 2 }} p={2}>
+              <Skeleton variant="rectangular" height={50} />
+              <Skeleton variant="rectangular" height={50} />
             </Stack>
           </Paper>
         </Grid2>
@@ -49,7 +49,7 @@ export function LoadingScreen() {
         <Grid2 xs={12} sm={8}>
           <Paper component={Box} p={2} sx={{ height: '100%' }}>
             <Skeleton variant="text" width="30%" />
-            <Skeleton variant="rectangular" height={40} />
+            <Skeleton variant="rectangular" height={100} />
           </Paper>
         </Grid2>
 
@@ -57,7 +57,7 @@ export function LoadingScreen() {
         <Grid2 xs={12} sm={4}>
           <Paper component={Box} p={2} sx={{ height: '100%' }}>
             <Skeleton variant="text" width="40%" />
-            <Skeleton variant="rectangular" height={40} />
+            <Skeleton variant="rectangular" height={100} />
           </Paper>
         </Grid2>
       </Grid2>

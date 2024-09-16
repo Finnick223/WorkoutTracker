@@ -36,7 +36,7 @@ import {
 import {
   columnGroupingModel,
   exerciseNames,
-} from 'src/client/src/constants/exerciseGrid.constants';
+} from 'src/constants/exerciseGrid.constants';
 import { createExerciseUpdate } from '@utils/createExerciseUpdate';
 
 export default function ExerciseGrid() {
