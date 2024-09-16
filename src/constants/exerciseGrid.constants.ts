@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { GridColumnGroupingModel } from '@mui/x-data-grid';
 
 export const columnGroupingModel: GridColumnGroupingModel = [
