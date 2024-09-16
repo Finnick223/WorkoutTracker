@@ -138,6 +138,26 @@ const EditUserModal: React.FC<EditUserModalProps> = ({
                 <Typography color="error">{errors.gender.message}</Typography>
               )}
             </FormControl>
+            <TextField
+              {...register('age')}
+              margin="normal"
+              fullWidth
+              label="Age"
+              defaultValue={user?.age}
+              variant="outlined"
+              error={!!errors.age}
+              helperText={errors.age?.message}
+            />
+            <TextField
+              {...register('height')}
+              margin="normal"
+              fullWidth
+              label="Height"
+              defaultValue={user?.height}
+              variant="outlined"
+              error={!!errors.height}
+              helperText={errors.height?.message}
+            />
             <Button
               variant="contained"
               color="primary"

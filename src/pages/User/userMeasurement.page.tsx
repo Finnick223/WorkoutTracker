@@ -6,11 +6,18 @@ import BodyDisplay from 'src/modules/User/HumanBodyDisplay.component';
 import { UserMeasurement } from 'src/client/src';
 import { PartsInput } from 'reactjs-human-body/dist/components/BodyComponent/BodyComponent';
 import { Skeleton, Stack } from '@mui/material';
+import { getCurrentUser } from 'src/api/auth';
+import { useQuery } from '@tanstack/react-query';
 
 export default function UserMeasurementPage() {
   const [params, setParams] = useState<PartsInput | undefined>(undefined);
   const { data, isSuccess, mutate, token, ErrorModalComponent } =
     useUserMeasurements();
+
+  const { data: profileData, isSuccess: isProfileSuccess } = useQuery({
+    queryKey: ['profile'],
+    queryFn: () => getCurrentUser(token),
+  });
 
   const handlePartChange = (part: 'arms' | 'legs' | keyof PartsInput) => {
     setParams(undefined);
@@ -59,9 +66,9 @@ export default function UserMeasurementPage() {
         alignItems={'center'}
       >
         <Grid2 xs={12} sm={5}>
-          {isSuccess && data ? (
+          {isSuccess && data && isProfileSuccess ? (
             <MeasurementForm
-              measurements={data[0]}
+              height={profileData.height ? profileData.height : ''}
               onSubmit={handleSubmit}
               onPartChange={handlePartChange}
             />

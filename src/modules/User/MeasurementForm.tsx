@@ -6,7 +6,7 @@ import { MeasurementFormProps } from 'src/interfaces/user.interfaces';
 import { measurementSchema } from 'src/validators/measurementForm.validator';
 
 const MeasurementForm: React.FC<MeasurementFormProps> = ({
-  measurements,
+  height,
   onSubmit,
   onPartChange,
 }) => {
@@ -26,23 +26,19 @@ const MeasurementForm: React.FC<MeasurementFormProps> = ({
     <form onSubmit={handleSubmit(handleFormSubmit)}>
       <Box display={'flex'} flexDirection={'row'}>
         <TextField
-          label="Age"
-          variant="outlined"
-          margin="normal"
-          defaultValue={measurements.age}
-          {...register('age')}
-        />
-        <TextField
           label="Height"
           variant="outlined"
           margin="normal"
-          defaultValue={measurements.height}
-          {...register('height')}
+          fullWidth
+          disabled
+          defaultValue={height}
         />
         <TextField
           label="Weight"
           variant="outlined"
           margin="normal"
+          fullWidth
+          autoFocus
           {...register('weight')}
         />
       </Box>
