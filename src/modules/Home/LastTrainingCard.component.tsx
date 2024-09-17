@@ -1,11 +1,7 @@
 import { Box, Button, Paper, Typography } from '@mui/material';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import { Training } from 'src/client/src';
 import CustomLink from 'src/components/Link/Link.component';
-
-interface LastTrainingCardProps {
-  trainingData: Training[];
-}
+import { LastTrainingCardProps } from 'src/interfaces/training.interfaces';
 
 export const LastTrainingCard: React.FC<LastTrainingCardProps> = ({
   trainingData,

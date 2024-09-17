@@ -1,11 +1,7 @@
 import { SparkLineChart } from '@mui/x-charts';
 import { Box, Stack } from '@mui/material';
 import { memo } from 'react';
-
-interface ExerciseChartProps {
-  weights: number[];
-  dates: Date[];
-}
+import { ExerciseChartProps } from 'src/interfaces/training.interfaces';
 
 export const ExerciseChart = memo(({ weights, dates }: ExerciseChartProps) => {
   return (

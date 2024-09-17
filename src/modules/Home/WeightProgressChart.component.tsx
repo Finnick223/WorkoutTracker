@@ -1,11 +1,7 @@
 import { SparkLineChart } from '@mui/x-charts';
 import { Box, Stack, Typography } from '@mui/material';
 import { memo } from 'react';
-
-interface WeightProgressChartProps {
-  weights: number[];
-  dates: Date[];
-}
+import { WeightProgressChartProps } from 'src/interfaces/training.interfaces';
 
 export const WeightProgressChart = memo(
   ({ weights, dates }: WeightProgressChartProps) => {

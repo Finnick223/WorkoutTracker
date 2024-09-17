@@ -1,9 +1,5 @@
 import { Box, Paper, Stack, Typography } from '@mui/material';
-import { UserMeasurement } from 'src/client/src';
-
-interface LastMeasurementCardProps {
-  measurementData: UserMeasurement[];
-}
+import { LastMeasurementCardProps } from 'src/interfaces/user.interfaces';
 
 export const LastMeasurementCard: React.FC<LastMeasurementCardProps> = ({
   measurementData,
