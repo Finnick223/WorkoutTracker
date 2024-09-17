@@ -134,6 +134,26 @@ function Profile() {
                     sx={{ fontSize: '1.5rem' }}
                   />
                 </Box>
+                <Box>
+                  <Typography variant="body2" color={'text.secondary'}>
+                    Age
+                  </Typography>
+                  <Skeleton
+                    width={100}
+                    variant="text"
+                    sx={{ fontSize: '1.5rem' }}
+                  />
+                </Box>
+                <Box>
+                  <Typography variant="body2" color={'text.secondary'}>
+                    Height
+                  </Typography>
+                  <Skeleton
+                    width={100}
+                    variant="text"
+                    sx={{ fontSize: '1.5rem' }}
+                  />
+                </Box>
               </Stack>
             </Paper>
           </Grid2>
@@ -208,6 +228,7 @@ function Profile() {
                 sx={{
                   p: 4,
                   borderRadius: 2,
+                  mb: { xs: 0, sm: 8 },
                 }}
               >
                 <Box
@@ -258,6 +279,18 @@ function Profile() {
                       Gender
                     </Typography>
                     <Typography variant="h6">{user?.genders}</Typography>
+                  </Box>
+                  <Box>
+                    <Typography variant="body2" color={'text.secondary'}>
+                      Age
+                    </Typography>
+                    <Typography variant="h6">{user?.age}</Typography>
+                  </Box>
+                  <Box>
+                    <Typography variant="body2" color={'text.secondary'}>
+                      Height
+                    </Typography>
+                    <Typography variant="h6">{user?.height}cm</Typography>
                   </Box>
                 </Stack>
               </Paper>
