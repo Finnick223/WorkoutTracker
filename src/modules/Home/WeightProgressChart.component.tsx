@@ -1,5 +1,5 @@
 import { SparkLineChart } from '@mui/x-charts';
-import { Box, Stack, Typography } from '@mui/material';
+import { Box, Stack } from '@mui/material';
 import { memo } from 'react';
 import { WeightProgressChartProps } from 'src/interfaces/training.interfaces';
 
@@ -8,7 +8,6 @@ export const WeightProgressChart = memo(
     return (
       <Box sx={{ width: '100%' }}>
         <Stack direction="row" alignItems="center">
-          <Typography variant="h5">Weight Progress</Typography>
           {weights.length > 0 && (
             <SparkLineChart
               data={weights}
