@@ -7,7 +7,6 @@ import {
   FormControlLabel,
   FormLabel,
   Avatar,
-  Container,
   Typography,
   Grid,
   Checkbox,
@@ -64,127 +63,124 @@ export default function RegisterForm() {
   return (
     <>
       <FormProvider {...formMethods}>
-        <Container component="main" maxWidth="xs">
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}
+        >
+          <Avatar sx={{ m: 1 }}>
+            <LockOutlinedIcon />
+          </Avatar>
+          <Typography component="h1" variant="h5">
+            Sign up
+          </Typography>
           <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-            }}
+            component="form"
+            onSubmit={formMethods.handleSubmit(onSubmit)}
+            sx={{ mt: 2 }}
           >
-            <Avatar sx={{ m: 1 }}>
-              <LockOutlinedIcon />
-            </Avatar>
-            <Typography component="h1" variant="h5">
-              Sign up
-            </Typography>
-            <Box
-              component="form"
-              onSubmit={formMethods.handleSubmit(onSubmit)}
-              sx={{ mt: 2 }}
+            <Grid container spacing={1.5}>
+              <Grid item xs={12} sm={6}>
+                <Input
+                  autoComplete="given-name"
+                  name="firstName"
+                  required
+                  id="firstName"
+                  label="First Name"
+                  type="text"
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <Input
+                  autoComplete="family-name"
+                  name="lastName"
+                  required
+                  id="lastName"
+                  label="Last Name"
+                  type="text"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <Input
+                  autoComplete="email"
+                  name="email"
+                  required
+                  id="email"
+                  label="Email"
+                  type="email"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <InputFormPassword
+                  name="password"
+                  type="password"
+                  label="Password*"
+                  required
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <InputFormPassword
+                  label="Repassword*"
+                  name="repasswd"
+                  type="password"
+                  required
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <FormControl error={!!formMethods.formState.errors.gender}>
+                  <FormLabel id="radio-buttons-group">Gender</FormLabel>
+                  <RadioGroup aria-labelledby="radio-buttons-group">
+                    <FormControlLabel
+                      value="FEMALE"
+                      control={<Radio />}
+                      label="Female"
+                      {...formMethods.register('gender')}
+                    />
+                    <FormControlLabel
+                      value="MALE"
+                      control={<Radio />}
+                      label="Male"
+                      {...formMethods.register('gender')}
+                    />
+                    <FormControlLabel
+                      value="OTHER"
+                      control={<Radio />}
+                      label="Other"
+                      {...formMethods.register('gender')}
+                    />
+                  </RadioGroup>
+                  <FormHelperText>
+                    {formMethods.formState.errors.gender?.message}
+                  </FormHelperText>
+                </FormControl>
+              </Grid>
+              <Grid item xs={12}>
+                <FormControlLabel
+                  control={<Checkbox color="primary" />}
+                  label="I agree with terms"
+                  {...formMethods.register('termsAndConditions')}
+                  defaultChecked={false}
+                />
+              </Grid>
+            </Grid>
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 1, mb: 1 }}
+              disabled={!formMethods.formState.isValid}
             >
-              <Grid container spacing={1.5}>
-                <Grid item xs={12} sm={6}>
-                  <Input
-                    autoComplete="given-name"
-                    name="firstName"
-                    required
-                    id="firstName"
-                    label="First Name"
-                    type="text"
-                    autoFocus
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <Input
-                    autoComplete="family-name"
-                    name="lastName"
-                    required
-                    id="lastName"
-                    label="Last Name"
-                    type="text"
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <Input
-                    autoComplete="email"
-                    name="email"
-                    required
-                    id="email"
-                    label="Email"
-                    type="email"
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <InputFormPassword
-                    name="password"
-                    type="password"
-                    label="Password*"
-                    required
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <InputFormPassword
-                    label="Repassword*"
-                    name="repasswd"
-                    type="password"
-                    required
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <FormControl error={!!formMethods.formState.errors.gender}>
-                    <FormLabel id="radio-buttons-group">Gender</FormLabel>
-                    <RadioGroup aria-labelledby="radio-buttons-group">
-                      <FormControlLabel
-                        value="FEMALE"
-                        control={<Radio />}
-                        label="Female"
-                        {...formMethods.register('gender')}
-                      />
-                      <FormControlLabel
-                        value="MALE"
-                        control={<Radio />}
-                        label="Male"
-                        {...formMethods.register('gender')}
-                      />
-                      <FormControlLabel
-                        value="OTHER"
-                        control={<Radio />}
-                        label="Other"
-                        {...formMethods.register('gender')}
-                      />
-                    </RadioGroup>
-                    <FormHelperText>
-                      {formMethods.formState.errors.gender?.message}
-                    </FormHelperText>
-                  </FormControl>
-                </Grid>
-                <Grid item xs={12}>
-                  <FormControlLabel
-                    control={<Checkbox color="primary" />}
-                    label="I agree with terms"
-                    {...formMethods.register('termsAndConditions')}
-                    defaultChecked={false}
-                  />
-                </Grid>
-              </Grid>
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                sx={{ mt: 1, mb: 1 }}
-                disabled={!formMethods.formState.isValid}
-              >
-                {mutation.isPending ? 'Signing Up...' : 'Sign Up'}
-              </Button>
-              <Grid container justifyContent="flex-end" mb={6}>
-                <CustomLink href="/Login" color="inherit" variant="body2">
-                  Already have an account? Sign in
-                </CustomLink>
-              </Grid>
-            </Box>
+              {mutation.isPending ? 'Signing Up...' : 'Sign Up'}
+            </Button>
+            <Grid container justifyContent="flex-end" mb={6}>
+              <CustomLink href="/Login" color="inherit" variant="body2">
+                Already have an account? Sign in
+              </CustomLink>
+            </Grid>
           </Box>
-        </Container>
+        </Box>
       </FormProvider>
     </>
   );

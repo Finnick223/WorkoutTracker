@@ -1,14 +1,15 @@
+import { Container } from '@mui/material';
 import { AnimatePage } from 'src/animations/AnimatePage';
 import RegisterForm from 'src/modules/Auth/RegisterForm.component';
 
-function Register() {
+export default function Register() {
   return (
     <>
       <AnimatePage>
-        <RegisterForm />
+        <Container component="main" maxWidth="xs">
+          <RegisterForm />
+        </Container>
       </AnimatePage>
     </>
   );
 }
-
-export default Register;
