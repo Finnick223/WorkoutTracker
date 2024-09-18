@@ -5,13 +5,14 @@ import MeasurementForm from 'src/modules/User/MeasurementForm';
 import BodyDisplay from 'src/modules/User/HumanBodyDisplay.component';
 import { UserMeasurement } from 'src/client/src';
 import { PartsInput } from 'reactjs-human-body/dist/components/BodyComponent/BodyComponent';
-import { Skeleton, Stack } from '@mui/material';
+import { Container } from '@mui/material';
 import { getCurrentUser } from 'src/api/auth';
 import { useQuery } from '@tanstack/react-query';
+import { FormSkeleton } from 'src/modules/User/LoadingSkeletons.component';
 
 export default function UserMeasurementPage() {
   const [params, setParams] = useState<PartsInput | undefined>(undefined);
-  const { data, isSuccess, mutate, token, ErrorModalComponent } =
+  const { isSuccess, mutate, token, ErrorModalComponent } =
     useUserMeasurements();
 
   const { data: profileData, isSuccess: isProfileSuccess } = useQuery({
@@ -58,35 +59,37 @@ export default function UserMeasurementPage() {
 
   return (
     <>
-      <Grid2
-        container
-        direction={'row'}
-        justifyContent={'center'}
-        alignContent={'center'}
-        alignItems={'center'}
-      >
-        <Grid2 xs={12} sm={5}>
-          {isSuccess && data && isProfileSuccess ? (
-            <MeasurementForm
-              height={profileData.height ? profileData.height : ''}
-              onSubmit={handleSubmit}
-              onPartChange={handlePartChange}
-            />
-          ) : (
-            <Stack direction={'column'} spacing={4}>
-              <Skeleton variant="rounded" width={'100%'} height={'50px'} />
-              <Skeleton variant="rounded" width={'100%'} height={'50px'} />
-              <Skeleton variant="rounded" width={'100%'} height={'50px'} />
-              <Skeleton variant="rounded" width={'100%'} height={'50px'} />
-              <Skeleton variant="rounded" width={'100%'} height={'50px'} />
-              <Skeleton variant="rounded" width={'100%'} height={'50px'} />
-            </Stack>
-          )}
+      <Container maxWidth="md">
+        <Grid2
+          container
+          spacing={2}
+          direction="row"
+          justifyContent="center"
+          alignItems="flex-start"
+        >
+          <Grid2
+            xs={12}
+            sm={6}
+            sx={{
+              py: 6,
+            }}
+          >
+            {isSuccess && isProfileSuccess ? (
+              <MeasurementForm
+                height={profileData?.height || ''}
+                onSubmit={handleSubmit}
+                onPartChange={handlePartChange}
+              />
+            ) : (
+              <FormSkeleton />
+            )}
+          </Grid2>
+
+          <Grid2 xs={12} sm={6}>
+            <BodyDisplay params={params} />
+          </Grid2>
         </Grid2>
-        <Grid2 xs={12} sm={7}>
-          <BodyDisplay params={params} />
-        </Grid2>
-      </Grid2>
+      </Container>
       <ErrorModalComponent />
     </>
   );
