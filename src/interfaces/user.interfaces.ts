@@ -22,3 +22,10 @@ export interface MeasurementChartProps {
 export interface LastMeasurementCardProps {
   measurementData: UserMeasurement[];
 }
+
+export interface UserMenuProps {
+  anchorElUser: HTMLElement | null;
+  handleOpenUserMenu: (event: React.MouseEvent<HTMLElement>) => void;
+  handleCloseUserMenu: () => void;
+  settings: string[];
+}
