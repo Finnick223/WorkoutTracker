@@ -39,8 +39,6 @@ function UserHistory() {
                   <MeasurementCard
                     key={measurement.id}
                     createdOn={measurement.createdOn}
-                    age={measurement.age}
-                    height={measurement.height}
                     weight={measurement.weight}
                     arms={measurement.arms}
                     chest={measurement.chest}
