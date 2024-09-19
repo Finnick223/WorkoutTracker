@@ -1,4 +1,9 @@
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import {
+  useQuery,
+  useMutation,
+  useQueryClient,
+  useInfiniteQuery,
+} from '@tanstack/react-query';
 import { addUserMeasurement, getAllUserMeasurements } from 'src/api/userPage';
 import toast from 'react-hot-toast';
 import useAuthStatus from 'src/hooks/useAuth';
@@ -35,12 +40,33 @@ export const useUserMeasurements = () => {
     },
   });
 
+  const {
+    data: infiniteData,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    status: infiniteStatus,
+  } = useInfiniteQuery({
+    queryKey: ['Measurements', 'infinite'],
+    queryFn: ({ pageParam }) => getAllUserMeasurements({ token, pageParam }),
+    initialPageParam: 0,
+    getNextPageParam: (lastPage, pages) => {
+      if (lastPage.length < 10) return undefined;
+      return pages.length;
+    },
+  });
+
   return {
     data,
+    infiniteData,
     isLoading,
     isSuccess,
     error,
     status,
+    infiniteStatus,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
     mutate,
     token,
     ErrorModalComponent,

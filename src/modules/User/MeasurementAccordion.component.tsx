@@ -6,11 +6,13 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
+import { InfiniteData } from '@tanstack/react-query';
+import { Fragment } from 'react/jsx-runtime';
 import { UserMeasurement } from 'src/client/src';
 
-export default function MeasurementCard(props: UserMeasurement) {
+const MeasurementCard = (props: UserMeasurement) => {
   return (
-    <Accordion sx={{ width: '80%' }}>
+    <Accordion sx={{ width: '100%' }}>
       <AccordionSummary expandIcon={<ArrowDownwardIcon />}>
         <Stack direction="row" spacing={3}>
           <Typography>Date: {props.createdOn?.split('T')[0]}</Typography>
@@ -35,4 +37,30 @@ export default function MeasurementCard(props: UserMeasurement) {
       </AccordionDetails>
     </Accordion>
   );
-}
+};
+
+export const MeasurementAccordion = ({
+  data,
+}: {
+  data: InfiniteData<UserMeasurement[]>;
+}) => {
+  return (
+    <>
+      {data.pages.map((group, i) => (
+        <Fragment key={i}>
+          {group.map((measurement) => (
+            <MeasurementCard
+              key={measurement.id}
+              createdOn={measurement.createdOn}
+              weight={measurement.weight}
+              arms={measurement.arms}
+              chest={measurement.chest}
+              belly={measurement.belly}
+              legs={measurement.legs}
+            />
+          ))}
+        </Fragment>
+      ))}
+    </>
+  );
+};

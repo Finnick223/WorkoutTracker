@@ -1,27 +1,28 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import useAuthStatus from 'src/hooks/useAuth';
 import {
   AppBar,
   Box,
   Toolbar,
-  IconButton,
   Typography,
-  Menu,
   Container,
-  Avatar,
   Button,
-  Tooltip,
-  MenuItem,
 } from '@mui/material';
-
 import { Link } from 'react-router-dom';
 import CustomLink from 'src/components/Link/Link.component';
+import { UserMenu } from './UserMenu.component';
 
-function ResponsiveAppBar() {
+export default function ResponsiveAppBar() {
   const { isLoggedIn } = useAuthStatus();
 
-  const pages = isLoggedIn ? ['User', 'Training'] : [];
-  const settings = isLoggedIn ? ['Profile', 'Logout'] : ['Login', 'Register'];
+  const pages = useMemo(
+    () => (isLoggedIn ? ['User', 'Training'] : []),
+    [isLoggedIn],
+  );
+  const settings = useMemo(
+    () => (isLoggedIn ? ['Profile', 'Logout'] : ['Login', 'Register']),
+    [isLoggedIn],
+  );
 
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
 
@@ -67,39 +68,12 @@ function ResponsiveAppBar() {
 
           <Box sx={{ flex: 0 }}>
             {isLoggedIn ? (
-              <>
-                <Tooltip title="Open settings">
-                  <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                    <Avatar alt="Remy Sharp" />
-                  </IconButton>
-                </Tooltip>
-                <Menu
-                  id="menu-appbar"
-                  anchorEl={anchorElUser}
-                  anchorOrigin={{
-                    vertical: 'top',
-                    horizontal: 'right',
-                  }}
-                  transformOrigin={{
-                    vertical: 'top',
-                    horizontal: 'right',
-                  }}
-                  open={Boolean(anchorElUser)}
-                  onClose={handleCloseUserMenu}
-                >
-                  {settings.map((setting) => (
-                    <CustomLink
-                      key={setting}
-                      color="inherit"
-                      href={`/${setting}`}
-                    >
-                      <MenuItem onClick={handleCloseUserMenu}>
-                        <Typography textAlign="center">{setting}</Typography>
-                      </MenuItem>
-                    </CustomLink>
-                  ))}
-                </Menu>
-              </>
+              <UserMenu
+                anchorElUser={anchorElUser}
+                handleOpenUserMenu={handleOpenUserMenu}
+                handleCloseUserMenu={handleCloseUserMenu}
+                settings={settings}
+              />
             ) : (
               settings.map((page) => (
                 <CustomLink key={page} color="inherit" href={`/${page}`}>
@@ -115,4 +89,3 @@ function ResponsiveAppBar() {
     </AppBar>
   );
 }
-export default ResponsiveAppBar;

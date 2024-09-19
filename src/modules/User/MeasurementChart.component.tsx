@@ -1,11 +1,7 @@
 import { Box, CircularProgress } from '@mui/material';
 import { LineChart } from '@mui/x-charts';
-import { UserMeasurement } from 'src/client/src';
 import { useUserMeasurements } from 'src/hooks/useUserMeasurements';
-
-interface MeasurementChartProps {
-  dataKey: keyof UserMeasurement;
-}
+import { MeasurementChartProps } from 'src/interfaces/user.interfaces';
 
 export const MeasurementChart: React.FC<MeasurementChartProps> = ({
   dataKey,
