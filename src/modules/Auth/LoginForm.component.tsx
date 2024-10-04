@@ -55,7 +55,7 @@ function LoginForm() {
         <Typography component="h1" variant="h5" sx={{ mb: 4 }}>
           Sign in
         </Typography>
-        <form onSubmit={submit}>
+        <form data-testid="login-form" onSubmit={submit}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <Input
