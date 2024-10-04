@@ -3,6 +3,9 @@ import { describe, it, vi, expect } from 'vitest';
 import { MemoryRouter } from 'react-router-dom';
 import LoginForm from './LoginForm.component';
 import { useMutation } from '@tanstack/react-query';
+import { server } from '@utils/tests/mocks/server';
+import { http, HttpResponse } from 'msw';
+import userEvent from '@testing-library/user-event';
 
 const mockedUseNavigate = vi.fn();
 beforeEach(() => {
@@ -116,29 +119,14 @@ describe('LoginForm', () => {
   });
 
   it('displays error message on login failure', async () => {
-    const mockLoginUser = vi
-      .fn()
-      .mockRejectedValueOnce(new Error('Invalid credentials'));
-    vi.mocked(useMutation).mockReturnValue({
-      mutate: mockLoginUser,
-      isPending: false,
-      isError: true,
-      error: { message: 'invalid credentials' },
-      data: undefined,
-      variables: undefined,
-      isIdle: false,
-      isSuccess: false,
-      status: 'error',
-      reset: function (): void {
-        throw new Error('Function not implemented.');
-      },
-      context: undefined,
-      failureCount: 0,
-      failureReason: undefined,
-      isPaused: false,
-      submittedAt: 0,
-      mutateAsync: async () => ({}),
-    });
+    server.use(
+      http.post('http://188.68.247.208:8080/auth/signin', async () => {
+        return HttpResponse.json(
+          { message: 'Invalid credentials' },
+          { status: 401 },
+        );
+      }),
+    );
 
     render(
       <MemoryRouter>
@@ -152,10 +140,8 @@ describe('LoginForm', () => {
     fireEvent.change(screen.getByLabelText('Password'), {
       target: { value: 'password123' },
     });
-    fireEvent.click(screen.getByRole('button', { name: /log in/i }));
+    userEvent.click(screen.getByRole('button', { name: /log in/i }));
 
-    await waitFor(() => {
-      expect(screen.findByText('invalid credentials'));
-    });
+    expect(screen.findByText('Invalid credentials'));
   });
 });
