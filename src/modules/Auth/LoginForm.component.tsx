@@ -13,7 +13,7 @@ import InputFormPassword from 'src/components/CustomPasswordInput/InputPassword.
 import { loginSchema } from 'src/validators/login.validator';
 import CustomLink from 'src/components/Link/Link.component';
 
-function LoginForm() {
+export default function LoginForm() {
   const { login } = useAuthStatus();
   const navigate = useNavigate();
 
@@ -70,7 +70,7 @@ function LoginForm() {
             <Grid item xs={12}>
               <InputFormPassword
                 name="password"
-                label="Password"
+                label="Password*"
                 type="password"
                 required
               />
@@ -108,5 +108,3 @@ function LoginForm() {
     </FormProvider>
   );
 }
-
-export default LoginForm;
