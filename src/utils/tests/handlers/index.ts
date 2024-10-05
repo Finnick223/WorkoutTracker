@@ -1,3 +1,3 @@
-import { getCurrentUser, SignIn } from './user.handlers';
+import { errorSignUp, SignIn, successfulSignUp } from './auth.handlers';
 
-export const handlers = [getCurrentUser, SignIn];
+export const handlers = [errorSignUp, successfulSignUp, SignIn];
