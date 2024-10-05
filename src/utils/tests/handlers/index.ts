@@ -1,3 +1,13 @@
-import { errorSignUp, SignIn, successfulSignUp } from './auth.handlers';
+import {
+  errorSignUp,
+  successfulSignIn,
+  successfulSignUp,
+  errorSignIn,
+} from './auth.handlers';
 
-export const handlers = [errorSignUp, successfulSignUp, SignIn];
+export const handlers = [
+  errorSignUp,
+  successfulSignUp,
+  successfulSignIn,
+  errorSignIn,
+];

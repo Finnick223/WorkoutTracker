@@ -1,147 +1,98 @@
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen, waitFor } from '@utils/tests/index';
 import { describe, it, vi, expect } from 'vitest';
-import { MemoryRouter } from 'react-router-dom';
 import LoginForm from './LoginForm.component';
-import { useMutation } from '@tanstack/react-query';
 import { server } from '@utils/tests/mocks/server';
-import { http, HttpResponse } from 'msw';
 import userEvent from '@testing-library/user-event';
+import {
+  errorSignIn,
+  successfulSignIn,
+} from '@utils/tests/handlers/auth.handlers';
+import toast from 'react-hot-toast';
 
 const mockedUseNavigate = vi.fn();
-beforeEach(() => {
-  vi.mock('react-router-dom', async () => {
-    return {
-      ...(await vi.importActual('react-router-dom')),
-      useNavigate: () => mockedUseNavigate,
-    };
-  });
+vi.mock('react-router-dom', async () => {
+  return {
+    ...(await vi.importActual('react-router-dom')),
+    useNavigate: () => mockedUseNavigate,
+  };
 });
+vi.mock('react-hot-toast', async () => {
+  const originalModule = await vi.importActual('react-hot-toast');
 
-vi.mock('@tanstack/react-query');
-vi.mock('src/hooks/useAuth', () => ({
-  default: vi.fn(() => ({
-    login: {
-      mutate: vi.fn(),
-      isPending: false,
-      isError: false,
-      error: null,
+  return {
+    ...originalModule,
+    default: {
+      success: vi.fn(),
+      error: vi.fn(),
     },
-  })),
-}));
-vi.mock('src/api/auth', () => ({
-  loginUser: vi.fn(),
-  requestPasswordReset: vi.fn(),
-}));
-vi.mock('react-hot-toast', () => ({
-  success: vi.fn(),
-  error: vi.fn(),
-}));
+    success: vi.fn(),
+    error: vi.fn(),
+  };
+});
 
 describe('LoginForm', () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
-  afterEach(() => {
-    vi.clearAllMocks();
-  });
 
   it('renders login form correctly', () => {
-    render(
-      <MemoryRouter initialEntries={['/login']}>
-        <LoginForm />
-      </MemoryRouter>,
-    );
+    render(<LoginForm />);
 
-    expect(screen.getByLabelText(/email/i)).toBeInTheDocument();
-    expect(screen.getByLabelText('Password')).toBeInTheDocument();
+    expect(screen.getByRole('textbox', { name: /Email/i })).toBeInTheDocument();
+    expect(
+      screen.getByLabelText('Password*', { selector: 'input' }),
+    ).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /log in/i })).toBeInTheDocument();
   });
 
   it('disables the submit button when the form is invalid', () => {
-    render(
-      <MemoryRouter>
-        <LoginForm />
-      </MemoryRouter>,
-    );
+    render(<LoginForm />);
 
     const submitButton = screen.getByRole('button', { name: /log in/i });
     expect(submitButton).toBeDisabled();
   });
 
-  it('calls loginUser and navigates on success', async () => {
-    const mockLoginUser = vi
-      .fn()
-      .mockResolvedValueOnce({ token: 'mock-token' });
+  it('handles logging, shows notification and navigates on success', async () => {
+    server.use(successfulSignIn);
 
-    vi.mocked(useMutation).mockReturnValue({
-      mutate: mockLoginUser,
-      isPending: false,
-      isError: false,
-      status: 'success',
-      data: undefined,
-      variables: undefined,
-      error: null,
-      isIdle: false,
-      isSuccess: true,
-      reset: vi.fn(),
-      context: undefined,
-      failureCount: 0,
-      failureReason: undefined,
-      isPaused: false,
-      submittedAt: 0,
-      mutateAsync: async () => ({}),
-    });
+    render(<LoginForm />);
 
-    render(<LoginForm />, {
-      wrapper: ({ children }) => (
-        <MemoryRouter initialEntries={['/login']}>{children}</MemoryRouter>
-      ),
-    }),
-      fireEvent.change(screen.getByLabelText(/email/i), {
-        target: { value: 'test@example.com' },
-      });
-    fireEvent.change(screen.getByLabelText('Password'), {
-      target: { value: 'password123' },
-    });
-    fireEvent.submit(screen.getByTestId('login-form'));
-
-    await waitFor(
-      () => {
-        expect(mockLoginUser).toHaveBeenCalledWith({
-          email: 'test@example.com',
-          password: 'password123',
-        });
-      },
-      { timeout: 3000 },
+    await userEvent.type(screen.getByLabelText(/email/i), 'test@example.com');
+    await userEvent.type(
+      screen.getByLabelText('Password*', { selector: 'input' }),
+      'password123',
     );
 
-    // await waitFor(() => expect(mockedUseNavigate).toHaveBeenCalledWith('/'));
+    const emailInput = screen.getByLabelText(/email/i) as HTMLInputElement;
+    expect(emailInput.value).toBe('test@example.com');
+
+    const passwordInput = screen.getByLabelText('Password*', {
+      selector: 'input',
+    }) as HTMLInputElement;
+    expect(passwordInput.value).toBe('password123');
+
+    await userEvent.click(screen.getByRole('button', { name: /log in/i }));
+
+    expect(mockedUseNavigate).toHaveBeenCalledWith('/');
+    await waitFor(() => {
+      expect(toast.success).toHaveBeenCalledWith('Logged in successfully');
+    });
   });
 
   it('displays error message on login failure', async () => {
-    server.use(
-      http.post('http://188.68.247.208:8080/auth/signin', async () => {
-        return HttpResponse.json(
-          { message: 'Invalid credentials' },
-          { status: 401 },
-        );
-      }),
+    server.use(errorSignIn);
+
+    render(<LoginForm />);
+
+    await userEvent.type(screen.getByLabelText(/email/i), 'test@example.com');
+    await userEvent.type(
+      screen.getByLabelText('Password*', { selector: 'input' }),
+      'password123',
     );
+    await userEvent.click(screen.getByRole('button', { name: /log in/i }));
 
-    render(
-      <MemoryRouter>
-        <LoginForm />
-      </MemoryRouter>,
-    );
-
-    fireEvent.change(screen.getByLabelText(/email/i), {
-      target: { value: 'test@example.com' },
+    await waitFor(() => {
+      expect(toast.error).toHaveBeenCalledWith('Try other credentials');
     });
-    fireEvent.change(screen.getByLabelText('Password'), {
-      target: { value: 'password123' },
-    });
-    userEvent.click(screen.getByRole('button', { name: /log in/i }));
-
-    expect(screen.findByText('Invalid credentials'));
   });
 });
