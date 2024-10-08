@@ -13,7 +13,7 @@ import InputFormPassword from 'src/components/CustomPasswordInput/InputPassword.
 import { loginSchema } from 'src/validators/login.validator';
 import CustomLink from 'src/components/Link/Link.component';
 
-function LoginForm() {
+export default function LoginForm() {
   const { login } = useAuthStatus();
   const navigate = useNavigate();
 
@@ -55,7 +55,7 @@ function LoginForm() {
         <Typography component="h1" variant="h5" sx={{ mb: 4 }}>
           Sign in
         </Typography>
-        <form onSubmit={submit}>
+        <form data-testid="login-form" onSubmit={submit}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <Input
@@ -70,7 +70,7 @@ function LoginForm() {
             <Grid item xs={12}>
               <InputFormPassword
                 name="password"
-                label="Password"
+                label="Password*"
                 type="password"
                 required
               />
@@ -108,5 +108,3 @@ function LoginForm() {
     </FormProvider>
   );
 }
-
-export default LoginForm;

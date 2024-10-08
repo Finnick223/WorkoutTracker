@@ -1,3 +1,25 @@
-import { getCurrentUser, SignIn } from './user.handlers';
+import {
+  errorSignUp,
+  successfulSignIn,
+  successfulSignUp,
+  errorSignIn,
+} from './auth.handlers';
+import {
+  profileMock,
+  usermeasurementMock,
+  trainingMock,
+  notWorkingProfileMock,
+  ExerciseMock,
+} from './home.handlers';
 
-export const handlers = [getCurrentUser, SignIn];
+export const handlers = [
+  errorSignUp,
+  successfulSignUp,
+  successfulSignIn,
+  errorSignIn,
+  profileMock,
+  usermeasurementMock,
+  trainingMock,
+  notWorkingProfileMock,
+  ExerciseMock,
+];
