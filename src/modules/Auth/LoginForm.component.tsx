@@ -19,7 +19,7 @@ export default function LoginForm() {
 
   const methods = useForm({
     resolver: yupResolver(loginSchema),
-    mode: 'onBlur',
+    mode: 'onSubmit',
   });
   const {
     handleSubmit,
