@@ -20,19 +20,19 @@ export const Footer = () => {
           alignItems="center"
           spacing={3}
         >
-          <CustomLink href="#" color="white">
+          <CustomLink href="/about" color="white">
             About
           </CustomLink>
-          <CustomLink href="#" color="white">
+          <CustomLink href="/team" color="white">
             Team
           </CustomLink>
-          <CustomLink href="#" color="white">
+          <CustomLink href="/privacy-policy" color="white">
             Privacy Policy
           </CustomLink>
-          <CustomLink href="#" color="white">
+          <CustomLink href="/terms" color="white">
             Terms
           </CustomLink>
-          <CustomLink href="#" color="white">
+          <CustomLink href="/contact" color="white">
             Contact
           </CustomLink>
         </Stack>
@@ -44,7 +44,10 @@ export const Footer = () => {
           alignItems="center"
           spacing={2}
         >
-          <CustomLink href="#" color="white">
+          <CustomLink
+            href="https://github.com/Finnick223/WorkoutTracker"
+            color="white"
+          >
             <Stack alignItems="center">
               <span>GitHub</span>
               <svg
@@ -81,7 +84,7 @@ export const Footer = () => {
       <Grid2>
         <Stack justifyContent="center" alignItems="center">
           <Typography color="white">
-            © 2024 Owner. All rights reserved.
+            © 2024 Finnick223. All rights reserved.
           </Typography>
         </Stack>
       </Grid2>

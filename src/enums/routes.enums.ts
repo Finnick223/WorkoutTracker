@@ -14,4 +14,9 @@ export enum AuthorizedRoute {
 export enum CommonRoutes {
   Home = '/',
   Logout = '/logout',
+  About = '/about',
+  Team = '/team',
+  PrivacyPolicy = '/privacy-policy',
+  Terms = '/terms',
+  Contact = '/contact',
 }

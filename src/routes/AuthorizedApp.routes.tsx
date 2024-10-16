@@ -12,6 +12,11 @@ import { AnimatePresence } from 'framer-motion';
 import UserCharts from 'src/pages/User/userCharts.page';
 import UserHistory from 'src/pages/User/userHistory.page';
 import { UserPageLayout } from 'src/pages/user.page';
+import About from 'src/pages/Footer/about.page';
+import Team from 'src/pages/Footer/team.page';
+import PrivacyPolicy from 'src/pages/Footer/privacyPolicy.page';
+import Terms from 'src/pages/Footer/terms.page';
+import Contact from 'src/pages/Footer/contact.page';
 
 export const AuthorizedAppRoutes = () => {
   const location = useLocation();
@@ -32,6 +37,14 @@ export const AuthorizedAppRoutes = () => {
           />
           <Route path={AuthorizedRoute.Profile} element={<Profile />} />
           <Route path={CommonRoutes.Logout} element={<LogoutUser />} />
+          <Route path={CommonRoutes.About} element={<About />} />
+          <Route path={CommonRoutes.Team} element={<Team />} />
+          <Route
+            path={CommonRoutes.PrivacyPolicy}
+            element={<PrivacyPolicy />}
+          />
+          <Route path={CommonRoutes.Terms} element={<Terms />} />
+          <Route path={CommonRoutes.Contact} element={<Contact />} />
           <Route path="*" element={<NotFoundPage />} />
         </Route>
       </Routes>
