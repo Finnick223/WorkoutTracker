@@ -2,8 +2,16 @@ import * as yup from 'yup';
 
 export const registerSchema = yup.object().shape({
   email: yup.string().required().email(),
-  firstName: yup.string().min(3).required(),
-  lastName: yup.string().min(3).required(),
+  firstName: yup
+    .string()
+    .min(3)
+    .matches(/[A-Za-z]/, 'Please use letters only')
+    .required(),
+  lastName: yup
+    .string()
+    .min(3)
+    .matches(/[A-Za-z]/, 'Please use letters only')
+    .required(),
   password: yup.string().min(6).required(),
   repasswd: yup
     .string()
