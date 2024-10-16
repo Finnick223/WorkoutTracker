@@ -10,12 +10,7 @@ export default defineConfig({
     host: true,
   },
   optimizeDeps: {
-    include: [
-      '@emotion/react',
-      '@emotion/styled',
-      '@mui/material',
-      '@mui/material/Unstable_Grid2',
-    ],
+    include: ['@emotion/react', '@emotion/styled', '@mui/material'],
   },
   test: {
     globals: true,

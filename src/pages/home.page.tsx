@@ -28,12 +28,22 @@ import { LastMeasurementCard } from 'src/modules/Home/LastMeasurementCard.compon
 import { LastTrainingCard } from 'src/modules/Home/LastTrainingCard.component';
 import { exerciseNames } from 'src/constants/exerciseGrid.constants';
 import { getExercisesByName } from 'src/api/exercise';
-import { Suspense, useCallback, useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { ExerciseChart } from 'src/modules/Home/ExerciseChart.component';
 import { WeightProgressChart } from 'src/modules/Home/WeightProgressChart.component';
 
+function HomeWrapper() {
+  const { isLoggedIn } = useAuthStatus();
+
+  if (!isLoggedIn) {
+    return <WelcomeScreen />;
+  }
+
+  return <Home />;
+}
+
 function Home() {
-  const { isLoggedIn, token } = useAuthStatus();
+  const { token } = useAuthStatus();
   const [selectedExercise, setSelectedExercise] = useState('Bench Press');
 
   const {
@@ -122,7 +132,6 @@ function Home() {
     [],
   );
 
-  if (!isLoggedIn) return <WelcomeScreen />;
   if (isTrainingLoading || isMeasurementsLoading || isProfileLoading)
     return <LoadingScreen />;
   if (trainingError || measurementsError || profileError)
@@ -130,79 +139,77 @@ function Home() {
 
   return (
     <AnimatePage>
-      <Suspense fallback={<LoadingScreen />}>
-        <Container maxWidth="lg">
-          <Grid2
-            container
-            justifyContent="center"
-            alignItems="stretch"
-            spacing={2}
-            mb={2}
-          >
-            <Grid2 xs={12} sm={4}>
-              <Paper component={Box} p={2} sx={{ height: '100%' }}>
-                <Typography color="text.secondary" gutterBottom>
-                  Hi {profileData?.firstName}, welcome back!
-                </Typography>
-                <Stack direction="column" spacing={2} p={2}>
-                  <CustomLink href={AuthorizedRoute.Training} color="inherit">
-                    <Button variant="outlined" fullWidth>
-                      <AddIcon /> Add training
-                    </Button>
-                  </CustomLink>
-                  <CustomLink href={AuthorizedRoute.User} color="inherit">
-                    <Button variant="outlined" fullWidth>
-                      <AddIcon /> Add measurement
-                    </Button>
-                  </CustomLink>
-                </Stack>
-              </Paper>
-            </Grid2>
-            <Grid2 xs={12} sm={8}>
-              <LastMeasurementCard measurementData={measurementData ?? []} />
-            </Grid2>
-            <Grid2 xs={12}>
-              <Paper component={Box} p={2} sx={{ height: '100%' }}>
-                <Typography color="text.secondary" gutterBottom>
-                  Weight progress
-                </Typography>
-                <WeightProgressChart
-                  weights={measurementChartData.weights}
-                  dates={measurementChartData.dates}
-                />
-              </Paper>
-            </Grid2>
-            <Grid2 xs={12} sm={8}>
-              <Paper component={Box} p={2} sx={{ height: '100%' }}>
-                <Typography gutterBottom color="text.secondary">
-                  Workout stats
-                </Typography>
-                <Box sx={{ width: '100%' }}>
-                  <Stack direction="row" alignItems="center">
-                    <FormControl>
-                      <InputLabel id="exercise">Exercise</InputLabel>
-                      <Select
-                        id="exercise"
-                        defaultValue={'Bench Press'}
-                        label="Exercise"
-                        onChange={handleExerciseChange}
-                      >
-                        {exerciseOptions}
-                      </Select>
-                    </FormControl>
-                    <ExerciseChart weights={weights} dates={dates} />
-                  </Stack>
-                </Box>
-              </Paper>
-            </Grid2>
-            <Grid2 xs={12} sm={4}>
-              <LastTrainingCard trainingData={trainingData ?? []} />
-            </Grid2>
+      <Container maxWidth="lg">
+        <Grid2
+          container
+          justifyContent="center"
+          alignItems="stretch"
+          spacing={2}
+          mb={2}
+        >
+          <Grid2 xs={12} sm={4}>
+            <Paper component={Box} p={2} sx={{ height: '100%' }}>
+              <Typography color="text.secondary" gutterBottom>
+                Hi {profileData?.firstName}, welcome back!
+              </Typography>
+              <Stack direction="column" spacing={2} p={2}>
+                <CustomLink href={AuthorizedRoute.Training} color="inherit">
+                  <Button variant="outlined" fullWidth>
+                    <AddIcon /> Add training
+                  </Button>
+                </CustomLink>
+                <CustomLink href={AuthorizedRoute.User} color="inherit">
+                  <Button variant="outlined" fullWidth>
+                    <AddIcon /> Add measurement
+                  </Button>
+                </CustomLink>
+              </Stack>
+            </Paper>
           </Grid2>
-        </Container>
-      </Suspense>
+          <Grid2 xs={12} sm={8}>
+            <LastMeasurementCard measurementData={measurementData ?? []} />
+          </Grid2>
+          <Grid2 xs={12}>
+            <Paper component={Box} p={2} sx={{ height: '100%' }}>
+              <Typography color="text.secondary" gutterBottom>
+                Weight progress
+              </Typography>
+              <WeightProgressChart
+                weights={measurementChartData.weights}
+                dates={measurementChartData.dates}
+              />
+            </Paper>
+          </Grid2>
+          <Grid2 xs={12} sm={8}>
+            <Paper component={Box} p={2} sx={{ height: '100%' }}>
+              <Typography gutterBottom color="text.secondary">
+                Workout stats
+              </Typography>
+              <Box sx={{ width: '100%' }}>
+                <Stack direction="row" alignItems="center">
+                  <FormControl>
+                    <InputLabel id="exercise">Exercise</InputLabel>
+                    <Select
+                      id="exercise"
+                      defaultValue={'Bench Press'}
+                      label="Exercise"
+                      onChange={handleExerciseChange}
+                    >
+                      {exerciseOptions}
+                    </Select>
+                  </FormControl>
+                  <ExerciseChart weights={weights} dates={dates} />
+                </Stack>
+              </Box>
+            </Paper>
+          </Grid2>
+          <Grid2 xs={12} sm={4}>
+            <LastTrainingCard trainingData={trainingData ?? []} />
+          </Grid2>
+        </Grid2>
+      </Container>
     </AnimatePage>
   );
 }
 
-export default Home;
+export default HomeWrapper;
