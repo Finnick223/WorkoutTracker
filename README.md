@@ -182,6 +182,7 @@ There is a list of features that I've already implemented.
 - [x] Users can set Dark Mode option
 
 ![Profile panel](screenshots/en/profilePanel.png)
+![Dark mode profile panel](screenshots/en/darkProfilePanel.png)
 
 ## TODO
 
