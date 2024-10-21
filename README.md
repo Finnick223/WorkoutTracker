@@ -1,10 +1,12 @@
 # Workout Tracker
 
-This repository contains my front-end project, developed in collaboration with a friend who built the [back-end API](https://github.com/Wojtur28/WorkoutTracker). The app helps users track their workout routines and body measurements progress.
+This repository contains my front-end react project, developed in collaboration with a friend who built the [back-end API](https://github.com/Wojtur28/WorkoutTracker). The app helps users track their workout routines and body measurements progress.
 
 Technologies used in this project:
 
 <p>
+
+<img src="https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white"  alt="Typescript">
 
 <img src="https://img.shields.io/badge/vite-%23646CFF.svg?style=for-the-badge&logo=vite&logoColor=white"  alt="Vite">
 
@@ -27,6 +29,8 @@ Technologies used in this project:
 <img src="https://img.shields.io/badge/-TestingLibrary-%23E33332?style=for-the-badge&logo=testing-library&logoColor=white"  alt="Testing-library">
 
 <img src="https://img.shields.io/badge/-cypress-%23E5E5E5?style=for-the-badge&logo=cypress&logoColor=058a5e"  alt="Cypress">
+
+<img src="https://img.shields.io/badge/Github%20Actions-282a2e?style=for-the-badge&logo=githubactions&logoColor=367cfe" alt="Github Actions">
 
 <img src="https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white"  alt="Docker">
 
@@ -94,7 +98,7 @@ Design of this app is based on [MaterialUI](https://mui.com/material-ui/) compon
 
 I also created dark theme, which can be found at settings in profile page.
 
-It took little time and isn't fancy but I where focused on funcionality part.
+It isn't fancy but I were focused on funcionality part.
 
 ## Features overview
 
@@ -104,9 +108,11 @@ There is a list of features that I've already implemented.
 
 - [x] React Query for efficient data fetching and caching
 - [x] React Hook Form for form handling
+- [x] ESLint, Prettier, Husky, Lint-Staged for code readability
 - [x] Material UI for a clean components and responsiveness
 - [x] Framer-motion for providing simple animations
-- [x] Vitest, Testing-Library and Cypress to provide unit,integration and e2e tests
+- [x] Vitest, Testing-Library and Cypress to provide unit, integration and e2e tests
+- [x] Github Actions to implement CI feature
 
 ### Auth
 
@@ -167,7 +173,6 @@ There is a list of features that I've already implemented.
 #### Measurements Charts
 
 - [x] Users can view their measurements in a dynamic line chart
-- [x] History is based on infinite loading button
 
 ![Measurement charts](screenshots/en/measurementCharts.png)
 
@@ -183,6 +188,10 @@ There is a list of features that I've already implemented.
 
 ![Profile panel](screenshots/en/profilePanel.png)
 ![Dark mode profile panel](screenshots/en/darkProfilePanel.png)
+
+### Footer
+
+![Footer](screeenshots/en/footerFlow.gif)
 
 ## TODO
 
