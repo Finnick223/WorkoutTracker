@@ -14,6 +14,7 @@ import { motion } from 'framer-motion';
 import { usePatchExercise } from 'src/hooks/useExerciseGridQueryHooks';
 import useAuthStatus from 'src/hooks/useAuth';
 import { useCallback, useState } from 'react';
+import { exerciseNames } from 'src/constants/exerciseGrid.constants';
 
 export default function EditToolbar(props: EditToolbarProps) {
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
@@ -25,7 +26,7 @@ export default function EditToolbar(props: EditToolbarProps) {
     setIsButtonDisabled(true);
     const exerciseUpdate = [
       {
-        name: '',
+        name: exerciseNames[0],
         sets: [],
       },
     ];
