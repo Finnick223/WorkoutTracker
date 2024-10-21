@@ -191,7 +191,7 @@ There is a list of features that I've already implemented.
 
 ### Footer
 
-![Footer](screeenshots/en/footerFlow.gif)
+![Footer](screeenshots/en/footer.png)
 
 ## TODO
 
