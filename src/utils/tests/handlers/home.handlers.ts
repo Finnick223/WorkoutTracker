@@ -1,3 +1,4 @@
+import { baseURL } from '@utils/baseURL';
 import { http, HttpResponse } from 'msw';
 
 const profileData = {
@@ -56,41 +57,32 @@ const trainingData = [
   },
 ];
 
-export const profileMock = http.get(
-  'http://188.68.247.208:8080/user/me',
-  () => {
-    return HttpResponse.json(profileData);
-  },
-);
+export const profileMock = http.get(`${baseURL}/user/me`, () => {
+  return HttpResponse.json(profileData);
+});
 
 export const usermeasurementMock = http.get(
-  'http://188.68.247.208:8080/usermeasurement',
+  `${baseURL}/usermeasurement`,
   () => {
     return HttpResponse.json(measurementData);
   },
 );
 
-export const trainingMock = http.get(
-  'http://188.68.247.208:8080/training',
-  () => {
-    return HttpResponse.json(trainingData);
-  },
-);
+export const trainingMock = http.get(`${baseURL}/training`, () => {
+  return HttpResponse.json(trainingData);
+});
 
-export const notWorkingProfileMock = http.get(
-  'http://188.68.247.208:8080/user/me',
-  () => {
-    console.log('Error handler triggered');
+export const notWorkingProfileMock = http.get(`${baseURL}/user/me`, () => {
+  console.log('Error handler triggered');
 
-    return HttpResponse.json(
-      { message: 'Internal Server Error' },
-      { status: 500 },
-    );
-  },
-);
+  return HttpResponse.json(
+    { message: 'Internal Server Error' },
+    { status: 500 },
+  );
+});
 
 export const ExerciseMock = http.get(
-  'http://188.68.247.208:8080/exercise/Bench%20Press',
+  `${baseURL}/exercise/Bench%20Press`,
   () => {
     return HttpResponse.json(exerciseData);
   },
