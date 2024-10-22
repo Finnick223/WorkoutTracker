@@ -18,12 +18,12 @@ import { useForm, FormProvider, SubmitHandler } from 'react-hook-form';
 import InputFormPassword from 'src/components/CustomPasswordInput/InputPassword.component';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Input } from 'src/components/CustomInput/InputForm.component';
-import axios from 'axios';
 import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { registerSchema } from 'src/validators/auth.validator';
 import toast from 'react-hot-toast';
 import CustomLink from 'src/components/Link/Link.component';
+import { registerUser } from 'src/api/auth';
 
 export default function RegisterForm() {
   const navigate = useNavigate();
@@ -34,17 +34,7 @@ export default function RegisterForm() {
   });
 
   const mutation = useMutation({
-    mutationFn: (data: FormDataType) => {
-      const payload = {
-        email: data.email,
-        firstName: data.firstName,
-        lastName: data.lastName,
-        password: data.password,
-        isTermsAndConditionsAccepted: data.termsAndConditions,
-        genders: [data.gender],
-      };
-      return axios.post('http://188.68.247.208:8080/auth/signup', payload);
-    },
+    mutationFn: (data: FormDataType) => registerUser(data),
   });
 
   const onSubmit: SubmitHandler<FormDataType> = (data) => {
